@@ -8,7 +8,7 @@ title: Z_blog
 #heroImage: /logo.svg
 heroText: Z_blog
 heroFullScreen: false
-tagline: 盛年不重来，一日难再晨
+tagline: 若一蓑烟雨任平生，倒也是无晴也无风
 #projects:
 #  - icon: project
 #    name: 项目名称

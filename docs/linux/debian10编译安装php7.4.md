@@ -1,3 +1,5 @@
+# debian10编译安装php7.4
+
 ```shell
 ##/bin/bash
 
