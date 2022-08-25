@@ -2,234 +2,1915 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <atom:link href="https://newzone.top/rss.xml" rel="self" type="application/rss+xml"/>
-    <title>LearnData-开源笔记</title>
+    <title>CodeNote</title>
     <link>https://newzone.top/</link>
     <description>开源工具、效率方法、心理学探索的自我提升笔记，记录并输出一切能让自己提升的知识。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 25 Aug 2022 08:34:19 GMT</pubDate>
-    <lastBuildDate>Thu, 25 Aug 2022 08:34:19 GMT</lastBuildDate>
+    <pubDate>Thu, 25 Aug 2022 09:11:54 GMT</pubDate>
+    <lastBuildDate>Thu, 25 Aug 2022 09:11:54 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
-      <title>Laravel</title>
-      <link>https://newzone.top/code/laravel.html</link>
-      <guid>https://newzone.top/code/laravel.html</guid>
-      <source url="https://newzone.top/rss.xml">Laravel</source>
-      <pubDate>Thu, 25 Aug 2022 08:33:23 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="laravel" tabindex="-1"> Laravel</h1>
-<p>一、使用composer方式部署laravel项目</p>
-<p>切换国内镜像<a href="https://pkg.phpcomposer.com/" target="_blank" rel="noopener noreferrer">地址</a></p>
-<p>命令：<code>composer config -g repo.packagist composer h [laravel.md](laravel.md) ttps://packagist.phpcomposer.com</code></p>
-<p>删除镜像（恢复官方源）：<code>composer config -g --unset repos.packagist</code></p>
-<p>二、使用composer部署laravel项目</p>
-<ol>
-<li>
-<p>composer create-project laravel/laravel --prefer-dist ./project_2020-3-16
-在当前目录的/project_2020-3-16下创建一个名为laravel的laravel项目，默认使用最新版本laravel，以压缩包形式从git上下载</p>
-</li>
-<li>
-<p>composer create-project laravel/laravel=5.8.* --prefer-dist ./project_2020-3-16</p>
-<p>指定laravel版本</p>
-</li>
-</ol>
-<p>创建一个名为laravel的laravel项目</p>
-<p><code>composer create-project laravel/laravel --prefer-dist ./</code></p>
-<p><strong>命令解释：</strong></p>
-<p>composer：表示执行composer程序；</p>
-<p>create-project：通过composer去创建项目；</p>
-<p>laravel/Laravel：需要创建的项目名称；</p>
-<p>--prefer-dist：优先下载压缩包方式，而不是直接从github上下载源码（克隆）；</p>
-<p>./：表示创建的项目目录位置，也可以是一个目录名；</p>
-<p>指定版本创建laravel：</p>
-<p><code>composer create-project laravel/laravel=5.4.* --prefer-dist ./</code></p>
-<p><strong>查看系统中已有的路由列表</strong>=&gt;在项目根目录输入 ：<code>php artisan route:list</code></p>
-<p>路由群组写法：</p>
-<p><code>Route::goup(['frefix'=&gt;'admin'],function(){</code></p>
-<p>​		<code>Route::get('test',function(){ echo &quot;匹配/admin/test&quot;;})</code></p>
-<p><code>});</code></p>
-<p><strong>创建控制器</strong>TestController</p>
-<p><code>php artisan make:controller TestController</code></p>
-<p><strong>创建模型</strong>Test</p>
-<p><code>php artisan make:model Home/Test</code></p>
-<p><strong>No Application Encryption Key Has Been Specified</strong></p>
-<ol>
-<li>
-<p>复制.env.example到.env：</p>
-</li>
-<li>
-<p>cp -a .env.example .env</p>
-</li>
-<li>
-<p>生成密钥：</p>
-</li>
-<li>
-<p>php artisan key:generate</p>
-</li>
-<li>
-<p>然后才运行：</p>
-</li>
-<li>
-<p>php artisan serve</p>
-</li>
-</ol>
-<p><strong>Php artisan make:auth command is not defined</strong></p>
-<p>Follow these three steps
-Step 1 - First do this:</p>
-<p>laravel new project</p>
-<p><code>cd project</code></p>
-<p><code>composer require laravel/ui --dev</code>
-Note: Laravel UI Composer package is a new first-party package that extracts the UI portion of a Laravel project ( frontend scaffolding typically provided with previous releases of Laravel ) into a separate laravel/ui package. The separate package enables the Laravel team to update, develop and version UI scaffolding package separately from the primary framework and the main Laravel codebase.</p>
-<p>Step 2 - Then do this:</p>
-<p><code>php artisan ui bootstrap --auth</code>      <code>php artisan migrate</code>
-or</p>
-<p><code>php artisan ui vue --auth</code>   <code>php artisan migrate</code>
-instead of</p>
-<p><code>php artisan make:auth  ( which works for Laravel 5.8 and older versions )</code></p>
-<p><code>npm install &amp;&amp; npm run dev</code></p>
-<p><strong>php artisan migrate错误</strong></p>
-<p><code>App\Providers\AppServiceProvider.php</code></p>
-<p><code>use Illuminate\Support\Facades\Schema;</code></p>
-<p><code>...</code></p>
-<p><code>public function boot()</code>
-<code>{</code>
-<code>				Schema::defaultStringLength(191);</code>
-<code>}</code></p>
-<h3 id="使用docker安装laravel" tabindex="-1"> 使用docker安装laravel</h3>
-<p>先安装docker、docker-compose后</p>
-<div><pre><code><span>curl</span> <span>-s</span> https://laravel.build/example-app <span>|</span> <span>bash</span>
-
-<span>curl</span> <span>-s</span> <span>"https://laravel.build/example-app?with=mysql,redis"</span> <span>|</span> <span>bash</span>
-<span>#如果你没有制定你想配置的服务，默认将配置 mysql，redis，meilisearch，mailhog 和 selenium</span>
-
-<span>cd</span> example-app
-
-<span>#编译并启动（前台）-d参数是后台启动</span>
-./vendor/bin/sail up
-./vendor/bin/sail up <span>-d</span>
-
-<span>#启动</span>
-./vendor/bin/sail start
-<span>#停止</span>
-./vendor/bin/sail stop
-
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+      <title>tp6笔记</title>
+      <link>https://newzone.top/code/tp6.html</link>
+      <guid>https://newzone.top/code/tp6.html</guid>
+      <source url="https://newzone.top/rss.xml">tp6笔记</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="tp6笔记" tabindex="-1"> tp6笔记</h1>
+<h3 id="安装" tabindex="-1"> 安装</h3>
+<p>先安装composer</p>
+<div><pre><code><span>curl</span> <span>-sS</span> https://getcomposer.org/installer <span>|</span> php
+<span>mv</span> composer.phar /usr/local/bin/composer
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>安装项目</p>
+<div><pre><code><span>composer</span> create-project topthink/think tp
+</code></pre><div aria-hidden="true"><div></div></div></div><p>测试运行</p>
+<div><pre><code>php think run
+</code></pre><div aria-hidden="true"><div></div></div></div><p>安装扩展</p>
+<div><pre><code><span>composer</span> require topthink/think-migration
+</code></pre><div aria-hidden="true"><div></div></div></div><p>创建文件</p>
+<div><pre><code>php think migrate:create ArticleTable
+</code></pre><div aria-hidden="true"><div></div></div></div><p>进入database目录修改代码</p>
+<div><pre><code>public <span>function</span> <span>change</span><span>(</span><span>)</span>
+<span>{</span>
+    // create the table
+    <span>$table</span>  <span>=</span>  <span>$this</span>-<span>></span>table<span>(</span><span>'article'</span><span>)</span><span>;</span>
+    <span>$table</span>-<span>></span>addColumn<span>(</span><span>'title'</span>, <span>'string'</span>, <span>[</span><span>'comment'</span> <span>=</span><span>></span> <span>'文章标题'</span><span>]</span><span>)</span>
+    -<span>></span>addColumn<span>(</span><span>'body'</span>, <span>'text'</span>, <span>[</span><span>'comment'</span> <span>=</span><span>></span> <span>'文章内容'</span><span>]</span><span>)</span>
+    -<span>></span>addTimestamps<span>(</span><span>)</span>
+    -<span>></span>create<span>(</span><span>)</span><span>;</span>
+<span>}</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>运行建表</p>
+<div><pre><code>php think migrate:run
+</code></pre><div aria-hidden="true"><div></div></div></div><p>生成控制器、模型</p>
+<div><pre><code> php think make:controller index@Demo 
+ php think make:model Demo
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>安装包</p>
+<div><pre><code>composer install --ignore-platform-reqs
+</code></pre><div aria-hidden="true"><div></div></div></div><h4 id="多应用" tabindex="-1"> 多应用</h4>
+<p>安装多应用扩展，创建应用目录</p>
+<div><pre><code><span>composer</span> require topthink/think-multi-app 
+php think build adimn
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>PHP</title>
-      <link>https://newzone.top/code/php.html</link>
-      <guid>https://newzone.top/code/php.html</guid>
-      <source url="https://newzone.top/rss.xml">PHP</source>
-      <pubDate>Thu, 25 Aug 2022 08:33:23 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="php" tabindex="-1"> PHP</h1>
-<h3 id="常用函数" tabindex="-1"> 常用函数</h3>
-<div><pre><code>parse_str — 将字符串解析成多个变量
-<span>parse_str</span><span>(</span><span>"name=Bill&amp;age=60"</span><span>,</span><span>$arr</span><span>)</span><span>;</span><span>//第一个参数为查询字符串，第二个为结果数组</span>
+      <title>debian10</title>
+      <link>https://newzone.top/linux/debian10.html</link>
+      <guid>https://newzone.top/linux/debian10.html</guid>
+      <source url="https://newzone.top/rss.xml">debian10</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="debian10" tabindex="-1"> debian10</h1>
+<h3 id="系统相关命令" tabindex="-1"> 系统相关命令</h3>
+<p>编辑网卡配置新增配置</p>
+<p>vim /etc/network/interfaces</p>
+<div><pre><code><span># This file describes the network interfaces available on your system</span>
+<span># and how to activate them. For more information, see interfaces(5).</span>
 
-<span>array_filter</span><span>(</span> <span>array</span> <span>$input</span><span>[</span><span>,</span> <span>callable</span> <span>$callback</span> <span>=</span> <span>""</span><span>]</span> <span>)</span> 
-<span>// 用回调函数过滤数组中的单元 依次将 input 数组中的每个值传递到 callback 函数。如果 callback 函数返回 TRUE，则 input 数组的当前值会被包含在返回的结果数组中。数组的键名保留不变，如果没有提供 callback 函数，将删除 input 中所有等值为 FALSE 的条目</span>
+<span>source</span> /etc/network/interfaces.d/*
 
-explode <span>//用一个字符串分割另一个字符串</span>
-range <span>//建立一个指定范围的数组</span>
-    
-    
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="fpm" tabindex="-1"> fpm</h3>
-<div><pre><code><span>#1、查看php-fpm的进程个数</span>
-<span>ps</span> <span>-ef</span> <span>|</span><span>grep</span> <span>"php-fpm"</span><span>|</span><span>grep</span> <span>"pool"</span><span>|</span><span>wc</span> <span>-l</span>
-<span>#2、查看每个php-fpm占用的内存大小</span>
-<span>ps</span> <span>-ylC</span> php-fpm <span>--sort:rss</span>
-<span>#3.查看PHP-FPM在你的机器上的平均内存占用</span>
-<span>ps</span> --no-headers <span>-o</span> <span>"rss,cmd"</span> <span>-C</span> php-fpm <span>|</span> <span>awk</span> <span>'{ sum+=$1 } END { printf ("%d%s\n", sum/NR/1024,"M") }'</span>
-<span>#4.查看单个php-fpm进程消耗内存的明细</span>
-pmap <span><span>$(</span>pgrep php-fpm<span>)</span></span> <span>|</span> <span>less</span>
+<span># The loopback network interface</span>
+
+auto lo
+iface lo inet loopback
+
+<span># The primary network interface</span>
+allow-hotplug eno1
+iface eno1 inet static
+        address <span>192.168</span>.100.123/24
+        gateway <span>192.168</span>.100.1
+        <span># dns-* options are implemented by the resolvconf package, if installed</span>
+        dns-nameservers <span>127.0</span>.0.1
+
+auto eno1:1
+iface eno1:1 inet static
+        address <span>192.168</span>.103.125
+        netmask <span>255.255</span>.255.0
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>启动新配置命令</p>
+<div><pre><code><span>ifup</span> eno1:1
+</code></pre><div aria-hidden="true"><div></div></div></div><div><pre><code><span>#重启网络</span>
+/etc/init.d/networking restart
+<span>#重启网络(防止配置出错断网)</span>
+<span>service</span> networking restart <span>&amp;&amp;</span> <span>ifup</span> enp2s0 
+<span>sudo</span> <span>ifup</span> enp3s0:0
+<span>sudo</span> <span>ifdown</span> enp3s0:0
+<span>#重启ssh</span>
+/etc/init.d/ssh restart
+
+<span>#安装sudo</span>
+<span>apt-get</span> <span>install</span> <span>sudo</span> <span>-y</span>
+<span>#将用户添加到sudo组</span>
+<span>usermod</span> <span>-aG</span> <span>sudo</span> z
+
+<span>#新建不允许登录用户</span>
+<span>useradd</span> <span>-s</span> /sbin/nologin jobui
+
+<span>#新建普通用户并创建home目录指定bash</span>
+<span>useradd</span> <span>-m</span> <span>-s</span> /bin/bash jobui
+
+<span>#debian未指定shell问题</span>
+<span>#使用usermod命令修改shell类型</span>
+<span>usermod</span> <span>-s</span> /bin/bash zax
+
+<span>#vbox虚拟机设置分辨率</span>
+cvt <span>1920</span> <span>1080</span>
+xrandr <span>--newmode</span> <span>"1920X1080_60.00"</span> <span>173.00</span>  <span>1920</span> <span>2048</span> <span>2248</span> <span>2576</span>  <span>1080</span> <span>1083</span> <span>1088</span> <span>1120</span> <span>-hsync</span> +vsync
+xrandr <span>--addmode</span> Virtual1 <span>"1920X1080_60.00"</span>
+xrandr <span>--output</span> Virtual1 <span>--mode</span> <span>"1920X1080_60.00"</span>
+
+<span>#将以上内容添加到/etc/profile文件</span>
+
+<span>#添加ll快捷命令</span>
+<span>vi</span> ~/.bashrc
+
+<span>#设置ssh开机启动</span>
+update-rc.d <span>ssh</span> <span>enable</span>
+
+<span>#禁止开机启动</span>
+update-rc.d <span>ssh</span> disabled
+
+<span>#安装im-config</span>
+<span>sudo</span> <span>apt</span> <span>install</span> im-config
+
+<span>#运行im-config，选择fcitx输入法</span>
+im-config <span>-c</span>
+
+<span>#解决依赖问题</span>
+<span>sudo</span> <span>apt</span> <span>install</span> <span>-f</span>
+
+<span>#查找dep包</span>
+<span>sudo</span> dpkg <span>-l</span> sog*
+
+<span>#搜索安装包</span>
+<span>sudo</span> <span>apt-cache</span> search openlda
+
+<span>#卸载</span>
+<span>sudo</span> dpkg <span>-P</span> sogopinyin
+
+<span>#挂载失败问题（ bad option; for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.&lt;type> helper program.）</span>
+<span>sudo</span> <span>apt</span> <span>install</span> nfs-common
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>配置apt软件源,更新sources.list</p>
+<div><pre><code><span>mv</span> /etc/apt/sources.list /etc/apt/sources.list.bak
+<span>cat</span> <span>></span> /etc/apt/sources.list <span>&lt;&lt;</span> <span>EOF
+deb http://mirrors.cloud.tencent.com/debian/ buster main non-free contrib
+deb http://mirrors.cloud.tencent.com/debian-security buster/updates main
+deb http://mirrors.cloud.tencent.com/debian/ buster-updates main non-free contrib
+deb http://mirrors.cloud.tencent.com/debian/ buster-backports main non-free contrib
+
+deb-src http://mirrors.cloud.tencent.com/debian-security buster/updates main
+deb-src http://mirrors.cloud.tencent.com/debian/ buster main non-free contrib
+deb-src http://mirrors.cloud.tencent.com/debian/ buster-updates main non-free contrib
+deb-src http://mirrors.cloud.tencent.com/debian/ buster-backports main non-free contrib
+EOF</span>
+
+<span>apt-get</span> update <span>-y</span>
+<span>apt-get</span> <span>install</span> <span>-y</span> <span>vim</span> <span>wget</span>
+
+<span>source</span> ~/.bashrce
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="修改时区为上海" tabindex="-1"> 修改时区为上海</h3>
+<div><pre><code><span>cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="" tabindex="-1"> </h3>
+<h3 id="安装iptables-persistent来使用iptables命令" tabindex="-1"> 安装iptables-persistent来使用iptables命令</h3>
+<div><pre><code><span>sudo</span> <span>apt</span> <span>install</span> iptables-persistent <span>-y</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="或者安装使用-ufw-来设置防火墙" tabindex="-1"> 或者安装使用 UFW 来设置防火墙</h3>
+<p>安装</p>
+<div><pre><code><span>sudo</span> <span>apt</span> update
+<span>sudo</span> <span>apt</span> <span>install</span> ufw
+
+<span>#检查状态，默认是关闭</span>
+<span>sudo</span> ufw status verbose
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>UFW默认策略是关闭所有进来的连接，开启所有出去的连接，文件路径在：</p>
+<blockquote>
+<p>/etc/default/ufw</p>
+</blockquote>
+<p>允许一个端口</p>
+<div><pre><code><span>sudo</span> ufw allow <span>7722</span>/tcp
+</code></pre><div aria-hidden="true"><div></div></div></div><p>打开一段端口</p>
+<div><pre><code><span>sudo</span> ufw allow <span>7100</span>:7200/tcp
+<span>sudo</span> ufw allow <span>7100</span>:7200/udp
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>允许指定ip访问所有端口</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>10.10</span>.10.10
+</code></pre><div aria-hidden="true"><div></div></div></div><p>允许指定ip访问指定端口</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>64.63</span>.62.61 to any port <span>22</span>
+
+<span>sudo</span> ufw allow from <span>120.232</span>.65.223 to any port <span>5574,8080</span>,80,9080,443
+<span>sudo</span> ufw allow from <span>157.148</span>.45.20 to any port <span>5574,8080</span>,80,9080,443
+<span>sudo</span> ufw allow from <span>183.2</span>.143.163 to any port <span>5574,8080</span>,80,9080,443/tcp
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>允许整个网段</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>192.168</span>.1.0/24 to any port <span>3306</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>禁止连接</p>
+<div><pre><code><span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>80</span>
+<span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>443</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>查看规则</p>
+<div><pre><code><span>sudo</span> ufw status numbered
+</code></pre><div aria-hidden="true"><div></div></div></div><p>删除规则</p>
+<div><pre><code><span>sudo</span> ufw delete <span>3</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>启动、关闭、重置</p>
+<div><pre><code><span>sudo</span> ufw <span>enable</span>
+<span>sudo</span> ufw disable
+<span>sudo</span> ufw reset
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="安装zabbix" tabindex="-1"> 安装zabbix</h3>
+<div><pre><code><span>sudo</span> <span>wget</span> https://repo.mysql.com//mysql-apt-config_0.8.17-1_all.deb
+<span>sudo</span> dpkg <span>-i</span> mysql-apt-config_0.8.17-1_all.deb
+<span>sudo</span> <span>apt</span> update
+<span>sudo</span> <span>apt-get</span> <span>install</span> libmysqld-devecho libevent-dev libsnmp-dev libopenipmi-dev
+
+./configure <span>--prefix</span><span>=</span>/web/software/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-libcurl --with-libxml2 --with-mysql<span>=</span>/usr/bin/mysql_config
+
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --with-openipmi --with-mysql<span>=</span>/usr/bin/mysql_config
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>安装zabbix时,出现报错Unsupported charset or collation for tables: ,应该是msyql创建zabbix数据库是,字符编码出现了问题,参考下列方法修复:
+1.删除原有的数据库. drop database zabbix;
+2.创建新的zabbix数据库,命令:create database zabbix character set utf8 collate utf8_bin;
+3.重新打入zabbix的数据库表内容;
+mysql -uroot -p123456 zabbix &lt; schema.sql
+mysql -uroot -p123456 zabbix &lt; images.sql
+mysql -uroot -p123456 zabbix &lt; data.sql
+4.然后重新进入zabbix GUI的web 安装界面就OK了</p>
+<div><pre><code><span>sudo</span> <span>chown</span> <span>-R</span> jobui:jobui /web/php/local/zabbix/
+<span>sudo</span> <span>chmod</span> <span>-R</span> <span>755</span> /web/php/local/zabbix/
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="debian10美化" tabindex="-1"> debian10美化</h3>
+<div><pre><code><span>#安装谷歌noto字体</span>
+<span>sudo</span> <span>apt</span> <span>install</span> fonts-noto-cjk
+<span>#安装依赖</span>
+<span>sudo</span> <span>apt</span> <span>install</span> <span>-y</span> gtk2-engines-murrine
+<span>#下载Orchis-theme主题</span>
+<span>sudo</span> <span>wget</span> https://github.com/vinceliuice/Orchis-theme/archive/refs/heads/master.zip
+<span>#下载图标</span>
+<span>sudo</span> <span>wget</span>  https://github.com/vinceliuice/Tela-icon-theme/archive/refs/heads/master.zip
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h2 id="lnmp环境搭建" tabindex="-1"> lnmp环境搭建</h2>
+<h4 id="安装开发环境软件包" tabindex="-1"> 安装开发环境软件包</h4>
+<div><pre><code>sudo apt-get install -y build-essential libexpat1-dev libgeoip-dev libpng-dev libpcre3-dev libssl-dev libxml2-dev rcs zlib1g-dev libmcrypt-dev libjpeg-dev libpng-dev libwebp-dev pkg-config libbz2-dev libcurl4-openssl-dev autoconf libmemcached-dev libmemcached11
+
+sudo ln -s /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h5 id="下载软件源码包" tabindex="-1"> 下载软件源码包</h5>
+<div><pre><code>cd /usr/local/src
+sudo wget https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.20.tar.gz
+sudo wget https://openresty.org/download/openresty-1.9.7.4.tar.gz
+sudo wget https://www.php.net/distributions/php-5.6.20.tar.gz
 
 
-<span>#查看php、nginx编译参数</span>
-nginx <span>-V</span>
-php <span>-i</span> <span>|</span><span>grep</span> configure
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h5 id="创建用户nginx、mysql用户" tabindex="-1"> 创建用户nginx、mysql用户</h5>
+<div><pre><code>sudo groupadd mysql
+sudo useradd -g mysql -d /home/mysql -s /sbin/nologin mysql
 
-<span>#grep不输出注释的行</span>
-<span>grep</span> <span>"^[^#;]"</span> smb.conf
+sudo groupadd nginx
+sudo useradd -g nginx -d /home/nginx -s /sbin/nologin nginx
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="安装nginx" tabindex="-1"> 安装nginx</h4>
+<h5 id="下载安装nginx需要的模块" tabindex="-1"> 下载安装nginx需要的模块</h5>
+<div><pre><code>cd /usr/local/src
+#zlib库
+sudo wget http://www.zlib.net/zlib-1.2.11.tar.gz
+sudo tar -zxvf zlib-1.2.11.tar.gz
+cd zlib-1.2.11
+sudo ./configure --prefix=/web/software/zlib
+sudo make
+sudo make install
 
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>重启多个php-fpm</p>
-<div><pre><code><span>#php-fpm添加service服务</span>
-<span>cp</span> /usr/local/src/php5.6.40/sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+#PCRE库
+sudo wget https://ftp.pcre.org/pub/pcre/pcre-8.21.tar.gz
+sudo tar -zxvf pcre-8.21.tar.gz
+cd pcre-8.21
+sudo ./config --prefix=/web/software/pcre
+sudo make
+sudo make install
 
-update-rc.d php-fpm defaults
- 
-<span># 添加</span>
-update-rc.d ServiceName defaults
- 
-<span># 删除</span>
-update-rc.d ServiceName remove
+#openSSL库
+#编译安装openssl报错：POD document had syntax errors at /usr/bin/pod2man line 69. make: *** [install_docs]
+#解决方法：
+rm -f /usr/bin/pod2man 
 
-<span>#关闭php-fpm</span>
-<span>pkill</span> php-fpm 或者 <span>killall</span> php-fpm
+sudo wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz
+sudo tar -zxvf openssl-1.0.1.tar.gz
+cd openssl-1.0.1
+sudo ./config shared --prefix=/usr/local/ssl
+sudo make
+sudo make install
 
-<span>#查看php-fpm配置文件路径</span>
-<span>ps</span> aux <span>|</span><span>grep</span> php-fpm
+sudo mv -f /usr/bin/openssl /usr/bin/openssl.old
+sudo mv -f /usr/include/openssl /usr/include/openssl.old
+sudo ln -s /usr/local/ssl/bin/openssl /usr/bin/openssl
+sudo ln -s /usr/local/ssl/include/openssl /usr/include/openssl
+sudo ln -s /usr/local/ssl/include/openssl /usr/local/include/openssl
 
-<span>#查看配置文件，找到pid路径</span>
-pid <span>=</span> /dev/shm/php-fpm-9001.pid
+#openSSL库
+rm -f /usr/bin/pod2man 
+sudo wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz
+sudo tar -zxvf openssl-1.0.1.tar.gz
+cd openssl-1.0.1
+sudo ./config shared --prefix=/web/software/openssl
+sudo make
+sudo make install
 
-<span>#根据pid重启php-fpm</span>
-<span>sudo</span> <span>kill</span> <span>-USR2</span> <span><span>`</span><span>cat</span> /dev/shm/php-fpm-9001.pid<span>`</span></span>
+#libunwind库
+sudo wget http://download.savannah.gnu.org/releases/libunwind/libunwind-1.1.tar.gz
+sudo tar -zxvf libunwind-1.1.tar.gz
+cd libunwind-1.1
+sudo CFLAGS=-fPIC ./configure
+sudo make CFLAGS=-fPIC
+sudo make CFLAGS=-fPIC install
 
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="php多线程" tabindex="-1"> php多线程</h3>
-<p>开启parallel多线程扩展 --enable-maintainer-zts</p>
-<div><pre><code><span>#parallel</span>
- <span>cd</span> /usr/local/src/php7/parallel-1.1.4 <span>&amp;&amp;</span> <span>\</span>
- /web/software/php-7.4.28/bin/phpize <span>&amp;&amp;</span> <span>\</span>
- ./configure --with-php-config<span>=</span>/web/software/php-7.4.28/bin/php-config <span>&amp;&amp;</span> <span>\</span>
- <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>示例：</p>
+#google-perftools
+sudo wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.7/gperftools-2.7.tar.gz
+sudo tar -zxvf gperftools-2.7.tar.gz
+cd gperftools-2.7
+sudo ./configure  --enable-frame-pointers
+sudo make
+sudo make install
+#使google-perftools生效:
+sudo echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr_local_lib.conf
+sudo ldconfig
+
+#ngx_cache_purge-2.3
+sudo wget http://labs.frickle.com/files/ngx_cache_purge-2.3.tar.gz
+sudo tar -zxvf ngx_cache_purge-2.3.tar.gz
+
+#nginx编译参数（线上）
+--prefix=/web/software/openresty/nginx \
+--with-cc-opt=-O2 \
+--add-module=../ngx_devel_kit-0.3.0 \
+--add-module=../iconv-nginx-module-0.14 \
+--add-module=../echo-nginx-module-0.59 \
+--add-module=../xss-nginx-module-0.05 \
+--add-module=../ngx_coolkit-0.2rc3 \
+--add-module=../set-misc-nginx-module-0.30 \
+--add-module=../form-input-nginx-module-0.12 \
+--add-module=../encrypted-session-nginx-module-0.05 \
+--add-module=../ngx_postgres-1.0rc7 \
+--add-module=../srcache-nginx-module-0.31 \
+--add-module=../ngx_lua-0.10.5 \
+--add-module=../ngx_lua_upstream-0.05 \
+--add-module=../headers-more-nginx-module-0.30 \
+--add-module=../array-var-nginx-module-0.05 \
+--add-module=../memc-nginx-module-0.17 \
+--add-module=../redis-nginx-module-0.3.7 \
+--add-module=../rds-json-nginx-module-0.14 \
+--add-module=../rds-csv-nginx-module-0.07 \
+--with-ld-opt=-Wl,-rpath,/web/software/openresty/luajit/lib \
+--user=www \
+--group=www \
+--with-google_perftools_module \
+--with-pcre=/root/baicai-V6/web/nginx/pcre-8.36 \
+--with-pcre-jit \
+--with-zlib=/root/baicai-V6/web/nginx/zlib-1.2.8 \
+--add-module=/root/baicai-V6/web/nginx/openresty-1.9.15.1/../ngx_cache_purge-2.3 \
+--with-http_stub_status_module \
+--with-http_ssl_module
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h5 id="安装openresty-1-9-7-1-包含nginx-1-9-7和插件" tabindex="-1"> 安装openresty-1.9.7.1，包含nginx-1.9.7和插件</h5>
+<p>预编译</p>
+<div><pre><code>cd /usr/local/src/openresty-1.9.7.4
+sudo ./configure \
+--prefix=/web/software/openresty \
+--user=www \
+--group=www \
+--with-google_perftools_module \
+--with-pcre=../pcre-8.21 \
+--with-pcre-jit \
+--with-zlib=../zlib-1.2.11 \
+--with-openssl=../openssl-1.0.1 \
+--add-module=../ngx_cache_purge-2.3 \
+--with-http_stub_status_module \
+--with-http_ssl_module \
+--with-stream
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>编译安装</p>
+<div><pre><code>sudo make
+sudo make install
+#为了统一nginx与其他服务的同步，给nginx目录做软连接
+sudo ln -s  /web/software/openresty/nginx  /web/software/nginx
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h4 id="安装php" tabindex="-1"> 安装php</h4>
+<div><pre><code><span>#安装m</span>
+<span>#zlib</span>
+<span>sudo</span> ./configure
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+<span>export</span> <span>LDFLAGS</span><span>=</span><span>"-L/usr/local/zlib/lib"</span>
+<span>export</span> <span>CPPFLAGS</span><span>=</span><span>"-I/usr/local/zlib/include"</span>
+
+<span>#jpeg6</span>
+<span>#先创建目录，否则会报错</span>
+<span>cd</span> /usr/local/src/php/jpeg-6b
+<span>sudo</span> <span>mkdir</span> /web/software/jpeg6/
+<span>sudo</span> <span>mkdir</span> <span>{</span>/web/software/jpeg6/bin,/web/software/jpeg6/lib,/web/software/jpeg6/include<span>}</span>
+<span>sudo</span> <span>mkdir</span> <span>-p</span>  /web/software/jpeg6/man/man1
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/jpeg6
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+<span>#libpng2</span>
+<span>#安装libpng出现configure: error: ZLib not installed</span>
+<span>#1.进入zlib的源文件目录，执行命令 make clean,清除zlib；</span>
+<span>#2.重新配置 ./configure,后面不要接--prefix参数；</span>
+<span>#然后执行以下命令</span>
+<span>export</span> <span>LDFLAGS</span><span>=</span><span>"-L/usr/local/zlib/lib"</span>
+<span>export</span> <span>CPPFLAGS</span><span>=</span><span>"-I/usr/local/zlib/include"</span>
+
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/libpng2
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+<span>#freetype2</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/freetype2
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+<span>#libxml2</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/libxml2
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+<span>#curl</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/curl
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+
+<span>#php编译参数（线上）</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/php-5.6.40 <span>\</span>
+--with-config-file-path<span>=</span>/web/software/php-5.6.40/lib <span>\</span>
+--with-mysql<span>=</span>mysqlnd <span>\</span>
+--with-mysqli<span>=</span>mysqlnd <span>\</span>
+--with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
+--with-jpeg-dir<span>=</span>/web/software/jpeg6 <span>\</span>
+--with-png-dir<span>=</span>/web/software/libpng2 <span>\</span>
+--with-freetype-dir<span>=</span>/web/software/freetype2 <span>\</span>
+--with-libxml-dir<span>=</span>/web/software/libxml2 <span>\</span>
+--with-zlib-dir<span>=</span>/usr/local/zlib/ <span>\</span>
+--with-curl<span>=</span>/web/software/curl <span>\</span>
+--with-openssl<span>=</span>/usr/local/ssl <span>\</span>
+--disable-ipv6 <span>\</span>
+--enable-sockets <span>\</span>
+--disable-debug <span>\</span>
+--enable-xml <span>\</span>
+--disable-rpath <span>\</span>
+--enable-bcmath <span>\</span>
+--enable-shmop <span>\</span>
+--enable-sysvsem <span>\</span>
+--enable-inline-optimization <span>\</span>
+--with-curl <span>\</span>
+--enable-sysvmsg <span>\</span>
+--enable-sysvshm <span>\</span>
+--enable-mbregex <span>\</span>
+--enable-mbstring <span>\</span>
+--with-bz2<span>=</span>/usr <span>\</span>
+--enable-gd-native-ttf <span>\</span>
+--with-mhash <span>\</span>
+--with-xmlrpc <span>\</span>
+--enable-zip <span>\</span>
+--enable-soap <span>\</span>
+--without-pear <span>\</span>
+--enable-fpm <span>\</span>
+--with-libdir<span>=</span>lib64
+
+<span>#php编译参数（141）</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/php-5.6.40 <span>\</span>
+--with-config-file-path<span>=</span>/web/software/php-5.6.40/lib <span>\</span>
+--with-mysql<span>=</span>mysqlnd <span>\</span>
+--with-mysqli<span>=</span>mysqlnd <span>\</span>
+--with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
+--with-jpeg-dir<span>=</span>/web/software/jpeg6 <span>\</span>
+--with-png-dir<span>=</span>/web/software/libpng2 <span>\</span>
+--with-freetype-dir<span>=</span>/web/software/freetype2 <span>\</span>
+--with-libxml-dir<span>=</span>/web/software/libxml2 <span>\</span>
+--with-zlib-dir<span>=</span>/usr/local/zlib/ <span>\</span>
+--with-curl<span>=</span>/web/software/curl <span>\</span>
+--with-openssl<span>=</span>/usr/local/ssl <span>\</span>
+--disable-ipv6 <span>\</span>
+--enable-sockets <span>\</span>
+--disable-debug <span>\</span>
+--enable-xml <span>\</span>
+--disable-rpath <span>\</span>
+--enable-bcmath <span>\</span>
+--enable-shmop <span>\</span>
+--enable-sysvsem <span>\</span>
+--enable-inline-optimization <span>\</span>
+--with-curl <span>\</span>
+--enable-sysvmsg <span>\</span>
+--enable-sysvshm <span>\</span>
+--enable-mbregex <span>\</span>
+--enable-mbstring <span>\</span>
+--with-bz2<span>=</span>/usr <span>\</span>
+--enable-gd-native-ttf <span>\</span>
+--with-mhash <span>\</span>
+--with-xmlrpc <span>\</span>
+--enable-zip <span>\</span>
+--enable-soap <span>\</span>
+--without-pear <span>\</span>
+--enable-fpm <span>\</span>
+--enable-pcntl
+
+<span>#编译php时，遇到“Please reinstall the libcurl distribution...”</span>
+<span>#sudo apt-get install libcurl4-gnutls-dev</span>
+<span>sudo</span> <span>ln</span> <span>-s</span> /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
+
+<span>#make: *** [Makefile:590：ext/openssl/openssl.lo] 错误 1 (php5.6不兼容openssl1.1.1)</span>
+<span>#openssl降级</span>
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="安装deepin版微信" tabindex="-1"> 安装deepin版微信</h3>
+<div><pre><code><span>#!/bin/bash</span>
+<span>mkdir</span> ./deepintemp
+<span>cd</span> ./deepintemp
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine_2.18-22~rc0_all.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine32_2.18-22~rc0_i386.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine32-preloader_2.18-22~rc0_i386.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-helper/deepin-wine-helper_1.2deepin8_i386.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-plugin/deepin-wine-plugin_1.0deepin2_amd64.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-plugin-virtual/deepin-wine-plugin-virtual_1.0deepin3_all.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-uninstaller/deepin-wine-uninstaller_0.1deepin2_i386.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/u/udis86/udis86_1.72-2_i386.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-fonts-wine_2.18-22~rc0_all.deb
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-libwine_2.18-22~rc0_i386.deb
+<span>wget</span> https://packages.deepin.com/deepin/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_1.5.1-2_amd64.deb --no-check-certificate
+<span>wget</span> https://packages.deepin.com/deepin/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_1.5.1-2_i386.deb --no-check-certificate
+<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin.com.wechat/deepin.com.wechat_2.6.8.65deepin0_i386.deb
+
+<span>echo</span> <span>'准备添加32位支持'</span>
+dpkg --add-architecture i386
+<span>echo</span> <span>'添加成功，准备刷新apt缓存信息...'</span>
+<span>apt</span> update
+<span>echo</span> <span>'即将开始安装...'</span>
+dpkg <span>-i</span> *.deb
+<span>echo</span> <span>'安装完成，正在自动安装依赖...'</span>
+<span>apt</span> <span>install</span> <span>-fy</span>
+dpkg <span>-i</span> deepin.com.wechat_2.6.8.65deepin0_i386.deb
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>中文问题，进入/opt/deepinwine/tools文件夹</p>
+<p>在run.sh 和 run_v2.sh 中修改为</p>
+<div><pre><code><span>#WINE_CMD="deepin-wine"改为下行</span>
+<span>WINE_CMD</span><span>=</span><span>"LC_ALL=zh_CN.UTF-8 deepin-wine"</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="安装navicat" tabindex="-1"> 安装navicat</h3>
+<div><pre><code><span>wget</span> https://download3.navicat.com/download/navicat15-premium-en.AppImage --no-check-certificate
+<span>chmod</span> +x navicat15-premium-en.AppImage
+./navicat15-premium-en.AppImage
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>ElasticSearch</title>
+      <link>https://newzone.top/services/ElasticSearch.html</link>
+      <guid>https://newzone.top/services/ElasticSearch.html</guid>
+      <source url="https://newzone.top/rss.xml">ElasticSearch</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="elasticsearch" tabindex="-1"> ElasticSearch</h1>
+<p>搜索</p>
+<div><pre><code>GET _search
+{
+  "query": {
+    "match": {
+      "_index" : "jobui_interview_v1"
+    }
+  },
+  "size" : 100
+}
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>查看所有索引</p>
+<div><pre><code>GET /_cat/indices?v	
+GET _cat/indices?v&amp;s=store.size:desc//按大小倒叙
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>新建索引映射</p>
+<div><pre><code> PUT /jobui_interview_v1/external/1?pretty
+{
+  "name": "John Doe"
+}
+
+GET /jobui_company_album/_mapping?pretty
+
+PUT jobui_interview_v1
+{
+	"mappings":{
+		"interview":{
+			"_all": {
+				"enabled": false
+			},
+			"properties":{
+				"CIE_ID": {
+					"type": "integer"
+				},
+				"CIE_CompanyID": {
+					"type": "integer"
+				},
+				"CIE_PositionID": {
+					"type": "integer"
+				},
+				"CIE_PositionName": {
+					"type": "text",
+					"analyzer": "ik_smart",
+					"include_in_all": true
+				},
+				"CIE_CompanyName": {
+					"type": "text",
+					"analyzer": "ik_smart",
+					"include_in_all": true
+				},
+				"CIE_UserKey": {
+					"type": "text",
+					"analyzer": "ik_smart",
+					"include_in_all": true
+				},
+				"CIE_UserIP": {
+					"type": "text",
+					"analyzer": "ik_smart",
+					"include_in_all": true
+				},
+				"CIE_UsefulNum": {
+					"type": "integer"
+				},
+				"CIE_NotUsefulNum": {
+					"type": "integer"
+				},
+				"CIE_IsNick": {
+					"type": "text",
+					"analyzer": "ik_smart",
+					"include_in_all": true
+				},
+				"CIE_CheckStatus": {
+					"type": "text",
+					"analyzer": "ik_smart",
+					"include_in_all": true
+				},
+				"CIE_Content": {
+					"type": "text",
+					"analyzer": "ik_smart",
+					"include_in_all": true
+				},
+				"CIE_ClientType": {
+					"type": "text",
+					"analyzer": "ik_smart",
+					"include_in_all": true
+				},
+				"CIE_AddTime": {
+					"type": "long"
+				},
+				"CIE_LastCheckTime": {
+					"type": "long"
+				},
+				"CIE_LastUpdateTime": {
+					"type": "long"
+				},
+				"lt": {
+					"type": "long"
+				}
+			}
+		}
+	},
+	"settings": {
+		"number_of_shards" :   1,
+		"number_of_replicas" : 1
+	}
+}
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>设置别名</p>
+<div><pre><code>PUT /jobui_interview_v1/_alias/jobui_interview
+</code></pre><div aria-hidden="true"><div></div></div></div><p>设置别名
+PUT /jobui_interview_v1/_alias/jobui_interview</p>
+<p>差看映射信息</p>
+<div><pre><code>GET /jobui_interview_v1/_mapping?pretty
+</code></pre><div aria-hidden="true"><div></div></div></div><p>#查看索引内容</p>
+<div><pre><code>GET jobui_interview_v1
+</code></pre><div aria-hidden="true"><div></div></div></div><p>删除索引</p>
+<div><pre><code>DELETE jobui_interview_v1
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查看单个文档</p>
+<div><pre><code>GET jobui_company_job_v1/job/9650100?pretty
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查询内容</p>
+<div><pre><code>POST /jobui_company_job_v1/_search?pretty
+{
+
+  "query": { "match": { "SPI_CompanyCity": "上海" } }
+
+}
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>查看集群</p>
+<div><pre><code>GET _cluster/health?pretty
+</code></pre><div aria-hidden="true"><div></div></div></div><div><pre><code><span>#查看数据（shell）</span>
+
+<span>#查看所有索引（按大小倒序）</span>
+<span>curl</span> <span>-XGET</span> <span>'http://192.168.2.135:9200/_cat/indices?v&amp;s=store.size:desc'</span>
+
+<span>#删除索引</span>
+<span>curl</span> <span>-XDELETE</span> <span>'http://192.168.2.135:9200/nginx_apis-access-2021.08.31?pretty'</span>
+
+<span>#查看索引mapping</span>
+<span>curl</span> <span>"192.168.1.74:9200/索引名称/_mapping"</span>
+
+<span>#查看单个文档</span>
+<span>curl</span> <span>-XGET</span> <span>'localhost:9200/索引名称/类型/ID?pretty'</span>
+
+<span>#创建文档</span>
+<span>curl</span> <span>-XPUT</span> <span>'localhost:9200/customer/external/1?pretty'</span> <span>-d</span> <span>'
+{
+  "name": "John Doe"
+}'</span>
+
+<span>#查询文档内容</span>
+<span>curl</span> <span>-XPOST</span> <span>'localhost:9200/bank/_search?pretty'</span> <span>-d</span> <span>'
+{
+  "query": { "match": { "address": "mill" } }
+}'</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h2 id="es-kibana部署" tabindex="-1"> es+kibana部署</h2>
+<p><strong>基础环境：jdk8</strong></p>
+<h4 id="安装jdk" tabindex="-1"> 安装jdk</h4>
+<p>下载jdk包</p>
+<div><pre><code><span>mkdir</span> <span>-p</span> /usr/local/java 
+<span>cd</span> /usr/local/java 
+<span>wget</span> https://download.oracle.com/otn/java/jdk/8u321-b07/df5ad55fdd604472a86a45a217032c7d/jdk-8u321-linux-x64.tar.gz?AuthParam<span>=</span>1647915953_6b486a8019a80931d2b2bdca8b505d6a
+<span>tar</span> zxvf jdk-8u321-linux-x64.tar.gz <span>-C</span> /usr/local/java
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h4 id="配置jdk环境变量" tabindex="-1"> 配置jdk环境变量</h4>
+<div><pre><code><span>vim</span> /etc/profile
+<span>#添加</span>
+<span>JAVA_HOME</span><span>=</span>/usr/local/java/jdk1.8.0_311/
+<span>export</span> <span>CLASSPATH</span><span>=</span>$:CLASSPATH:<span>$JAVA_HOME</span>/lib/ 
+<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span><span>:</span><span>$JAVA_HOME</span>/bin 
+
+<span>#加载文件生效</span>
+<span>source</span> /etc/profile
+<span>#查看版本</span>
+<span>java</span> <span>-version</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="安装elasticsearch5-6" tabindex="-1"> 安装elasticsearch5.6</h4>
+<div><pre><code><span>wget</span> https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.16.tar.gz
+sha1sum elasticsearch-5.6.16.tar.gz 
+<span>tar</span> <span>-xzf</span> elasticsearch-5.6.16.tar.gz
+
+<span>#后台启动并记录pid</span>
+<span>cd</span> elasticsearch-5.6.16/ 
+./bin/elasticsearch <span>-p</span> /mysql/elasticsearch/elasticsearch-pid <span>-d</span>
+
+<span>#连接测试</span>
+<span>curl</span> <span>-XGET</span> <span>192.168</span>.1.36:9200
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="安装kibana5-6" tabindex="-1"> 安装kibana5.6</h4>
+<div><pre><code><span>wget</span> https://artifacts.elastic.co/downloads/kibana/kibana-5.6.16-linux-x86_64.tar.gz
+sha1sum kibana-5.6.16-linux-x86_64.tar.gz 
+<span>tar</span> <span>-xzf</span> kibana-5.6.16-linux-x86_64.tar.gz
+<span>cd</span> kibana-5.6.16-linux-x86_64/ 
+
+<span>#后台启动</span>
+./bin/kibana <span>>></span> /mysql/elasticsearch/kibana.stdout <span><span>2</span>>></span> /mysql/elasticsearch/kibana.stderr <span>&amp;</span>
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>Docker环境启动</title>
+      <link>https://newzone.top/services/jobui_docker%E7%8E%AF%E5%A2%83.html</link>
+      <guid>https://newzone.top/services/jobui_docker%E7%8E%AF%E5%A2%83.html</guid>
+      <source url="https://newzone.top/rss.xml">Docker环境启动</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="docker环境启动" tabindex="-1"> Docker环境启动</h1>
+<p>安装docker for windows</p>
+<p>将docker-compose.yml文件跟docker文件夹解压到项目根目录下</p>
+<p>拉取镜像</p>
+<div><pre><code><span>docker</span> pull doflamingozzz/nginx-1.15.8.3:1.0
+<span>docker</span> pull doflamingozzz/php7.4:1.0
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>启动环境</p>
+<div><pre><code><span>docker-compose</span> up <span>-d</span>
+</code></pre><div aria-hidden="true"><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>mongo</title>
+      <link>https://newzone.top/services/mongo.html</link>
+      <guid>https://newzone.top/services/mongo.html</guid>
+      <source url="https://newzone.top/rss.xml">mongo</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="mongo" tabindex="-1"> mongo</h1>
+<h3 id="服务配置" tabindex="-1"> 服务配置</h3>
+<h4 id="配置复制集" tabindex="-1"> 配置复制集</h4>
+<div><pre><code><span># 连接</span>
+mongo <span>192.168</span>.2.134:12000
+<span># 初始化（第一次配置）</span>
+<span>></span>rs.initiate<span>(</span><span>)</span>
+<span>></span>rs.add<span>(</span><span>"hostname:120000"</span><span>)</span>
+
+<span># 查看状态</span>
+<span>></span>rs.status<span>(</span><span>)</span>
+
+<span>></span>rs.add<span>(</span><span>{</span>host:<span>'hostname:12000'</span><span>}</span><span>)</span><span>(</span>添加一个复制集<span>)</span>
+<span>></span>rs.addArb<span>(</span><span>"hostnamet:30000"</span><span>)</span><span>(</span>添加一个投票节点<span>)</span>
+<span>></span>rs.remove<span>(</span><span>"hostname:30000"</span><span>)</span><span>(</span>删除节点<span>)</span>
+
+
+/web/software/mongodb-3.0.7/bin/mongod <span>-f</span> /web/bcshell/mongodb/mongodbWT12000.conf <span>--rest</span> <span>--logpath</span><span>=</span>/tmp/mongod.log<span>(</span>输出日志<span>)</span>
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="修改优先级" tabindex="-1"> 修改优先级</h4>
+<p>通过改动priority的值来实现（默认的优先级是1（0-100）。priority的值设的越大，就优先成为主）</p>
+<div><pre><code>PRIMARY<span>></span> <span>config</span><span>=</span>rs.conf<span>(</span><span>)</span>
+PRIMARY<span>></span> config.members<span>[</span><span>0</span><span>]</span>.priority <span>=</span> <span>2</span>       这里要注意：0表示第一个节点，1表示第二个节点，以此类推
+PRIMARY<span>></span> rs.reconfig<span>(</span>config<span>)</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h4 id="启动命令" tabindex="-1"> 启动命令</h4>
+<div><pre><code>/web/software/mongodb-3.0.7/bin/mongod <span>-f</span> /web/bcshell/mongodb/mongodbWT12002.conf <span>--rest</span> <span>--logpath</span><span>=</span>/tmp/mongod2.log
+/web/software/mongodb-3.0.7/bin/mongod <span>-f</span> /web/bcshell/mongodb/mongodbWT12000.conf <span>--rest</span> <span>--logpath</span><span>=</span>/tmp/mongod.log
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="关闭命令" tabindex="-1"> 关闭命令</h3>
+<div><pre><code>db.shutdownServer<span>(</span><span>)</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h4 id="创建用户" tabindex="-1"> 创建用户</h4>
+<div><pre><code><span>#进去mongo后切换到admin库</span>
+use admin
+<span>#创建管理员用户</span>
+db.createUser<span>(</span><span>{</span>user:<span>"root"</span>,pwd:<span>"root123"</span>,roles:<span>[</span><span>"root"</span><span>]</span><span>}</span><span>)</span>
+db.createUser<span>(</span><span>{</span>user:<span>"zax"</span>,pwd:<span>"root123"</span>,roles:<span>[</span><span>"root"</span><span>]</span><span>}</span><span>)</span>
+<span>#查看用户</span>
+show <span>users</span>
+<span>#删除用户</span>
+db.dropUser<span>(</span><span>"zax"</span><span>)</span>
+<span>#修改密码</span>
+db.updateUser<span>(</span><span>"zax"</span>,<span>{</span>pwd:<span>"123"</span><span>}</span><span>)</span>
+
+<span>#创建普通用户，并指定权限</span>
+db.createUser<span>(</span><span>{</span>
+	user:<span>"jobui"</span>,pwd:<span>"jobui123"</span>,
+	roles:<span>[</span>
+		<span>{</span>role:<span>"readWrite"</span>,db:<span>"tmp"</span><span>}</span>,
+		<span>{</span>role:<span>"read"</span>,db:<span>"tmp2"</span><span>}</span>
+	<span>]</span>
+	<span>}</span><span>)</span>
+<span>#创建一个有所有库权限的用户</span>
+db.createUser<span>(</span><span>{</span>
+	user:<span>"jobui_w"</span>,pwd:<span>"jobui123"</span>,
+	roles:<span>[</span>
+		<span>{</span>role:<span>"readWriteAnyDatabase"</span>,db:<span>"admin"</span><span>}</span>
+	<span>]</span>
+<span>}</span><span>)</span>
+<span>#修改权限</span>
+db.grantRolesToUser<span>(</span><span>"jobui_w"</span>, <span>[</span><span>{</span>role:<span>"clusterAdmin"</span>, db:<span>"admin"</span><span>}</span>,<span>]</span><span>)</span>
+
+db.createUser<span>(</span> <span>{</span> 
+    user: <span>"cluster"</span>, 
+    pwd: <span>"cluster"</span>, 
+    roles: <span>[</span> <span>{</span> role: <span>"clusterAdmin"</span>, db: <span>"admin"</span> <span>}</span> <span>]</span> 
+<span>}</span><span>)</span><span>;</span> 
+
+<span>#生成密钥</span>
+openssl rand <span>-base64</span> <span>100</span> <span>></span>/web/shell/mongodb/mongo-keyfile
+<span>chmod</span> <span>400</span> mongo-keyfile
+
+mongod <span>-f</span> /web/shell/mongodb/mongodbWT12002.conf <span>--keyFile</span><span>=</span>/web/shell/mongodb/mongo-keyfile
+mongod <span>-f</span> /web/shell/mongodb/mongodbWT12003.conf <span>--keyFile</span><span>=</span>/web/shell/mongodb/mongo-keyfile
+mongod <span>-f</span> /web/shell/mongodb/mongodbWT12004.conf <span>--keyFile</span><span>=</span>/web/shell/mongodb/mongo-keyfile
+
+mongod <span>-f</span> /web/shell/mongodb/mongodbWT12002.conf
+mongod <span>-f</span> /web/shell/mongodb/mongodbWT12003.conf
+mongod <span>-f</span> /web/shell/mongodb/mongodbWT12004.conf
+
+Read：允许用户读取指定数据库
+readWrite：允许用户读写指定数据库
+dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile
+userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户
+clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。
+readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限
+readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限
+userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限
+dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。
+root：只在admin数据库中可用。超级账号，超级权限
+
+<span># 验证密码</span>
+<span>></span>use admin<span>;</span>
+<span>></span>db.auth<span>(</span><span>"username"</span>, <span>"passwd"</span><span>)</span>
+
+<span># 登录直接验证密码</span>
+mongo <span>192.168</span>.1.36:27017 <span>-u</span> <span>"jobui_w"</span> <span>-p</span> <span>"j"</span> <span>--authenticationDatabase</span> <span>"admin"</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code>db.createCollection<span>(</span><span>"JobProfessionID"</span><span>)</span>
+show tables
+
+<span>#创建数据库</span>
+<span><span>`</span>use DATABASE_NAME<span>`</span></span>
+
+<span>#切换到数据库</span>
+<span><span>`</span>use <span>test</span><span>`</span></span>
+
+<span>#创建集合</span>
+<span><span>`</span>db.createCollection<span>(</span><span>"runoob"</span><span>)</span><span>`</span></span>
+
+<span>#查看集合</span>
+<span><span>`</span>show collections<span>`</span></span>
+
+<span>#删除集合</span>
+<span><span>`</span>db.集合名称.drop<span>(</span><span>)</span><span>`</span></span>
+
+<span>#查看集合条数</span>
+db.getCollection<span>(</span><span>'userTmp'</span><span>)</span>.find<span>(</span><span>{</span><span>}</span><span>)</span>.count<span>(</span><span>)</span>
+
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code>db.createCollection<span>(</span><span>"userTmp_202110"</span><span>)</span>
+db.getCollection<span>(</span><span>'companyTmp_202110'</span><span>)</span>.createIndex<span>(</span><span>{</span><span>'c'</span><span>:</span> <span>1</span>, <span>'d'</span><span>:</span> -1<span>}</span>, <span>{</span>unique: true<span>}</span><span>)</span>
+db.getCollection<span>(</span><span>'userTmp_202110'</span><span>)</span>.createIndex<span>(</span><span>{</span><span>'u'</span><span>:</span> <span>1</span>, <span>'d'</span><span>:</span> -1<span>}</span>, <span>{</span>unique: true<span>}</span><span>)</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="导出数据库" tabindex="-1"> 导出数据库</h3>
+<div><pre><code>mongodump <span>-h</span> <span>192.168</span>.1.35:12000 <span>-d</span> jobui_tmp <span>-o</span> /ssd_data/mongobackups/
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="导入数据" tabindex="-1"> 导入数据</h3>
+<div><pre><code>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="创建索引" tabindex="-1"> 创建索引</h3>
+<div><pre><code><span>#语法中 Key 值为你要创建的索引字段，1 为指定按升序创建索引，如果你想按降序来创建索引指定为 -1 即可。</span>
+<span>></span>db.collection.createIndex<span>(</span>keys, options<span>)</span>
+
+<span>#在后台创建复合索引</span>
+db.values.createIndex<span>(</span><span>{</span>open: <span>1</span>, close: <span>1</span><span>}</span>, <span>{</span>background: true<span>}</span><span>)</span>
+db.col.createIndex<span>(</span><span>{</span><span>'c'</span><span>:</span> <span>1</span>, <span>'d'</span><span>:</span> -1<span>}</span>, <span>{</span>unique: true<span>}</span><span>)</span>
+
+<span>#创建单条索引</span>
+db.getCollection<span>(</span><span>'userTmp_202109'</span><span>)</span>.createIndex<span>(</span><span>{</span><span>'lut'</span>:-1<span>}</span><span>)</span>
+
+<span>#1、查看集合索引</span>
+db.getCollection<span>(</span><span>'userFollowCompany'</span><span>)</span>.getIndexes<span>(</span><span>)</span>
+
+<span>#2、查看集合索引大小</span>
+db.getCollection<span>(</span><span>'userFollowCompany'</span><span>)</span>.totalIndexSize<span>(</span><span>)</span>
+
+<span>#3、删除集合所有索引</span>
+db.col.dropIndexes<span>(</span><span>)</span>
+
+<span>#4、删除集合指定索引</span>
+db.col.dropIndex<span>(</span><span>"索引名称"</span><span>)</span>
+
+<span>#查看索引建立状态</span>
+db.currentOp<span>(</span><span>)</span>
+
+<span>#终止索引的创建</span>
+db.killOp<span>(</span><span>)</span>
+
+<span>#高级聚类</span>
+db.getCollection<span>(</span><span>'userFollowCompany'</span><span>)</span>.aggregate<span>(</span><span>[</span>
+	<span>{</span><span>$match</span>:<span>{</span>cid:<span>{</span><span>$in</span><span>:</span> <span>[</span><span>788679</span><span>]</span><span>}</span><span>}</span><span>}</span>,
+	<span>{</span><span>$unwind</span><span>:</span><span>"<span>$cid</span>"</span><span>}</span>,
+	<span>{</span><span>$match</span>:<span>{</span>cid:<span>{</span><span>$ne</span>:788679<span>}</span><span>}</span><span>}</span>,
+	<span>{</span><span>$group</span>:<span>{</span>_id:<span>"<span>$cid</span>"</span>,num:<span>{</span><span>$sum</span>:1<span>}</span><span>}</span><span>}</span>,
+	<span>{</span><span>$sort</span>:<span>{</span>num:-1<span>}</span><span>}</span>,
+	<span>{</span><span>$limit</span>:100<span>}</span>
+<span>]</span><span>)</span>
+
+db.getCollection<span>(</span><span>'userFollowCompany'</span><span>)</span>.aggregate<span>(</span><span>[</span>
+    <span>{</span><span>$match</span>:<span>{</span><span>'mint'</span><span>:</span> <span>{</span><span>$gt</span>:20220401<span>}</span>, cid:<span>{</span><span>$in</span><span>:</span> <span>[</span><span>15110</span><span>]</span><span>}</span><span>}</span><span>}</span>,
+    <span>{</span><span>$unwind</span><span>:</span><span>"<span>$cid</span>"</span><span>}</span>,
+    <span>{</span><span>$group</span>:<span>{</span>_id:<span>"<span>$cid</span>"</span>,num:<span>{</span><span>$sum</span>:1<span>}</span><span>}</span><span>}</span>,
+    <span>{</span><span>$sort</span>:<span>{</span>num:-1<span>}</span><span>}</span>,
+    <span>{</span><span>$limit</span>:100<span>}</span>
+<span>]</span><span>)</span>
+
+db.getCollection<span>(</span><span>'company_profile'</span><span>)</span>.aggregate<span>(</span><span>[</span>
+	<span>{</span><span>$group</span>:<span>{</span>_id:<span>"<span>$domain</span>"</span>,num:<span>{</span><span>$sum</span>:1<span>}</span><span>}</span><span>}</span>,
+	<span>{</span><span>$sort</span>:<span>{</span>num:-1<span>}</span><span>}</span>,
+	<span>{</span><span>$limit</span>:100<span>}</span>
+<span>]</span><span>)</span>
+
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h5 id="createindex-接收可选参数-可选参数列表如下" tabindex="-1"> createIndex() 接收可选参数，可选参数列表如下：</h5>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Parameter</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">background</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 &quot;background&quot; 可选参数。 &quot;background&quot; 默认值为<strong>false</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left">unique</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">建立的索引是否唯一。指定为true创建唯一索引。默认值为<strong>false</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left">name</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">索引的名称。如果未指定，MongoDB的通过连接索引的字段名和排序顺序生成一个索引名称。</td>
+</tr>
+<tr>
+<td style="text-align:left">dropDups</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">**3.0+版本已废弃。**在建立唯一索引时是否删除重复记录,指定 true 创建唯一索引。默认值为 <strong>false</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left">sparse</td>
+<td style="text-align:left">Boolean</td>
+<td style="text-align:left">对文档中不存在的字段数据不启用索引；这个参数需要特别注意，如果设置为true的话，在索引字段中不会查询出不包含对应字段的文档.。默认值为 <strong>false</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left">expireAfterSeconds</td>
+<td style="text-align:left">integer</td>
+<td style="text-align:left">指定一个以秒为单位的数值，完成 TTL设定，设定集合的生存时间。</td>
+</tr>
+<tr>
+<td style="text-align:left">v</td>
+<td style="text-align:left">index version</td>
+<td style="text-align:left">索引的版本号。默认的索引版本取决于mongod创建索引时运行的版本。</td>
+</tr>
+<tr>
+<td style="text-align:left">weights</td>
+<td style="text-align:left">document</td>
+<td style="text-align:left">索引权重值，数值在 1 到 99,999 之间，表示该索引相对于其他索引字段的得分权重。</td>
+</tr>
+<tr>
+<td style="text-align:left">default_language</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">对于文本索引，该参数决定了停用词及词干和词器的规则的列表。 默认为英语</td>
+</tr>
+<tr>
+<td style="text-align:left">language_override</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">对于文本索引，该参数指定了包含在文档中的字段名，语言覆盖默认的language，默认值为 language.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="通过explian-分析执行情况" tabindex="-1"> 通过<a href="https://docs.mongodb.com/manual/reference/method/cursor.explain/" target="_blank" rel="noopener noreferrer">explian()</a>分析执行情况</h5>
+<p>db.getCollection('companyTmp').find({c:14298217,d:&quot;20210829&quot;}).explain()</p>
+<div><pre><code><span>{</span>
+    <span>"queryPlanner"</span> <span>:</span> <span>{</span>
+        <span>"plannerVersion"</span> <span>:</span> <span>1</span>,
+        <span>"namespace"</span> <span>:</span> <span>"jobui_tmp.companyTmp"</span>,
+        <span>"indexFilterSet"</span> <span>:</span> false,
+        <span>"parsedQuery"</span> <span>:</span> <span>{</span>
+            <span>"<span>$and</span>"</span> <span>:</span> <span>[</span> 
+                <span>{</span>
+                    <span>"c"</span> <span>:</span> <span>{</span>
+                        <span>"<span>$eq</span>"</span> <span>:</span> <span>14298217.0</span>
+                    <span>}</span>
+                <span>}</span>, 
+                <span>{</span>
+                    <span>"d"</span> <span>:</span> <span>{</span>
+                        <span>"<span>$eq</span>"</span> <span>:</span> <span>"20210829"</span>
+                    <span>}</span>
+                <span>}</span>
+            <span>]</span>
+        <span>}</span>,
+        <span>"winningPlan"</span> <span>:</span> <span>{</span>
+            <span>"stage"</span> <span>:</span> <span>"FETCH"</span>,
+            <span>"inputStage"</span> <span>:</span> <span>{</span>
+                <span>"stage"</span> <span>:</span> <span>"IXSCAN"</span>,
+                <span>"keyPattern"</span> <span>:</span> <span>{</span>
+                    <span>"c"</span> <span>:</span> <span>1.0</span>,
+                    <span>"d"</span> <span>:</span> <span>-1.0</span>
+                <span>}</span>,
+                <span>"indexName"</span> <span>:</span> <span>"c_1_d_-1"</span>,
+                <span>"isMultiKey"</span> <span>:</span> false,
+                <span>"direction"</span> <span>:</span> <span>"forward"</span>,
+                <span>"indexBounds"</span> <span>:</span> <span>{</span>
+                    <span>"c"</span> <span>:</span> <span>[</span> 
+                        <span>"[14298217.0, 14298217.0]"</span>
+                    <span>]</span>,
+                    <span>"d"</span> <span>:</span> <span>[</span> 
+                        <span>"[<span title="\&quot;">\"</span>20210829<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>20210829<span title="\&quot;">\"</span>]"</span>
+                    <span>]</span>
+                <span>}</span>
+            <span>}</span>
+        <span>}</span>,
+        <span>"rejectedPlans"</span> <span>:</span> <span>[</span><span>]</span>
+    <span>}</span>,
+    <span>"serverInfo"</span> <span>:</span> <span>{</span>
+        <span>"host"</span> <span>:</span> <span>"localhost.localdomain"</span>,
+        <span>"port"</span> <span>:</span> <span>12000</span>,
+        <span>"version"</span> <span>:</span> <span>"3.0.7"</span>,
+        <span>"gitVersion"</span> <span>:</span> <span>"6ce7cbe8c6b899552dadd907604559806aa2e9bd"</span>
+    <span>}</span>,
+    <span>"ok"</span> <span>:</span> <span>1.0</span>
+<span>}</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="php7操作mongodb类" tabindex="-1"> php7操作mongodb类</h3>
 <div><pre><code><span><span>&lt;?php</span>
-<span>require_once</span> <span>'baseClassV4/listen/BaseCache.php'</span><span>;</span>
-<span>$redis</span> <span>=</span> <span>new</span> <span>BaseCache</span> <span>(</span><span>'redis'</span><span>,</span> <span>'default'</span><span>)</span><span>;</span>
-<span>$startTime</span> <span>=</span> <span>time</span><span>(</span><span>)</span><span>;</span>
-<span>$num</span> <span>=</span> <span>10</span><span>;</span>
-<span>$j</span> <span>=</span> <span>0</span><span>;</span>
-<span>$list</span> <span>=</span> <span>range</span><span>(</span><span>0</span><span>,</span> <span>1000</span><span>)</span><span>;</span>
-<span>$path</span> <span>=</span> <span>'baseClassV4/listen/BaseCache.php'</span><span>;</span>
+<span>/**
+ * desc
+ * version    1.0
+ * author    Zax
+ * date    2021/12/22
+ */</span>
 
-<span>$producer</span> <span>=</span> <span>function</span> <span>(</span><span>$parameters</span><span>)</span> <span>{</span> <span>// 线程调用回调函数体</span>
-	<span>$i</span> <span>=</span> <span>0</span><span>;</span>
-	<span>extract</span><span>(</span><span>$parameters</span><span>)</span><span>;</span> 
-	<span>foreach</span> <span>(</span><span>$list</span> <span>as</span> <span>$item</span><span>)</span> <span>{</span>
-		<span>$r</span> <span>=</span> <span>$redis</span><span>-></span><span>zIncrBy</span><span>(</span><span>'test'</span><span>,</span> <span>1</span><span>,</span> <span>$threadNum</span><span>)</span><span>;</span>
-		<span>if</span> <span>(</span><span>$r</span> <span>></span> <span>0</span><span>)</span> <span>{</span>
-			<span>$i</span><span>++</span><span>;</span>
-		<span>}</span>
-		<span>echo</span> <span>$threadNum</span> <span>.</span> <span>':'</span> <span>.</span> <span>$item</span> <span>.</span> <span>PHP_EOL</span><span>;</span>
-		<span>usleep</span><span>(</span><span>10000</span><span>)</span><span>;</span>
-	<span>}</span>
-	<span>return</span> <span>$i</span><span>;</span>
-<span>}</span><span>;</span>
 
-<span>function</span> <span>start_threads</span><span>(</span><span>$list</span><span>,</span> <span>$producer</span><span>,</span> <span>$threadNum</span> <span>=</span> <span>1</span><span>,</span> <span>$parameters</span> <span>=</span> <span>[</span><span>]</span><span>,</span> <span>$path</span> <span>=</span> <span>''</span><span>,</span> <span>$sleep</span> <span>=</span> <span>1</span><span>)</span>
-<span>{</span>
-	<span>$list</span> <span>=</span> <span>array_chunk</span><span>(</span><span>$list</span><span>,</span> <span>count</span><span>(</span><span>$list</span><span>)</span> <span>/</span> <span>$threadNum</span><span>)</span><span>;</span>
-	<span>foreach</span> <span>(</span><span>$list</span> <span>as</span> <span>$key</span> <span>=></span> <span>$item</span><span>)</span> <span>{</span>
-		<span>$parameters</span><span>[</span><span>'list'</span><span>]</span> <span>=</span> <span>$item</span><span>;</span>
-		<span>$parameters</span><span>[</span><span>'threadNum'</span><span>]</span> <span>=</span> <span>$key</span><span>;</span>
-		<span>$threads</span><span>[</span><span>$key</span><span>]</span> <span>=</span> <span>(</span><span>new</span> <span><span>\</span>parallel<span>\</span>Runtime</span><span>(</span><span>$path</span><span>)</span><span>)</span><span>-></span><span>run</span><span>(</span><span>$producer</span><span>,</span> <span>[</span><span>$parameters</span><span>]</span><span>)</span><span>;</span>
-	<span>}</span>
+<span>$manager</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>Manager</span><span>(</span><span>"mongodb://192.168.1.35:12000"</span><span>)</span><span>;</span>
 
-	<span>while</span> <span>(</span><span>!</span><span>empty</span><span>(</span><span>$threads</span><span>)</span><span>)</span> <span>{</span>
-		<span>foreach</span> <span>(</span><span>$threads</span> <span>as</span> <span>$key</span> <span>=></span> <span>&amp;</span><span>$thread</span><span>)</span> <span>{</span>
-			<span>if</span> <span>(</span><span>$thread</span><span>-></span><span>done</span><span>(</span><span>)</span><span>)</span> <span>{</span> <span>// 检测线程状态，返回true时线程运行完毕</span>
-				<span>$result</span> <span>=</span> <span>$thread</span><span>-></span><span>value</span><span>(</span><span>)</span><span>;</span> <span>// 获取线程内函数执行返回的结果</span>
-				<span>echo</span> <span>"ThreadId: <span><span>$key</span></span> => result: <span><span>{</span><span>$result</span><span>}</span></span> (End)\n"</span><span>;</span>
-				<span>unset</span><span>(</span><span>$threads</span><span>[</span><span>$key</span><span>]</span><span>)</span><span>;</span>
-			<span>}</span>
-		<span>}</span>
-		<span>sleep</span><span>(</span><span>$sleep</span><span>)</span><span>;</span>
-	<span>}</span>
+<span>//插入数据</span>
+<span>$bulk</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>BulkWrite</span><span>;</span>
+<span>$bulk</span><span>-></span><span>insert</span><span>(</span><span>[</span><span>'x'</span> <span>=></span> <span>1</span><span>,</span> <span>'name'</span><span>=></span><span>'菜鸟教程'</span><span>,</span> <span>'url'</span> <span>=></span> <span>'http://www.runoob.com'</span><span>]</span><span>)</span><span>;</span>
+<span>$bulk</span><span>-></span><span>insert</span><span>(</span><span>[</span><span>'x'</span> <span>=></span> <span>2</span><span>,</span> <span>'name'</span><span>=></span><span>'Google'</span><span>,</span> <span>'url'</span> <span>=></span> <span>'http://www.google.com'</span><span>]</span><span>)</span><span>;</span>
+<span>$bulk</span><span>-></span><span>insert</span><span>(</span><span>[</span><span>'x'</span> <span>=></span> <span>3</span><span>,</span> <span>'name'</span><span>=></span><span>'taobao'</span><span>,</span> <span>'url'</span> <span>=></span> <span>'http://www.taobao.com'</span><span>]</span><span>)</span><span>;</span>
+<span>$manager</span><span>-></span><span>executeBulkWrite</span><span>(</span><span>'test.sites'</span><span>,</span> <span>$bulk</span><span>)</span><span>;</span>
+
+<span>$filter</span> <span>=</span> <span>[</span><span>'x'</span> <span>=></span> <span>[</span><span>'$gt'</span> <span>=></span> <span>1</span><span>]</span><span>]</span><span>;</span>
+<span>$options</span> <span>=</span> <span>[</span>
+	<span>'projection'</span> <span>=></span> <span>[</span><span>'_id'</span> <span>=></span> <span>0</span><span>]</span><span>,</span>
+	<span>'sort'</span> <span>=></span> <span>[</span><span>'x'</span> <span>=></span> <span>-</span><span>1</span><span>]</span><span>,</span>
+<span>]</span><span>;</span>
+
+<span>// 查询数据</span>
+<span>$query</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>Query</span><span>(</span><span>$filter</span><span>,</span> <span>$options</span><span>)</span><span>;</span>
+<span>$cursor</span> <span>=</span> <span>$manager</span><span>-></span><span>executeQuery</span><span>(</span><span>'test.sites'</span><span>,</span> <span>$query</span><span>)</span><span>;</span>
+
+<span>foreach</span> <span>(</span><span>$cursor</span> <span>as</span> <span>$document</span><span>)</span> <span>{</span>
+	<span>print_r</span><span>(</span><span>$document</span><span>)</span><span>;</span>
 <span>}</span>
 
 
-<span>start_threads</span><span>(</span><span>$list</span><span>,</span> <span>$producer</span><span>,</span> <span>10</span><span>,</span> <span>[</span><span>'redis'</span> <span>=></span> <span>$redis</span><span>]</span><span>,</span> <span>$path</span><span>,</span> <span>1</span><span>)</span><span>;</span>
-</span></code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+<span>//更新数据</span>
+<span>$bulk</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>BulkWrite</span><span>;</span>
+<span>$bulk</span><span>-></span><span>update</span><span>(</span>
+	<span>[</span><span>'x'</span> <span>=></span> <span>2</span><span>]</span><span>,</span>
+	<span>[</span><span>'$set'</span> <span>=></span> <span>[</span><span>'name'</span> <span>=></span> <span>'菜鸟工具'</span><span>,</span> <span>'url'</span> <span>=></span> <span>'tool.runoob.com'</span><span>]</span><span>]</span><span>,</span>
+	<span>[</span><span>'multi'</span> <span>=></span> <span>false</span><span>,</span> <span>'upsert'</span> <span>=></span> <span>false</span><span>]</span>
+<span>)</span><span>;</span>
+
+<span>$writeConcern</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>WriteConcern</span><span>(</span><span>MongoDB<span>\</span>Driver<span>\</span>WriteConcern</span><span>::</span><span>MAJORITY</span><span>,</span> <span>1000</span><span>)</span><span>;</span>
+<span>$result</span> <span>=</span> <span>$manager</span><span>-></span><span>executeBulkWrite</span><span>(</span><span>'test.sites'</span><span>,</span> <span>$bulk</span><span>,</span> <span>$writeConcern</span><span>)</span><span>;</span>
+
+
+<span>//删除数据</span>
+<span>$bulk</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>BulkWrite</span><span>;</span>
+<span>$bulk</span><span>-></span><span>delete</span><span>(</span><span>[</span><span>'likes'</span> <span>=></span><span>[</span><span>'$gt'</span> <span>=></span> <span>30</span><span>]</span><span>]</span><span>,</span> <span>[</span><span>'limit'</span> <span>=></span> <span>0</span><span>]</span><span>)</span><span>;</span>   <span>// limit 为 1 时，删除第一条匹配数据</span>
+<span>//$bulk->delete(['x' => 2], ['limit' => 0]);   // limit 为 0 时，删除所有匹配数据</span>
+
+<span>$writeConcern</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>WriteConcern</span><span>(</span><span>MongoDB<span>\</span>Driver<span>\</span>WriteConcern</span><span>::</span><span>MAJORITY</span><span>,</span> <span>1000</span><span>)</span><span>;</span>
+<span>$result</span> <span>=</span> <span>$manager</span><span>-></span><span>executeBulkWrite</span><span>(</span><span>'jobui_tmp.autoRunRecord'</span><span>,</span> <span>$bulk</span><span>,</span> <span>$writeConcern</span><span>)</span><span>;</span>
+
+<span>exit</span><span>(</span><span>)</span><span>;</span>
+
+
+<span>//php5</span>
+
+<span>$m</span> <span>=</span> <span>new</span> <span>MongoClient</span><span>(</span><span>'mongodb://192.168.1.24:27017'</span><span>)</span><span>;</span> <span>// 连接默认主机和端口为：mongodb://localhost:27017</span>
+<span>$db</span> <span>=</span> <span>$m</span><span>-></span><span>count</span><span>;</span> <span>// 选择一个数据库</span>
+<span>$collection</span> <span>=</span> <span>$db</span><span>-></span><span>BlackList</span><span>;</span> <span>// 选择集合</span>
+
+<span>//插入</span>
+<span>//$db = $m->test; // 获取名称为 "test" 的数据库</span>
+<span>//$collection = $db->createCollection("runoob");</span>
+<span>//echo "集合创建成功";</span>
+<span>//$collection = $db->runoob; // 选择集合</span>
+<span>//$document = array(</span>
+<span>//	"title" => "MongoDB",</span>
+<span>//	"description" => "database",</span>
+<span>//	"likes" => 100,</span>
+<span>//	"url" => "http://www.runoob.com/mongodb/",</span>
+<span>//	"by", "菜鸟教程"</span>
+<span>//);</span>
+<span>//$collection->insert($document);</span>
+<span>//echo "数据插入成功";</span>
+
+
+<span>//$collection = $db->runoob; // 选择集合</span>
+
+<span>$cursor</span> <span>=</span> <span>$collection</span><span>-></span><span>find</span><span>(</span><span>[</span><span>'f'</span> <span>=></span> <span>'true'</span><span>]</span><span>)</span><span>;</span>
+<span>echo</span> <span>'&lt;pre>'</span><span>;</span>
+<span>while</span><span>(</span><span>$doc</span> <span>=</span> <span>$cursor</span><span>-></span><span>getNext</span><span>(</span><span>)</span><span>)</span> <span>{</span><span>//循环读取每个匹配的文档</span>
+	<span>print_r</span><span>(</span><span>$doc</span><span>)</span><span>;</span>
+<span>}</span>
+
+<span>echo</span> <span>'&lt;pre>'</span><span>;</span>
+<span>print_r</span><span>(</span><span>$cursor</span><span>)</span><span>;</span>
+<span>exit</span><span>(</span><span>)</span><span>;</span>
+
+</span></code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="mongo的aggregate聚合操作" tabindex="-1"> mongo的aggregate聚合操作</h3>
+<h4 id="mongodb中聚合-aggregate-的具体使用结合php" tabindex="-1"> mongoDB中聚合(aggregate)的具体使用结合PHP</h4>
+<p>最近在学习mongoDB的使用，本文来介绍一下其中aggregate的具体使用</p>
+<p>先来看一个分组的例子，本例中<code>$group</code>是一个管道操作符，获得的结果可以接着输出到下一个管道，而内部的<code>$sum</code>是一个表达式操作符。</p>
+<h4 id="用-group-举个例子" tabindex="-1"> 用<code>$group</code> 举个例子</h4>
+<div><pre><code>将document分组，用作统计结果
+
+    db.Ubisoft.aggregate([ // aggregate方法接收的是一个数组
+        {
+            $group: {
+                _id: '$time', 
+                num: {$sum: 1}
+            }
+        }
+    ])
+    // 这里的_id字段表示你要基于哪个字段来进行分组(即制定字段值相同的为一组)，这里的$time就表示要基于time字段来进行分组
+
+    // 下面的num字段的值$sum: 1表示的是获取满足time字段相同的这一组的数量乘以后面给定的值(本例为1，那么就是同组的数量)。
+12345678910111213
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>那么看完这个例子之后，mongoDB中还有其他的一些管道操作符和表达式操作符：</p>
+<h4 id="管道操作符" tabindex="-1"> 管道操作符</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">常用管道</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">$group</td>
+<td style="text-align:left">将collection中的document分组，可用于统计结果</td>
+</tr>
+<tr>
+<td style="text-align:left">$match</td>
+<td style="text-align:left">过滤数据，只输出符合结果的文档</td>
+</tr>
+<tr>
+<td style="text-align:left">$project</td>
+<td style="text-align:left">修改输入文档的结构(例如重命名，增加、删除字段，创建结算结果等)</td>
+</tr>
+<tr>
+<td style="text-align:left">$sort</td>
+<td style="text-align:left">将结果进行排序后输出</td>
+</tr>
+<tr>
+<td style="text-align:left">$limit</td>
+<td style="text-align:left">限制管道输出的结果个数</td>
+</tr>
+<tr>
+<td style="text-align:left">$skip</td>
+<td style="text-align:left">跳过制定数量的结果，并且返回剩下的结果</td>
+</tr>
+<tr>
+<td style="text-align:left">$unwind</td>
+<td style="text-align:left">将数组类型的字段进行拆分</td>
+</tr>
+</tbody>
+</table>
+<h4 id="表达式操作符" tabindex="-1"> 表达式操作符</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">常用表达式</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">$sum</td>
+<td style="text-align:left">计算总和，{KaTeX parse error: Expected 'EOF', got '}' at position 7: sum: 1}̲表示返回总和×1的值(即总和的…sum: ‘$制定字段’}也能直接获取制定字段的值的总和</td>
+</tr>
+<tr>
+<td style="text-align:left">$avg</td>
+<td style="text-align:left">平均值</td>
+</tr>
+<tr>
+<td style="text-align:left">$min</td>
+<td style="text-align:left">min</td>
+</tr>
+<tr>
+<td style="text-align:left">$max</td>
+<td style="text-align:left">max</td>
+</tr>
+<tr>
+<td style="text-align:left">$push</td>
+<td style="text-align:left">将结果文档中插入值到一个数组中</td>
+</tr>
+<tr>
+<td style="text-align:left">$first</td>
+<td style="text-align:left">根据文档的排序获取第一个文档数据</td>
+</tr>
+<tr>
+<td style="text-align:left">$last</td>
+<td style="text-align:left">同理，获取最后一个数据</td>
+</tr>
+</tbody>
+</table>
+<p>了解完这些操作符之后，继续拿<code>$group</code>来试试看：
+我们现在有一个名为Ubisoft的一个collection，内部的文档为：</p>
+<div><pre><code>/* 1 */
+{
+    "_id" : ObjectId("5b0cf67270e4fa02d31de42e"),
+    "name" : "rainbowSix Siege",
+    "time" : 400.0
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5b0cf69270e4fa02d31de42f"),
+    "name" : "Assassin's creed",
+    "time" : 20.0
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("5b0cf6ad70e4fa02d31de430"),
+    "name" : "ghost Recon",
+    "time" : 0.0
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("5b0d14c870e4fa02d31de436"),
+    "name" : "farCry",
+    "time" : 0.0
+}
+123456789101112131415161718192021222324252627
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>我们现在来试试其他的表达式操作符：</p>
+<div><pre><code>  db.Ubisoft.aggregate([
+       {
+           $group: {
+               _id: '$time',
+               gameName: {$push: '$name'}
+           }
+       }
+   ]) 
+12345678
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>返回结果为：</p>
+<div><pre><code>/* 1 */
+{
+    "_id" : 20.0,
+    "gameName" : [ 
+        "Assassin's creed"
+    ]
+}
+
+/* 2 */
+{
+    "_id" : 0.0,
+    "gameName" : [ 
+        "ghost Recon", 
+        "farCry"
+    ]
+}
+
+/* 3 */
+{
+    "_id" : 400.0,
+    "gameName" : [ 
+        "rainbowSix Siege"
+    ]
+}
+123456789101112131415161718192021222324
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到time字段相同的document被分为了一组，而且使用$push表达式，将我们制定的document的name字段的值也放到了一个数组中作为我们在mongoDB语句中制定的gameName的值。</p>
+<p>另外<code>$group</code>中可以制定<code>_id:null</code>, 即可以把所有的document分为一组，可以用于计算平均值之类的操作</p>
+<p>我们可以用<code>$</code>指定字段来表示选定的document的field,另外可以使用<code>$$ROOT</code>来表示选定的document的所有内容（例如:<code>chosenDocument: {$push: '$$ROOT'}</code>）</p>
+<p>上述例子基本介绍了表达式操作符的用法。</p>
+<p>接着来看<code>$match</code></p>
+<h4 id="match" tabindex="-1"> $match</h4>
+<div><pre><code> db.Ubisoft.aggregate([
+        {
+            $match: {
+                time: {$gte: 20} //选取time字段 >=20的document
+            }
+        }
+    ])
+1234567
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>这就拿到了所有time&gt;=20的document,然后可以通过再接个管道来进行其他操作，比如说我们再接一个<code>$group</code>来进行分组，显示筛选出来的所有time&gt;=20的document的个数。</p>
+<div><pre><code> db.Ubisoft.aggregate([
+        {
+            $match: {
+                time: {$gte: 20}
+            }
+        },
+        {
+            $group: {
+                _id: null, // _id: null表示全选
+                totalNum: {$sum: 1}
+            }
+        }
+    ])
+12345678910111213
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>输出结果为：</p>
+<div><pre><code>/* 1 */
+{
+    "_id" : null,
+    "totalNum" : 2.0
+}
+12345
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到time&gt;=20的document的个数为2</p>
+<h4 id="project投影" tabindex="-1"> project投影</h4>
+<p>修改输入文档的结构(例如重命名，增加、删除字段，创建结算结果等)</p>
+<p><code>$project</code>和直接使用<code>find()</code>的写法一样：</p>
+<div><pre><code>db.Ubisoft.aggregate([
+    {
+        $project: {
+            _id: 0,  //不显示_id字段
+        }
+    }
+])
+1234567
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>和我们直接写<code>db.Ubisoft.find({},{'_id': 0})</code>写法一样
+输出结果为：</p>
+<div><pre><code>/* 1 */
+{
+    "name" : "rainbowSix Siege",
+    "time" : 400.0
+}
+
+/* 2 */
+{
+    "name" : "Assassin's creed",
+    "time" : 20.0
+}
+
+/* 3 */
+{
+    "name" : "ghost Recon",
+    "time" : 0.0
+}
+
+/* 4 */
+{
+    "name" : "farCry",
+    "time" : 0.0
+}
+1234567891011121314151617181920212223
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到没有<code>_id</code>字段了。</p>
+<p>那么我们现在如果想拿到所有time&gt;=20的document的name字段的话，可以把管道搭配起来用：</p>
+<div><pre><code>db.Ubisoft.aggregate([
+    {
+        $match: {
+            time: {$gte: 20}
+        }
+    },
+    {
+        $project: {
+            _id: 0, // _id不显示
+            name: 1 // name是要显示的
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            name: {$push: '$name'}
+        }
+    }
+])
+12345678910111213141516171819
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>输出结果为：</p>
+<div><pre><code>/* 1 */
+{
+    "_id" : null,
+    "name" : [ 
+        "rainbowSix Siege", 
+        "Assassin's creed"
+    ]
+}
+12345678
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="sort" tabindex="-1"> $sort</h4>
+<p><code>$sort</code>和我们find()中排序的写法也是一样的。</p>
+<p>现在我们想将所有的document按照time降序来排列的话：</p>
+<p>和<code>db.Ubisoft.find().sort({time: -1})</code>写法是一样的:</p>
+<div><pre><code>db.Ubisoft.aggregate([
+    {
+        $sort: {
+            time: -1
+        }
+    }
+])
+1234567
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>同理，<code>$sort</code>也可以和其他管道搭配使用</p>
+<h4 id="limit-skip" tabindex="-1"> $limit $skip</h4>
+<p>和<code>limit()</code>以及<code>skip()</code>的写法也是一样的。</p>
+<div><pre><code>db.Ubisoft.find().skip(1).limit(2)
+1
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>使用聚合可以写成：</p>
+<div><pre><code>db.Ubisoft.aggregate([
+    {
+        $skip: 1
+    },
+    {
+        $limit: 2
+    }
+])
+12345678
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>limit和skip搭配使用可以达到分页的效果。</p>
+<p>注意先写skip在写limit</p>
+<h4 id="unwind" tabindex="-1"> $unwind</h4>
+<p><code>$unwind</code>管道可以document中的数组类型的字段进行拆分，每条包含数组中的一个值。</p>
+<ul>
+<li>基本使用
+在Ubisoft这个集合里新增如下一条document:</li>
+</ul>
+<div><pre><code>/* 5 */
+{
+    "_id" : ObjectId("5b0e242ed85f6f9cc56da7cc"),
+    "name" : "gameList",
+    "list" : [ 
+        "dota2", 
+        "csgo", 
+        "ow"
+    ]
+}
+12345678910
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>我们针对这个document中的list字段来进行<code>$unwind</code></p>
+<div><pre><code>db.Ubisoft.aggregate([
+    {
+        $unwind: '$list' // 指定list字段
+    }
+])
+12345
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>输出结果为：</p>
+<div><pre><code>/* 1 */
+{
+    "_id" : ObjectId("5b0e242ed85f6f9cc56da7cc"),
+    "name" : "gameList",
+    "list" : "dota2"
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5b0e242ed85f6f9cc56da7cc"),
+    "name" : "gameList",
+    "list" : "csgo"
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("5b0e242ed85f6f9cc56da7cc"),
+    "name" : "gameList",
+    "list" : "ow"
+}
+1234567891011121314151617181920
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到unwind是将文档中的数组字段进行拆分，如果有其他文档的list字段也是数组，也会一并拆分。</p>
+<ul>
+<li>特殊情况下的unwind(空数组，null,非数组，无指定字段)</li>
+</ul>
+<p>针对特殊情况，新建一个colletion,内容为：</p>
+<div><pre><code>/* 1 */
+{
+    "_id" : ObjectId("5b0e27fdd85f6f9cc56da7ce"),
+    "list" : null
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5b0e2827d85f6f9cc56da7cf"),
+    "list" : []
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("5b0e2834d85f6f9cc56da7d0"),
+    "list" : "notArray"
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("5b0e2844d85f6f9cc56da7d1")
+}
+12345678910111213141516171819202122
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>来进行<code>$unwind</code>，</p>
+<div><pre><code>db.unwind.aggregate([
+    {
+        $unwind: '$list'
+    }
+])
+12345
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>输出结果为：</p>
+<div><pre><code>/* 1 */
+{
+    "_id" : ObjectId("5b0e2834d85f6f9cc56da7d0"),
+    "list" : "notArray"
+}
+12345
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到<code>[]</code>,<code>null</code>,以及无指定字段的数据都丢失了，
+为了不丢失数据，我们可以写成：</p>
+<div><pre><code>db.unwind.aggregate([
+    {
+        $unwind: {
+            path: '$list', // path是指定字段
+            preserveNullAndEmptyArrays: true //该属性为true即保留
+        }
+    }
+])
+12345678
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>这次输出结果就保留了null以及空数组，值得关注的就是<code>preserveNullAndEmptyArrays</code>这个属性，为true的时候就保留。</p>
+<p>下面结合PHP 代码</p>
+<div><pre><code>//$server 根据自己的服务器来
+$mongo =  new \MongoClient($server, array('connect'=>true));// 立即连接
+
+$db = $mongo->colName;//选择数据库
+$collection = $db->file_log;//选择文档集合
+
+$filter["status"] = array("\$in" => array(0, 2, 5)); 
+$filter["a_id"] = array("\$eq" => $a_id);
+$group = array("_id" => array(
+                "md5" => "\$md5",
+                "path" => "\$path",
+                "a_id"=>"\$a_id"
+            ),
+                "time" => array("\$last" => "\$found_time"),
+                "l_id" => array("\$last" => "\$_id"),
+                "v_name" => array("\$last" => "\$v_name"),
+                "c_iso_key" => array("\$last" => "\$c_iso_key"),
+                "status" => array("\$last" => "\$status"),
+                "h_msg" => array("\$last" => "\$h_msg"),
+                "r_level" => array("\$last" => "\$r_level"),
+            );
+$sort = array("time" => 1); //根据时间排序
+$limit = 5;
+//即以md5、path、a_id分组获取字段为found_time、_id、v_name 最后一个数据、时间倒叙、取出5条
+$res = $collection->aggregate(array('$match' => $filter),array('$group' => $group),array('$sort' => $sort),array('$limit'=>(int)$limit));
+12345678910111213141516171819202122232425
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_id:</td>
+<td>15110</td>
+</tr>
+<tr>
+<td>cid</td>
+<td>1236</td>
+</tr>
+<tr>
+<td>n</td>
+<td>10</td>
+</tr>
+<tr>
+<td>d</td>
+<td>20220304</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_id:</td>
+<td>15110</td>
+</tr>
+<tr>
+<td>cid</td>
+<td>[1236,1239,78234]</td>
+</tr>
+<tr>
+<td>d</td>
+<td>20220304</td>
+</tr>
+</tbody>
+</table>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>mysql</title>
+      <link>https://newzone.top/services/mysql.html</link>
+      <guid>https://newzone.top/services/mysql.html</guid>
+      <source url="https://newzone.top/rss.xml">mysql</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="mysql" tabindex="-1"> mysql</h1>
+<h3 id="连接" tabindex="-1"> 连接</h3>
+<div><pre><code>mysql
+</code></pre><div aria-hidden="true"><div></div></div></div><p>导入数据</p>
+<div><pre><code>/web/software/mysql/bin/mysql <span>-u</span> baicai_w <span>-p</span> zabbix <span>&lt;</span> zabbix.sql
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="数据库-145-百才" tabindex="-1"> 数据库：145（百才）</h3>
+<p>登记求职和要求流动服务人员（人）：128（baicai_personal.tb_personal_info/PI_RegisterTime大于要查询时间）</p>
+<div><pre><code>SELECT COUNT(PI_PersonalID) FROM `baicai_personal`.`tb_personal_info` WHERE `PI_RegisterTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>其中大专及以下学历人数：58（tb_personal_info_baseinfo， PIB_Degree=2、3、4）</p>
+<div><pre><code>SELECT COUNT(PIB_PersonalID) FROM `baicai_personal`.`tb_personal_info_baseinfo` WHERE `PIB_Degree` IN (2,3,4) AND `PIB_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>本科学历人数：27（PIB_Degree=5）</p>
+<div><pre><code>SELECT COUNT(PIB_PersonalID) FROM `baicai_personal`.`tb_personal_info_baseinfo` WHERE `PIB_Degree` = '5' AND `PIB_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>研究生及以上学历人数：3（PIB_Degree=6）</p>
+<div><pre><code>SELECT COUNT(PIB_PersonalID) FROM `baicai_personal`.`tb_personal_info_baseinfo` WHERE `PIB_Degree` = '6' AND `PIB_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>服务用人单位数（个）：1,884,188（tb_company_info）</p>
+<p>国企、事业单位：6（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+ORDER+BY+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=7、8、9）</p>
+<div><pre><code>SELECT COUNT(CI_CompanyID) FROM `baicai_company`.`tb_company_info` WHERE `CI_CompanyType` IN (7,8,9) AND `CI_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>民营：181（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+ORDER+BY+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=6）</p>
+<div><pre><code>SELECT COUNT(CI_CompanyID) FROM `baicai_company`.`tb_company_info` WHERE `CI_CompanyType` = '6' AND `CI_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>外资：146（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+ORDER+BY+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=2）</p>
+<div><pre><code>SELECT COUNT(CI_CompanyID) FROM `baicai_company`.`tb_company_info` WHERE `CI_CompanyType` = '2' AND `CI_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>其他：14（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+ORDER+BY+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=99）</p>
+<div><pre><code>SELECT COUNT(CI_CompanyID) FROM `baicai_company`.`tb_company_info` WHERE `CI_CompanyType` = '99' AND `CI_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>数据库现存职位信息总量：23,258,401（tb_job_info_status）</p>
+<p>全年新增入库求职信息：571 （JIS_AddTime&gt;=查询时间）</p>
+<div><pre><code>SELECT COUNT(JIS_JobID) FROM `baicai_company`.`tb_job_info_status` WHERE `JIS_AddTime` &gt; '1622476800' 
+</code></pre><div aria-hidden="true"><div></div></div></div><p>发布求职人次数：334（目前：baicai_personal.tb_resume_status，RS_LastUpdateTime&gt;=查询时间）</p>
+<div><pre><code>SELECT COUNT(RS_ResumeID) FROM `baicai_personal`.`tb_resume_status` WHERE `RS_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>发布求职信息（条）：251339</p>
+<div><pre><code>SELECT COUNT(JIS_JobID) FROM `baicai_company`.`tb_job_info_status` WHERE `JIS_IsPublish` = 'Y' AND `JIS_LastUpdateTime` &gt; '1622476800'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>20210601：1622476800</p>
+<p>20210930：1632886769</p>
+<p><strong>pc(pv):</strong></p>
+<p><strong>pc(uv):</strong></p>
+<p><strong>mobile(pv):</strong></p>
+<p><strong>mobile(uv):</strong></p>
+<p>服务人总数（PV）：</p>
+<p>帮助实现就业和流动人数（UV）：</p>
+<p>登记招聘人数（人次）：0</p>
+<p>登记求职和要求流动服务人员（人）：128（baicai_personal.tb_personal_info/PI_RegisterTime大于要查询时间）</p>
+<p>其中大专及以下学历人数：58（tb_personal_info_baseinfo， PIB_Degree=2、3、4）</p>
+<p>本科学历人数：27（PIB_Degree=5）</p>
+<p>研究生及以上学历人数：3（PIB_Degree=6）</p>
+<p>服务用人单位数（个）：1,883,862 （tb_company_info）</p>
+<p>国企、事业单位：20（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+%60tb_company_info%60+ORDER+BY+%60tb_company_info%60.%60CI_CompanyType%60+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=7、8、9）</p>
+<p>民营：274（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+%60tb_company_info%60+ORDER+BY+%60tb_company_info%60.%60CI_CompanyType%60+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=6）</p>
+<p>外资：254（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+%60tb_company_info%60+ORDER+BY+%60tb_company_info%60.%60CI_CompanyType%60+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=2）</p>
+<p>其他：40（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+%60tb_company_info%60+ORDER+BY+%60tb_company_info%60.%60CI_CompanyType%60+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=99）</p>
+<p>建立人力资源数据库：1</p>
+<p>数据库现存职位信息总量：23,261,938（tb_job_info_status）</p>
+<p>全年新增入库求职信息：571</p>
+<p>发布求职人次数：334</p>
+<p>发布求职信息（条）：251339</p>
+<p>现存档案数量（份）：6,033,500</p>
+<p>依托档案提供服务（人次）：0</p>
+<h3 id="统计一个字段相同数字出现的频率" tabindex="-1"> 统计一个字段相同数字出现的频率</h3>
+<div><pre><code>SELECT UVEL_UserID,COUNT(1) as number FROM tb_user_status_export GROUP BY UVEL_UserID ORDER BY COUNT(1) DESC
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="删除自动递增的id" tabindex="-1"> 删除自动递增的id</h3>
+<div><pre><code>ALTER TABLE tb_data_tmp_company AUTO_INCREMENT = 1;
+</code></pre><div aria-hidden="true"><div></div></div></div><div><pre><code>UPDATE `jobui_data_day`.`jobui_data_company-2022-day_copy1` SET DC_Area=CONCAT('0',`DC_Area`) where char_length(`DC_Area`)=5
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="hr-相关通知开发" tabindex="-1"> HR 相关通知开发</h3>
+<p>绑定微信企业总数 804</p>
+<div><pre><code>SELECT COUNT(`UWM_ID`) FROM `jobui_user`.`tb_user_wx_mapping` WHERE `UWM_CompanyID` &lt;&gt; '0'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>留言反馈总量：278176</p>
+<p>已推送：586</p>
+<div><pre><code>SELECT COUNT(`UOA_ID`) FROM `jobui_user`.`tb_user_online_ask` WHERE `UOA_IsDelete` = 'N'
+
+SELECT COUNT(`UOA_ID`) FROM `jobui_user`.`tb_user_online_ask` WHERE `UOA_IsDelete` = 'N' AND `UOA_PushStatus` = 'Y'
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><p>面试经验总量：18922</p>
+<p>已推送：178</p>
+<div><pre><code>SELECT COUNT(*) FROM `jobui_company`.`tb_company_interview_experience-list`
+SELECT COUNT(*) FROM `jobui_company`.`tb_company_interview_experience-list`  WHERE `CIE_PushStatus` = 'Y'
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>长评：478498</p>
+<p>已推送：94</p>
+<div><pre><code>SELECT COUNT(*) FROM `jobui_company`.`tb_company_review-list`
+SELECT COUNT(*) FROM `jobui_company`.`tb_company_review-list` WHERE `CR_PushStatus` = 'Y'
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>短评：999118</p>
+<p>已推送：119</p>
+<div><pre><code>SELECT COUNT(*) FROM `jobui_company`.`tb_company_comment-list`
+SELECT COUNT(*) FROM `jobui_company`.`tb_company_comment-list` WHERE `CC_PushStatus` = 'Y'
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>redis</title>
+      <link>https://newzone.top/services/redis.html</link>
+      <guid>https://newzone.top/services/redis.html</guid>
+      <source url="https://newzone.top/rss.xml">redis</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="redis" tabindex="-1"> redis</h1>
+<h3 id="启动redis-server" tabindex="-1"> 启动redis-server</h3>
+<div><pre><code><span># 配置后台启动，且端口是 1123</span>
+redis-server ./redis.conf <span>--daemonize</span> <span>yes</span> <span>--port</span> <span>1123</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="连接redis" tabindex="-1"> 连接redis</h3>
+<div><pre><code>redis-cli <span>-h</span> <span>hostname</span> <span>-p</span> <span>6381</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="查看redis状态" tabindex="-1"> 查看redis状态</h3>
+<div><pre><code><span>></span>info all
+<span>></span>info Stats
+connected_clients:68  <span>#连接的客户端数量</span>
+used_memory_rss_human:847.62M <span>#系统给redis分配的内存</span>
+used_memory_peak_human:794.42M  <span>#内存使用的峰值大小</span>
+total_connections_received:619104 <span>#服务器已接受的连接请求数量</span>
+instantaneous_ops_per_sec:1159 <span>#服务器每秒钟执行的命令数量</span>
+instantaneous_input_kbps:55.85 <span>#redis网络入口kps</span>
+instantaneous_output_kbps:3553.89 <span>#redis网络出口kps</span>
+rejected_connections:0 <span>#因为最大客户端数量限制而被拒绝的连接请求数量</span>
+expired_keys:0 <span>#因为过期而被自动删除的数据库键数量</span>
+evicted_keys:0 <span>#因为最大内存容量限制而被驱逐（evict）的键数量</span>
+keyspace_hits:0 <span>#查找数据库键成功的次数</span>
+keyspace_misses:0 <span>#查找数据库键失败的次数</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="数据类型" tabindex="-1"> 数据类型</h3>
+<p>Redis支持五种数据类型：string（字符串），hash（哈希），list（列表），set（集合）及zset(sorted set：有序集合)。</p>
+<h3 id="基础命令" tabindex="-1"> 基础命令</h3>
+<p>查看所有key</p>
+<div><pre><code>127.0.0.1:6379>KEYS pattern
+127.0.0.1:6379>KEYS *
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>查看当前redis的配置文件</p>
+<div><pre><code>redis-cli info <span>|</span> <span>grep</span> config
+</code></pre><div aria-hidden="true"><div></div></div></div><h4 id="string类型" tabindex="-1"> string类型</h4>
+<p>设置、获取、删除单个值</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> <span>set</span> key1
+<span>127.0</span>.0.1:637<span><span>9</span>></span> get key1
+<span>127.0</span>.0.1:637<span><span>9</span>></span> del key1
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><p>批量获取、设置值</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> mset key1 <span>"Hello"</span> key2 <span>"World"</span>
+<span>127.0</span>.0.1:637<span><span>9</span>></span> mget key1 key2
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>设置有实效的数据</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> setex key1 <span>10</span> value
+<span>127.0</span>.0.1:637<span><span>9</span>></span> psetex key1 <span>10</span> value
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>追加数据</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> append key1 value
+</code></pre><div aria-hidden="true"><div></div></div></div><p>自增自减</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> incr key1
+<span>127.0</span>.0.1:637<span><span>9</span>></span> decr key1
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>指定数量自增自减</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> incrby key1
+<span>127.0</span>.0.1:637<span><span>9</span>></span> decrby key1
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h4 id="hash类型" tabindex="-1"> hash类型</h4>
+<p>设置、获取、删除数据</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> hset key field value
+<span>127.0</span>.0.1:637<span><span>9</span>></span> hget key field 
+<span>127.0</span>.0.1:637<span><span>9</span>></span> hgetall key 
+<span>127.0</span>.0.1:637<span><span>9</span>></span> hdel key field1 field2 
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><p>获取哈希表里的字段名或者字段值</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> hkeys key
+<span>127.0</span>.0.1:637<span><span>9</span>></span> hvals key
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>哈希表自增自减一个指定数值</p>
+<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> hincrby key field <span>10</span>
+
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="查看redis状态-1" tabindex="-1"> 查看redis状态</h3>
+<div><pre><code><span>sudo</span> systemctl status redis-server
+</code></pre><div aria-hidden="true"><div></div></div></div><div><pre><code>connected_clients:68  <span>#连接的客户端数量</span>
+used_memory_rss_human:847.62M <span>#系统给redis分配的内存</span>
+used_memory_peak_human:794.42M  <span>#内存使用的峰值大小</span>
+total_connections_received:619104 <span>#服务器已接受的连接请求数量</span>
+instantaneous_ops_per_sec:1159 <span>#服务器每秒钟执行的命令数量</span>
+instantaneous_input_kbps:55.85 <span>#redis网络入口kps</span>
+instantaneous_output_kbps:3553.89 <span>#redis网络出口kps</span>
+rejected_connections:0 <span>#因为最大客户端数量限制而被拒绝的连接请求数量</span>
+expired_keys:0 <span>#因为过期而被自动删除的数据库键数量</span>
+evicted_keys:0 <span>#因为最大内存容量限制而被驱逐（evict）的键数量</span>
+keyspace_hits:0 <span>#查找数据库键成功的次数</span>
+keyspace_misses:0 <span>#查找数据库键失败的次数</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h2 id="redis集群" tabindex="-1"> redis集群</h2>
+<blockquote>
+<p>集群配置文件路径：/web/bcshell/cache/redis/redisCluster</p>
+<p>其中一个主节点配置一个从节点配置redis_145_master.conf redis_137_slave.conf</p>
+<p>采用错开部署方式，145一个主节点一个134的从节点，137一个主节点一个136的从节点，136一个主节点一个137的从节点，134一个主节点一个145的从节点，作用是其中任何一台宕机都不会影响redis正常运行。</p>
+</blockquote>
+<div><pre><code><span># 端口</span>
+port <span>6850</span>
+<span># 启用集群模式</span>
+cluster-enabled <span>yes</span> 
+<span># 根据你启用的节点来命名，最好和端口保持一致，这个是用来保存其他节点的名称，状态等信息的</span>
+cluster-config-file nodes_136_6850.conf 
+<span># 超时时间</span>
+cluster-node-timeout <span>5000</span>
+appendonly <span>yes</span>
+<span># 后台运行</span>
+daemonize <span>yes</span>
+<span># 非保护模式</span>
+protected-mode no 
+<span># 最大内存</span>
+maxmemory 4096M
+<span># lru模式</span>
+maxmemory-policy allkeys-lru
+
+pidfile  /var/run/redis_6850.pid
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="创建集群" tabindex="-1"> 创建集群</h3>
+<div><pre><code><span>#--cluster-replicas 1参数表示每个主节点后面自动创建从节点</span>
+redis-cli <span>--cluster</span> create <span>192.168</span>.2.145:6850 <span>192.168</span>.2.137:6850 <span>192.168</span>.2.136:6850 <span>192.168</span>.2.136:6851 <span>192.168</span>.2.137:6851 <span>192.168</span>.2.145:6851 --cluster-replicas <span>1</span>
+
+redis-cli <span>--cluster</span> create <span>192.168</span>.1.35:7001 <span>192.168</span>.1.35:7002 <span>192.168</span>.1.35:7003 <span>192.168</span>.1.35:7004 <span>192.168</span>.1.35:7005 <span>192.168</span>.1.35:7006 --cluster-replicas <span>1</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h3 id="正式创建流程" tabindex="-1"> 正式创建流程</h3>
+<div><pre><code><span>#只创建四个主节点，从节点手动配置(为了指定从节点)，添加从节点到主节点时不需要分配槽，添加主节点才需要</span>
+redis-cli <span>--cluster</span> create <span>192.168</span>.2.145:6850 <span>192.168</span>.2.134:6850 <span>192.168</span>.2.136:6850 <span>192.168</span>.2.137:6850
+
+<span>#添加从节点到主节点，先查一遍主节点id列表</span>
+<span>192.168</span>.2.145:685<span><span>0</span>></span> cluster nodes
+2e33878a625c2593c82438245152575c80fe9f4e <span>192.168</span>.2.134:6850@16850 master - <span>0</span> <span>1642588068170</span> <span>2</span> connected <span>4096</span>-8191
+0e6a6ce1f1cda274d37eb9038b6040e50889b6f8 <span>192.168</span>.2.136:6850@16850 master - <span>0</span> <span>1642588067168</span> <span>3</span> connected <span>8192</span>-12287
+6444c437523ebd5e8a359181749b2f737ad55040 <span>192.168</span>.2.137:6850@16850 master - <span>0</span> <span>1642588068670</span> <span>4</span> connected <span>12288</span>-16383
+9dc220f824f1e8a244721f7dac186d0ea3bf743c <span>192.168</span>.2.145:6850@16850 myself,master - <span>0</span> <span>1642588066000</span> <span>1</span> connected <span>0</span>-4095
+
+<span>#134:6851添加为145:6850从节点</span>
+redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.134:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c
+
+<span>#145:6851添加为134:6850从节点</span>
+redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.145:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 2e33878a625c2593c82438245152575c80fe9f4e
+
+<span>#136:6851添加为137:6850从节点</span>
+redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.136:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 6444c437523ebd5e8a359181749b2f737ad55040
+
+<span>#137:6851添加为136:6850从节点</span>
+redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.137:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 0e6a6ce1f1cda274d37eb9038b6040e50889b6f8
+
+<span>#注释：</span>
+<span>#--cluster-slave，表示添加的是从节点</span>
+<span>#--cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c,主节点的node id</span>
+<span>#192.168.2.134:6851,新节点</span>
+<span>#192.168.2.145:6850集群任一个主节点</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>添加后查看下节点如下，四主四从配置成功</p>
+<div><pre><code><span>192.168</span>.2.145:685<span><span>0</span>></span> cluster nodes
+0e6a6ce1f1cda274d37eb9038b6040e50889b6f8 <span>192.168</span>.2.136:6850@16850 master - <span>0</span> <span>1642589271961</span> <span>3</span> connected <span>8192</span>-12287
+2e33878a625c2593c82438245152575c80fe9f4e <span>192.168</span>.2.134:6850@16850 master - <span>0</span> <span>1642589271458</span> <span>2</span> connected <span>4096</span>-8191
+d493956d2fb46575e3ed4ee53a64f8ab5edfd97b <span>192.168</span>.2.145:6851@16851 slave 2e33878a625c2593c82438245152575c80fe9f4e <span>0</span> <span>1642589273462</span> <span>2</span> connected
+d4771a0b28c54652673c624216d3e08ba0cfe678 <span>192.168</span>.2.137:6851@16851 slave 0e6a6ce1f1cda274d37eb9038b6040e50889b6f8 <span>0</span> <span>1642589271000</span> <span>3</span> connected
+9dc220f824f1e8a244721f7dac186d0ea3bf743c <span>192.168</span>.2.145:6850@16850 myself,master - <span>0</span> <span>1642589269000</span> <span>1</span> connected <span>0</span>-4095
+99f84ea83b2e42eaf35a899cfdae86a8a31b739d <span>192.168</span>.2.136:6851@16851 slave 6444c437523ebd5e8a359181749b2f737ad55040 <span>0</span> <span>1642589272000</span> <span>4</span> connected
+4310ce12de0382bcdcc22dcd2f865ac95ec81d61 <span>192.168</span>.2.134:6851@16851 slave 9dc220f824f1e8a244721f7dac186d0ea3bf743c <span>0</span> <span>1642589272461</span> <span>1</span> connected
+6444c437523ebd5e8a359181749b2f737ad55040 <span>192.168</span>.2.137:6850@16850 master - <span>0</span> <span>1642589271000</span> <span>4</span> connected <span>12288</span>-16383
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="操作集群-进入集群操作" tabindex="-1"> 操作集群（进入集群操作）</h3>
+<div><pre><code><span>#集群(cluster) </span>
+<span>1</span>. CLUSTER INFO 打印集群的信息 
+<span>2</span>. CLUSTER NODES 列出集群当前已知的所有节点（node），以及这些节点的相关信息。  
+<span>3</span>. CLUSTER MEET <span>&lt;</span>ip<span>></span> <span>&lt;</span>port<span>></span> 将 <span>ip</span> 和 port 所指定的节点添加到集群当中，让它成为集群的一份子。 
+<span>4</span>. CLUSTER FORGET <span>&lt;</span>node_id<span>></span> 从集群中移除 node_id 指定的节点。 
+<span>5</span>. CLUSTER REPLICATE <span>&lt;</span>node_id<span>></span> 将当前节点设置为 node_id 指定的节点的从节点。 
+<span>6</span>. CLUSTER SAVECONFIG 将节点的配置文件保存到硬盘里面。  
+
+<span>#槽(slot) </span>
+<span>1</span>. CLUSTER ADDSLOTS <span>&lt;</span>slot<span>></span> <span>[</span>slot <span>..</span>.<span>]</span> 将一个或多个槽（slot）指派（assign）给当前节点。 
+<span>2</span>. CLUSTER DELSLOTS <span>&lt;</span>slot<span>></span> <span>[</span>slot <span>..</span>.<span>]</span> 移除一个或多个槽对当前节点的指派。 
+<span>3</span>. CLUSTER FLUSHSLOTS 移除指派给当前节点的所有槽，让当前节点变成一个没有指派任何槽的节点。 
+<span>4</span>. CLUSTER SETSLOT <span>&lt;</span>slot<span>></span> NODE <span>&lt;</span>node_id<span>></span> 将槽 slot 指派给 node_id 指定的节点，如果槽已经指派给另一个节点，那么先让另一个节点删除该槽<span>></span>，然后再进行指派。 
+<span>5</span>. CLUSTER SETSLOT <span>&lt;</span>slot<span>></span> MIGRATING <span>&lt;</span>node_id<span>></span> 将本节点的槽 slot 迁移到 node_id 指定的节点中。 
+<span>6</span>. CLUSTER SETSLOT <span>&lt;</span>slot<span>></span> IMPORTING <span>&lt;</span>node_id<span>></span> 从 node_id 指定的节点中导入槽 slot 到本节点。 
+<span>7</span>. CLUSTER SETSLOT <span>&lt;</span>slot<span>></span> STABLE 取消对槽 slot 的导入（import）或者迁移（migrate）。  
+<span>8</span>.  
+
+<span>#键 (key) </span>
+<span>1</span>. CLUSTER KEYSLOT <span>&lt;</span>key<span>></span> 计算键 key 应该被放置在哪个槽上。 
+<span>2</span>. CLUSTER COUNTKEYSINSLOT <span>&lt;</span>slot<span>></span> 返回槽 slot 目前包含的键值对数量。 
+<span>3</span>. CLUSTER GETKEYSINSLOT <span>&lt;</span>slot<span>></span> <span>&lt;</span>count<span>></span> 返回 count 个 slot 槽中的键。 
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="集群异常处理" tabindex="-1"> 集群异常处理</h3>
+<p>查看集群状态</p>
+<div><pre><code>redis-cli <span>--cluster</span> check <span>192.168</span>.2.145:6850
+</code></pre><div aria-hidden="true"><div></div></div></div><p>修复集群slot槽丢失问题</p>
+<div><pre><code>redis-cli <span>--cluster</span> fix <span>192.168</span>.2.145:6850
+</code></pre><div aria-hidden="true"><div></div></div></div><p>自动平衡集群中的各节点哈希槽数</p>
+<div><pre><code>redis-cli <span>--cluster</span> rebalance --cluster-use-empty-masters <span>192.168</span>.2.145:6850
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="添加一个新节点" tabindex="-1"> 添加一个新节点</h3>
+<p>添加主节点</p>
+<div><pre><code>redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.134:6850 <span>192.168</span>.2.136:6850
+<span>#注释：</span>
+<span>#192.168.2.134:6850是新增的节点</span>
+<span>#192.168.2.136:6850集群任一个旧节点</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><p>添加从节点</p>
+<div><pre><code>redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.134:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c
+<span>#注释：</span>
+<span>#--cluster-slave，表示添加的是从节点</span>
+<span>#--cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c,主节点的node id</span>
+<span>#192.168.2.134:6851,新节点</span>
+<span>#192.168.2.145:6850集群任一个旧节点</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="redis压力测试" tabindex="-1"> redis压力测试</h3>
+<p>redis-benchmark
+redis基准信息，redis服务器性能检测
+redis-benchmark -h localhost -p 6379 -c 100 -n 100000
+100个并发连接，100000个请求，检测host为localhost 端口为6379的redis服务器性能</p>
+<div><pre><code>f3fcf506ecc274c48400e84e1bc477316915a3ba <span>192.168</span>.2.145:6851@16851 slave 3a70fe2649fe7a58574582b92a9e11b4904b9585 <span>0</span> <span>1641892745000</span> <span>9</span> connected
+3a70fe2649fe7a58574582b92a9e11b4904b9585 <span>192.168</span>.2.137:6850@16850 myself,master - <span>0</span> <span>1641892746000</span> <span>9</span> connected <span>10923</span>-16383
+b8c3bc12879b22a3ab598c402eb30fb332d25b67 <span>192.168</span>.2.136:6851@16851 master - <span>0</span> <span>1641892744480</span> <span>10</span> connected <span>0</span>-5460
+406b33b2b7e588ab04d11a72b20c697b37b761e3 <span>192.168</span>.2.137:6851@16851 master - <span>0</span> <span>1641892745483</span> <span>6</span> connected <span>5461</span>-10922
+c06d455b7d9873235e996edcb23354e3d8045576 <span>192.168</span>.2.136:6850@16850 slave 406b33b2b7e588ab04d11a72b20c697b37b761e3 <span>0</span> <span>1641892746484</span> <span>6</span> connected
+63598fd0cdfe4395b014ec039f597649a2af1fb3 <span>192.168</span>.2.145:6850@16850 slave b8c3bc12879b22a3ab598c402eb30fb332d25b67 <span>0</span> <span>1641892746000</span> <span>10</span> connected
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>

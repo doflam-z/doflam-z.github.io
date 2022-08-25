@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta property="og:url" content="https://doflam-z.github.io/linux/debian10.html"><meta property="og:site_name" content="CodeNote"><meta property="og:title" content="debian10"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-08-25T09:01:21.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:modified_time" content="2022-08-25T09:01:21.000Z"><title>debian10 | CodeNote</title><meta name="description" content="开源工具、效率方法、心理学探索的自我提升笔记，记录并输出一切能让自己提升的知识。">
+    <meta name="keywords" content="自我提升,效率提升,开源工具,学习笔记" />
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.65a328d2.css">
+    <link rel="modulepreload" href="/assets/app.967b4e7a.js"><link rel="modulepreload" href="/assets/debian10.html.2f85734f.js"><link rel="modulepreload" href="/assets/plugin-vue_export-helper.21dcd24c.js"><link rel="modulepreload" href="/assets/debian10.html.71493954.js">
+    <!-- Matomo 此区块为统计代码，请删除-->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="https://piwik.seoipo.com/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '7']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code 此区块为统计代码，请删除-->
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container has-toc"><!--[--><!--[--><header class="navbar"><div class="navbar-left"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><!----><a href="/" class="brand"><img class="logo" src="/logo.svg" alt="CodeNote"><!----><span class="site-name hide-in-pad">CodeNote</span></a><!----></div><div class="navbar-center"><!----><nav class="nav-links"><div class="nav-item hide-in-mobile"><a href="/blog.html" class="nav-link" aria-label="博客"><span class="icon iconfont icon-blog"></span>博客<!----></a></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="代码"><span class="title"><span class="icon iconfont icon-code"></span>代码</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/Markdown" class="nav-link" aria-label="/code/Markdown"><!---->/code/Markdown<!----></a></li><li class="dropdown-item"><a href="/code/AutoHotKey" class="nav-link" aria-label="/code/AutoHotKey"><!---->/code/AutoHotKey<!----></a></li><li class="dropdown-item"><a href="/code/Electron" class="nav-link" aria-label="/code/Electron"><!---->/code/Electron<!----></a></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>页面开发</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/web/VuePress" class="nav-link" aria-label="/web/VuePress"><!---->/web/VuePress<!----></a></li><li class="dropdown-subitem"><a href="/web/docsify" class="nav-link" aria-label="/web/docsify"><!---->/web/docsify<!----></a></li><li class="dropdown-subitem"><a href="/deploy/VPS" class="nav-link" aria-label="/deploy/VPS"><!---->/deploy/VPS<!----></a></li></ul></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="应用"><span class="title"><span class="icon iconfont icon-app"></span>应用</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/apps/Applist" class="nav-link" aria-label="/apps/Applist"><!---->/apps/Applist<!----></a></li><li class="dropdown-item"><a href="/apps/AppNotes" class="nav-link" aria-label="/apps/AppNotes"><!---->/apps/AppNotes<!----></a></li><li class="dropdown-item"><a href="/apps/Chrome" class="nav-link" aria-label="/apps/Chrome"><!---->/apps/Chrome<!----></a></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>服务/系统</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/services/NAS" class="nav-link" aria-label="/services/NAS"><!---->/services/NAS<!----></a></li><li class="dropdown-subitem"><a href="/windows/faq" class="nav-link" aria-label="/windows/faq"><!---->/windows/faq<!----></a></li></ul></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="生活"><span class="title"><span class="icon iconfont icon-emmet"></span>生活</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/family/Diet" class="nav-link" aria-label="/family/Diet"><!---->/family/Diet<!----></a></li><li class="dropdown-item"><a href="/family/Shoppinglist" class="nav-link" aria-label="/family/Shoppinglist"><!---->/family/Shoppinglist<!----></a></li><li class="dropdown-item"><a href="/family/Coupon" class="nav-link" aria-label="/family/Coupon"><!---->/family/Coupon<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><a href="https://nav.newzone.top/" rel="noopener noreferrer" target="_blank" aria-label="工具收藏" class="nav-link"><span class="icon iconfont icon-tool"></span>工具收藏<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div></nav><!----></div><div class="navbar-right"><!----><div class="nav-item"><a class="repo-link" href="https://github.com/doflam-z/doflam-z.github.io" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="github icon" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></svg></a></div><div class="nav-item hide-in-mobile"><button class="outlook-button" tabindex="-1" ariahidden="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon outlook-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="outlook icon"><path d="M224 800c0 9.6 3.2 44.8 6.4 54.4 6.4 48-48 76.8-48 76.8s80 41.6 147.2 0 134.4-134.4 38.4-195.2c-22.4-12.8-41.6-19.2-57.6-19.2C259.2 716.8 227.2 761.6 224 800zM560 675.2l-32 51.2c-51.2 51.2-83.2 32-83.2 32 25.6 67.2 0 112-12.8 128 25.6 6.4 51.2 9.6 80 9.6 54.4 0 102.4-9.6 150.4-32l0 0c3.2 0 3.2-3.2 3.2-3.2 22.4-16 12.8-35.2 6.4-44.8-9.6-12.8-12.8-25.6-12.8-41.6 0-54.4 60.8-99.2 137.6-99.2 6.4 0 12.8 0 22.4 0 12.8 0 38.4 9.6 48-25.6 0-3.2 0-3.2 3.2-6.4 0-3.2 3.2-6.4 3.2-6.4 6.4-16 6.4-16 6.4-19.2 9.6-35.2 16-73.6 16-115.2 0-105.6-41.6-198.4-108.8-268.8C704 396.8 560 675.2 560 675.2zM224 419.2c0-28.8 22.4-51.2 51.2-51.2 28.8 0 51.2 22.4 51.2 51.2 0 28.8-22.4 51.2-51.2 51.2C246.4 470.4 224 448 224 419.2zM320 284.8c0-22.4 19.2-41.6 41.6-41.6 22.4 0 41.6 19.2 41.6 41.6 0 22.4-19.2 41.6-41.6 41.6C339.2 326.4 320 307.2 320 284.8zM457.6 208c0-12.8 12.8-25.6 25.6-25.6 12.8 0 25.6 12.8 25.6 25.6 0 12.8-12.8 25.6-25.6 25.6C470.4 233.6 457.6 220.8 457.6 208zM128 505.6C128 592 153.6 672 201.6 736c28.8-60.8 112-60.8 124.8-60.8-16-51.2 16-99.2 16-99.2l316.8-422.4c-48-19.2-99.2-32-150.4-32C297.6 118.4 128 291.2 128 505.6zM764.8 86.4c-22.4 19.2-390.4 518.4-390.4 518.4-22.4 28.8-12.8 76.8 22.4 99.2l9.6 6.4c35.2 22.4 80 12.8 99.2-25.6 0 0 6.4-12.8 9.6-19.2 54.4-105.6 275.2-524.8 288-553.6 6.4-19.2-3.2-32-19.2-32C777.6 76.8 771.2 80 764.8 86.4z"></path></svg><div class="outlook-dropdown"><!----></div></button></div><div id="docsearch-container"></div><!----><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><!----><span class="title">Code</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><!----><span class="title">Linux</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><!----><span class="title">Services</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><!----><span class="title">工具</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><span class="icon iconfont icon-blog"></span><a href="/blog.html" class="title">博客</a><span class="arrow right"></span></button><!----></section><!--]--></li></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!--[--><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->debian10</h1><div class="page-info"><!----><!----><span class="words-info" aria-label="字数🔠" data-balloon-pos="down" localizeddate="2022年8月25日" isoriginal="false" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon word-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="word icon"><path d="M518.217 432.64V73.143A73.143 73.143 0 01603.43 1.097a512 512 0 01419.474 419.474 73.143 73.143 0 01-72.046 85.212H591.36a73.143 73.143 0 01-73.143-73.143z"></path><path d="M493.714 566.857h340.297a73.143 73.143 0 0173.143 85.577A457.143 457.143 0 11371.566 117.76a73.143 73.143 0 0185.577 73.143v339.383a36.571 36.571 0 0036.571 36.571z"></path></svg><span>约 2633 字</span><meta property="wordCount" content="2633"></span><span class="reading-time-info" aria-label="阅读时间⌛" data-balloon-pos="down" localizeddate="2022年8月25日" isoriginal="false" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="timer icon"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></svg><span>大约 9 分钟</span><meta property="timeRequired" content="PT9M"></span><span class="visitor-info" aria-label="访问量🔢" data-balloon-pos="down" localizeddate="2022年8月25日" isoriginal="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon eye-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="eye icon"><path d="M992 512.096c0-5.76-.992-10.592-1.28-11.136-.192-2.88-1.152-8.064-2.08-10.816-.256-.672-.544-1.376-.832-2.08-.48-1.568-1.024-3.104-1.6-4.32C897.664 290.112 707.104 160 512 160c-195.072 0-385.632 130.016-473.76 322.592-1.056 2.112-1.792 4.096-2.272 5.856a55.512 55.512 0 00-.64 1.6c-1.76 5.088-1.792 8.64-1.632 7.744-.832 3.744-1.568 11.168-1.568 11.168-.224 2.272-.224 4.032.032 6.304 0 0 .736 6.464 1.088 7.808.128 1.824.576 4.512 1.12 6.976h-.032c.448 2.08 1.12 4.096 1.984 6.08.48 1.536.992 2.976 1.472 4.032C126.432 733.856 316.992 864 512 864c195.136 0 385.696-130.048 473.216-321.696 1.376-2.496 2.24-4.832 2.848-6.912.256-.608.48-1.184.672-1.728 1.536-4.48 1.856-8.32 1.728-8.32l-.032.032c.608-3.104 1.568-7.744 1.568-13.28zM512 672c-88.224 0-160-71.776-160-160s71.776-160 160-160 160 71.776 160 160-71.776 160-160 160z"></path></svg><span class="waline-pageview-count" data-path="/linux/debian10.html">...</span></span></div><hr></div><div class="toc-place-holder"><aside id="toc"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#系统相关命令" class="router-link-active router-link-exact-active toc-link level3">系统相关命令</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#修改时区为上海" class="router-link-active router-link-exact-active toc-link level3">修改时区为上海</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#" class="router-link-active router-link-exact-active toc-link level3"></a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#安装iptables-persistent来使用iptables命令" class="router-link-active router-link-exact-active toc-link level3">安装iptables-persistent来使用iptables命令</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#或者安装使用-ufw-来设置防火墙" class="router-link-active router-link-exact-active toc-link level3">或者安装使用 UFW 来设置防火墙</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#安装zabbix" class="router-link-active router-link-exact-active toc-link level3">安装zabbix</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#debian10美化" class="router-link-active router-link-exact-active toc-link level3">debian10美化</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#lnmp环境搭建" class="router-link-active router-link-exact-active toc-link level2">lnmp环境搭建</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#安装deepin版微信" class="router-link-active router-link-exact-active toc-link level3">安装deepin版微信</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/linux/debian10.html#安装navicat" class="router-link-active router-link-exact-active toc-link level3">安装navicat</a></li><!----><!--]--></ul><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><h1 id="debian10" tabindex="-1"><a class="header-anchor" href="#debian10" aria-hidden="true">#</a> debian10</h1><h3 id="系统相关命令" tabindex="-1"><a class="header-anchor" href="#系统相关命令" aria-hidden="true">#</a> 系统相关命令</h3><p>编辑网卡配置新增配置</p><p>vim /etc/network/interfaces</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># This file describes the network interfaces available on your system</span>
+<span class="token comment"># and how to activate them. For more information, see interfaces(5).</span>
+
+<span class="token builtin class-name">source</span> /etc/network/interfaces.d/*
+
+<span class="token comment"># The loopback network interface</span>
+
+auto lo
+iface lo inet loopback
+
+<span class="token comment"># The primary network interface</span>
+allow-hotplug eno1
+iface eno1 inet static
+        address <span class="token number">192.168</span>.100.123/24
+        gateway <span class="token number">192.168</span>.100.1
+        <span class="token comment"># dns-* options are implemented by the resolvconf package, if installed</span>
+        dns-nameservers <span class="token number">127.0</span>.0.1
+
+auto eno1:1
+iface eno1:1 inet static
+        address <span class="token number">192.168</span>.103.125
+        netmask <span class="token number">255.255</span>.255.0
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>启动新配置命令</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">ifup</span> eno1:1
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#重启网络</span>
+/etc/init.d/networking restart
+<span class="token comment">#重启网络(防止配置出错断网)</span>
+<span class="token function">service</span> networking restart <span class="token operator">&amp;&amp;</span> <span class="token function">ifup</span> enp2s0 
+<span class="token function">sudo</span> <span class="token function">ifup</span> enp3s0:0
+<span class="token function">sudo</span> <span class="token function">ifdown</span> enp3s0:0
+<span class="token comment">#重启ssh</span>
+/etc/init.d/ssh restart
+
+<span class="token comment">#安装sudo</span>
+<span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">sudo</span> <span class="token parameter variable">-y</span>
+<span class="token comment">#将用户添加到sudo组</span>
+<span class="token function">usermod</span> <span class="token parameter variable">-aG</span> <span class="token function">sudo</span> z
+
+<span class="token comment">#新建不允许登录用户</span>
+<span class="token function">useradd</span> <span class="token parameter variable">-s</span> /sbin/nologin jobui
+
+<span class="token comment">#新建普通用户并创建home目录指定bash</span>
+<span class="token function">useradd</span> <span class="token parameter variable">-m</span> <span class="token parameter variable">-s</span> /bin/bash jobui
+
+<span class="token comment">#debian未指定shell问题</span>
+<span class="token comment">#使用usermod命令修改shell类型</span>
+<span class="token function">usermod</span> <span class="token parameter variable">-s</span> /bin/bash zax
+
+<span class="token comment">#vbox虚拟机设置分辨率</span>
+cvt <span class="token number">1920</span> <span class="token number">1080</span>
+xrandr <span class="token parameter variable">--newmode</span> <span class="token string">&quot;1920X1080_60.00&quot;</span> <span class="token number">173.00</span>  <span class="token number">1920</span> <span class="token number">2048</span> <span class="token number">2248</span> <span class="token number">2576</span>  <span class="token number">1080</span> <span class="token number">1083</span> <span class="token number">1088</span> <span class="token number">1120</span> <span class="token parameter variable">-hsync</span> +vsync
+xrandr <span class="token parameter variable">--addmode</span> Virtual1 <span class="token string">&quot;1920X1080_60.00&quot;</span>
+xrandr <span class="token parameter variable">--output</span> Virtual1 <span class="token parameter variable">--mode</span> <span class="token string">&quot;1920X1080_60.00&quot;</span>
+
+<span class="token comment">#将以上内容添加到/etc/profile文件</span>
+
+<span class="token comment">#添加ll快捷命令</span>
+<span class="token function">vi</span> ~/.bashrc
+
+<span class="token comment">#设置ssh开机启动</span>
+update-rc.d <span class="token function">ssh</span> <span class="token builtin class-name">enable</span>
+
+<span class="token comment">#禁止开机启动</span>
+update-rc.d <span class="token function">ssh</span> disabled
+
+<span class="token comment">#安装im-config</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> im-config
+
+<span class="token comment">#运行im-config，选择fcitx输入法</span>
+im-config <span class="token parameter variable">-c</span>
+
+<span class="token comment">#解决依赖问题</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-f</span>
+
+<span class="token comment">#查找dep包</span>
+<span class="token function">sudo</span> dpkg <span class="token parameter variable">-l</span> sog*
+
+<span class="token comment">#搜索安装包</span>
+<span class="token function">sudo</span> <span class="token function">apt-cache</span> search openlda
+
+<span class="token comment">#卸载</span>
+<span class="token function">sudo</span> dpkg <span class="token parameter variable">-P</span> sogopinyin
+
+<span class="token comment">#挂载失败问题（ bad option; for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.&lt;type&gt; helper program.）</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> nfs-common
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>配置apt软件源,更新sources.list</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">mv</span> /etc/apt/sources.list /etc/apt/sources.list.bak
+<span class="token function">cat</span> <span class="token operator">&gt;</span> /etc/apt/sources.list <span class="token operator">&lt;&lt;</span> <span class="token string">EOF
+deb http://mirrors.cloud.tencent.com/debian/ buster main non-free contrib
+deb http://mirrors.cloud.tencent.com/debian-security buster/updates main
+deb http://mirrors.cloud.tencent.com/debian/ buster-updates main non-free contrib
+deb http://mirrors.cloud.tencent.com/debian/ buster-backports main non-free contrib
+
+deb-src http://mirrors.cloud.tencent.com/debian-security buster/updates main
+deb-src http://mirrors.cloud.tencent.com/debian/ buster main non-free contrib
+deb-src http://mirrors.cloud.tencent.com/debian/ buster-updates main non-free contrib
+deb-src http://mirrors.cloud.tencent.com/debian/ buster-backports main non-free contrib
+EOF</span>
+
+<span class="token function">apt-get</span> update <span class="token parameter variable">-y</span>
+<span class="token function">apt-get</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> <span class="token function">vim</span> <span class="token function">wget</span>
+
+<span class="token builtin class-name">source</span> ~/.bashrce
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="修改时区为上海" tabindex="-1"><a class="header-anchor" href="#修改时区为上海" aria-hidden="true">#</a> 修改时区为上海</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="" tabindex="-1"><a class="header-anchor" href="#" aria-hidden="true">#</a></h3><h3 id="安装iptables-persistent来使用iptables命令" tabindex="-1"><a class="header-anchor" href="#安装iptables-persistent来使用iptables命令" aria-hidden="true">#</a> 安装iptables-persistent来使用iptables命令</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> iptables-persistent <span class="token parameter variable">-y</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><h3 id="或者安装使用-ufw-来设置防火墙" tabindex="-1"><a class="header-anchor" href="#或者安装使用-ufw-来设置防火墙" aria-hidden="true">#</a> 或者安装使用 UFW 来设置防火墙</h3><p>安装</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">apt</span> update
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> ufw
+
+<span class="token comment">#检查状态，默认是关闭</span>
+<span class="token function">sudo</span> ufw status verbose
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>UFW默认策略是关闭所有进来的连接，开启所有出去的连接，文件路径在：</p><blockquote><p>/etc/default/ufw</p></blockquote><p>允许一个端口</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw allow <span class="token number">7722</span>/tcp
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>打开一段端口</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw allow <span class="token number">7100</span>:7200/tcp
+<span class="token function">sudo</span> ufw allow <span class="token number">7100</span>:7200/udp
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>允许指定ip访问所有端口</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw allow from <span class="token number">10.10</span>.10.10
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>允许指定ip访问指定端口</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw allow from <span class="token number">64.63</span>.62.61 to any port <span class="token number">22</span>
+
+<span class="token function">sudo</span> ufw allow from <span class="token number">120.232</span>.65.223 to any port <span class="token number">5574,8080</span>,80,9080,443
+<span class="token function">sudo</span> ufw allow from <span class="token number">157.148</span>.45.20 to any port <span class="token number">5574,8080</span>,80,9080,443
+<span class="token function">sudo</span> ufw allow from <span class="token number">183.2</span>.143.163 to any port <span class="token number">5574,8080</span>,80,9080,443/tcp
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>允许整个网段</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw allow from <span class="token number">192.168</span>.1.0/24 to any port <span class="token number">3306</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>禁止连接</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw deny from <span class="token number">23.24</span>.25.0/24 to any port <span class="token number">80</span>
+<span class="token function">sudo</span> ufw deny from <span class="token number">23.24</span>.25.0/24 to any port <span class="token number">443</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><p>查看规则</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw status numbered
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>删除规则</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw delete <span class="token number">3</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>启动、关闭、重置</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> ufw <span class="token builtin class-name">enable</span>
+<span class="token function">sudo</span> ufw disable
+<span class="token function">sudo</span> ufw reset
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="安装zabbix" tabindex="-1"><a class="header-anchor" href="#安装zabbix" aria-hidden="true">#</a> 安装zabbix</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">wget</span> https://repo.mysql.com//mysql-apt-config_0.8.17-1_all.deb
+<span class="token function">sudo</span> dpkg <span class="token parameter variable">-i</span> mysql-apt-config_0.8.17-1_all.deb
+<span class="token function">sudo</span> <span class="token function">apt</span> update
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> libmysqld-devecho libevent-dev libsnmp-dev libopenipmi-dev
+
+./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-libcurl --with-libxml2 --with-mysql<span class="token operator">=</span>/usr/bin/mysql_config
+
+<span class="token function">sudo</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --with-openipmi --with-mysql<span class="token operator">=</span>/usr/bin/mysql_config
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>安装zabbix时,出现报错Unsupported charset or collation for tables: ,应该是msyql创建zabbix数据库是,字符编码出现了问题,参考下列方法修复: 1.删除原有的数据库. drop database zabbix; 2.创建新的zabbix数据库,命令:create database zabbix character set utf8 collate utf8_bin; 3.重新打入zabbix的数据库表内容; mysql -uroot -p123456 zabbix &lt; schema.sql mysql -uroot -p123456 zabbix &lt; images.sql mysql -uroot -p123456 zabbix &lt; data.sql 4.然后重新进入zabbix GUI的web 安装界面就OK了</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">sudo</span> <span class="token function">chown</span> <span class="token parameter variable">-R</span> jobui:jobui /web/php/local/zabbix/
+<span class="token function">sudo</span> <span class="token function">chmod</span> <span class="token parameter variable">-R</span> <span class="token number">755</span> /web/php/local/zabbix/
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="debian10美化" tabindex="-1"><a class="header-anchor" href="#debian10美化" aria-hidden="true">#</a> debian10美化</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#安装谷歌noto字体</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> fonts-noto-cjk
+<span class="token comment">#安装依赖</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> gtk2-engines-murrine
+<span class="token comment">#下载Orchis-theme主题</span>
+<span class="token function">sudo</span> <span class="token function">wget</span> https://github.com/vinceliuice/Orchis-theme/archive/refs/heads/master.zip
+<span class="token comment">#下载图标</span>
+<span class="token function">sudo</span> <span class="token function">wget</span>  https://github.com/vinceliuice/Tela-icon-theme/archive/refs/heads/master.zip
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="lnmp环境搭建" tabindex="-1"><a class="header-anchor" href="#lnmp环境搭建" aria-hidden="true">#</a> lnmp环境搭建</h2><h4 id="安装开发环境软件包" tabindex="-1"><a class="header-anchor" href="#安装开发环境软件包" aria-hidden="true">#</a> 安装开发环境软件包</h4><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>sudo apt-get install -y build-essential libexpat1-dev libgeoip-dev libpng-dev libpcre3-dev libssl-dev libxml2-dev rcs zlib1g-dev libmcrypt-dev libjpeg-dev libpng-dev libwebp-dev pkg-config libbz2-dev libcurl4-openssl-dev autoconf libmemcached-dev libmemcached11
+
+sudo ln -s /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h5 id="下载软件源码包" tabindex="-1"><a class="header-anchor" href="#下载软件源码包" aria-hidden="true">#</a> 下载软件源码包</h5><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>cd /usr/local/src
+sudo wget https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.20.tar.gz
+sudo wget https://openresty.org/download/openresty-1.9.7.4.tar.gz
+sudo wget https://www.php.net/distributions/php-5.6.20.tar.gz
+
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h5 id="创建用户nginx、mysql用户" tabindex="-1"><a class="header-anchor" href="#创建用户nginx、mysql用户" aria-hidden="true">#</a> 创建用户nginx、mysql用户</h5><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>sudo groupadd mysql
+sudo useradd -g mysql -d /home/mysql -s /sbin/nologin mysql
+
+sudo groupadd nginx
+sudo useradd -g nginx -d /home/nginx -s /sbin/nologin nginx
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="安装nginx" tabindex="-1"><a class="header-anchor" href="#安装nginx" aria-hidden="true">#</a> 安装nginx</h4><h5 id="下载安装nginx需要的模块" tabindex="-1"><a class="header-anchor" href="#下载安装nginx需要的模块" aria-hidden="true">#</a> 下载安装nginx需要的模块</h5><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>cd /usr/local/src
+#zlib库
+sudo wget http://www.zlib.net/zlib-1.2.11.tar.gz
+sudo tar -zxvf zlib-1.2.11.tar.gz
+cd zlib-1.2.11
+sudo ./configure --prefix=/web/software/zlib
+sudo make
+sudo make install
+
+#PCRE库
+sudo wget https://ftp.pcre.org/pub/pcre/pcre-8.21.tar.gz
+sudo tar -zxvf pcre-8.21.tar.gz
+cd pcre-8.21
+sudo ./config --prefix=/web/software/pcre
+sudo make
+sudo make install
+
+#openSSL库
+#编译安装openssl报错：POD document had syntax errors at /usr/bin/pod2man line 69. make: *** [install_docs]
+#解决方法：
+rm -f /usr/bin/pod2man 
+
+sudo wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz
+sudo tar -zxvf openssl-1.0.1.tar.gz
+cd openssl-1.0.1
+sudo ./config shared --prefix=/usr/local/ssl
+sudo make
+sudo make install
+
+sudo mv -f /usr/bin/openssl /usr/bin/openssl.old
+sudo mv -f /usr/include/openssl /usr/include/openssl.old
+sudo ln -s /usr/local/ssl/bin/openssl /usr/bin/openssl
+sudo ln -s /usr/local/ssl/include/openssl /usr/include/openssl
+sudo ln -s /usr/local/ssl/include/openssl /usr/local/include/openssl
+
+#openSSL库
+rm -f /usr/bin/pod2man 
+sudo wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz
+sudo tar -zxvf openssl-1.0.1.tar.gz
+cd openssl-1.0.1
+sudo ./config shared --prefix=/web/software/openssl
+sudo make
+sudo make install
+
+#libunwind库
+sudo wget http://download.savannah.gnu.org/releases/libunwind/libunwind-1.1.tar.gz
+sudo tar -zxvf libunwind-1.1.tar.gz
+cd libunwind-1.1
+sudo CFLAGS=-fPIC ./configure
+sudo make CFLAGS=-fPIC
+sudo make CFLAGS=-fPIC install
+
+#google-perftools
+sudo wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.7/gperftools-2.7.tar.gz
+sudo tar -zxvf gperftools-2.7.tar.gz
+cd gperftools-2.7
+sudo ./configure  --enable-frame-pointers
+sudo make
+sudo make install
+#使google-perftools生效:
+sudo echo &quot;/usr/local/lib&quot; &gt;&gt; /etc/ld.so.conf.d/usr_local_lib.conf
+sudo ldconfig
+
+#ngx_cache_purge-2.3
+sudo wget http://labs.frickle.com/files/ngx_cache_purge-2.3.tar.gz
+sudo tar -zxvf ngx_cache_purge-2.3.tar.gz
+
+#nginx编译参数（线上）
+--prefix=/web/software/openresty/nginx \
+--with-cc-opt=-O2 \
+--add-module=../ngx_devel_kit-0.3.0 \
+--add-module=../iconv-nginx-module-0.14 \
+--add-module=../echo-nginx-module-0.59 \
+--add-module=../xss-nginx-module-0.05 \
+--add-module=../ngx_coolkit-0.2rc3 \
+--add-module=../set-misc-nginx-module-0.30 \
+--add-module=../form-input-nginx-module-0.12 \
+--add-module=../encrypted-session-nginx-module-0.05 \
+--add-module=../ngx_postgres-1.0rc7 \
+--add-module=../srcache-nginx-module-0.31 \
+--add-module=../ngx_lua-0.10.5 \
+--add-module=../ngx_lua_upstream-0.05 \
+--add-module=../headers-more-nginx-module-0.30 \
+--add-module=../array-var-nginx-module-0.05 \
+--add-module=../memc-nginx-module-0.17 \
+--add-module=../redis-nginx-module-0.3.7 \
+--add-module=../rds-json-nginx-module-0.14 \
+--add-module=../rds-csv-nginx-module-0.07 \
+--with-ld-opt=-Wl,-rpath,/web/software/openresty/luajit/lib \
+--user=www \
+--group=www \
+--with-google_perftools_module \
+--with-pcre=/root/baicai-V6/web/nginx/pcre-8.36 \
+--with-pcre-jit \
+--with-zlib=/root/baicai-V6/web/nginx/zlib-1.2.8 \
+--add-module=/root/baicai-V6/web/nginx/openresty-1.9.15.1/../ngx_cache_purge-2.3 \
+--with-http_stub_status_module \
+--with-http_ssl_module
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h5 id="安装openresty-1-9-7-1-包含nginx-1-9-7和插件" tabindex="-1"><a class="header-anchor" href="#安装openresty-1-9-7-1-包含nginx-1-9-7和插件" aria-hidden="true">#</a> 安装openresty-1.9.7.1，包含nginx-1.9.7和插件</h5><p>预编译</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>cd /usr/local/src/openresty-1.9.7.4
+sudo ./configure \
+--prefix=/web/software/openresty \
+--user=www \
+--group=www \
+--with-google_perftools_module \
+--with-pcre=../pcre-8.21 \
+--with-pcre-jit \
+--with-zlib=../zlib-1.2.11 \
+--with-openssl=../openssl-1.0.1 \
+--add-module=../ngx_cache_purge-2.3 \
+--with-http_stub_status_module \
+--with-http_ssl_module \
+--with-stream
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>编译安装</p><div class="language-text ext-text line-numbers-mode"><pre class="language-text"><code>sudo make
+sudo make install
+#为了统一nginx与其他服务的同步，给nginx目录做软连接
+sudo ln -s  /web/software/openresty/nginx  /web/software/nginx
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h4 id="安装php" tabindex="-1"><a class="header-anchor" href="#安装php" aria-hidden="true">#</a> 安装php</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#安装m</span>
+<span class="token comment">#zlib</span>
+<span class="token function">sudo</span> ./configure
+<span class="token function">sudo</span> <span class="token function">make</span>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">LDFLAGS</span><span class="token operator">=</span><span class="token string">&quot;-L/usr/local/zlib/lib&quot;</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">CPPFLAGS</span><span class="token operator">=</span><span class="token string">&quot;-I/usr/local/zlib/include&quot;</span>
+
+<span class="token comment">#jpeg6</span>
+<span class="token comment">#先创建目录，否则会报错</span>
+<span class="token builtin class-name">cd</span> /usr/local/src/php/jpeg-6b
+<span class="token function">sudo</span> <span class="token function">mkdir</span> /web/software/jpeg6/
+<span class="token function">sudo</span> <span class="token function">mkdir</span> <span class="token punctuation">{</span>/web/software/jpeg6/bin,/web/software/jpeg6/lib,/web/software/jpeg6/include<span class="token punctuation">}</span>
+<span class="token function">sudo</span> <span class="token function">mkdir</span> <span class="token parameter variable">-p</span>  /web/software/jpeg6/man/man1
+<span class="token function">sudo</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/jpeg6
+<span class="token function">sudo</span> <span class="token function">make</span>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span>
+
+<span class="token comment">#libpng2</span>
+<span class="token comment">#安装libpng出现configure: error: ZLib not installed</span>
+<span class="token comment">#1.进入zlib的源文件目录，执行命令 make clean,清除zlib；</span>
+<span class="token comment">#2.重新配置 ./configure,后面不要接--prefix参数；</span>
+<span class="token comment">#然后执行以下命令</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">LDFLAGS</span><span class="token operator">=</span><span class="token string">&quot;-L/usr/local/zlib/lib&quot;</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">CPPFLAGS</span><span class="token operator">=</span><span class="token string">&quot;-I/usr/local/zlib/include&quot;</span>
+
+<span class="token function">sudo</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/libpng2
+<span class="token function">sudo</span> <span class="token function">make</span>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span>
+
+<span class="token comment">#freetype2</span>
+<span class="token function">sudo</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/freetype2
+<span class="token function">sudo</span> <span class="token function">make</span>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span>
+
+<span class="token comment">#libxml2</span>
+<span class="token function">sudo</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/libxml2
+<span class="token function">sudo</span> <span class="token function">make</span>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span>
+
+<span class="token comment">#curl</span>
+<span class="token function">sudo</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/curl
+<span class="token function">sudo</span> <span class="token function">make</span>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span>
+
+
+<span class="token comment">#php编译参数（线上）</span>
+<span class="token function">sudo</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/php-5.6.40 <span class="token punctuation">\</span>
+--with-config-file-path<span class="token operator">=</span>/web/software/php-5.6.40/lib <span class="token punctuation">\</span>
+--with-mysql<span class="token operator">=</span>mysqlnd <span class="token punctuation">\</span>
+--with-mysqli<span class="token operator">=</span>mysqlnd <span class="token punctuation">\</span>
+--with-pdo-mysql<span class="token operator">=</span>mysqlnd <span class="token punctuation">\</span>
+--with-jpeg-dir<span class="token operator">=</span>/web/software/jpeg6 <span class="token punctuation">\</span>
+--with-png-dir<span class="token operator">=</span>/web/software/libpng2 <span class="token punctuation">\</span>
+--with-freetype-dir<span class="token operator">=</span>/web/software/freetype2 <span class="token punctuation">\</span>
+--with-libxml-dir<span class="token operator">=</span>/web/software/libxml2 <span class="token punctuation">\</span>
+--with-zlib-dir<span class="token operator">=</span>/usr/local/zlib/ <span class="token punctuation">\</span>
+--with-curl<span class="token operator">=</span>/web/software/curl <span class="token punctuation">\</span>
+--with-openssl<span class="token operator">=</span>/usr/local/ssl <span class="token punctuation">\</span>
+--disable-ipv6 <span class="token punctuation">\</span>
+--enable-sockets <span class="token punctuation">\</span>
+--disable-debug <span class="token punctuation">\</span>
+--enable-xml <span class="token punctuation">\</span>
+--disable-rpath <span class="token punctuation">\</span>
+--enable-bcmath <span class="token punctuation">\</span>
+--enable-shmop <span class="token punctuation">\</span>
+--enable-sysvsem <span class="token punctuation">\</span>
+--enable-inline-optimization <span class="token punctuation">\</span>
+--with-curl <span class="token punctuation">\</span>
+--enable-sysvmsg <span class="token punctuation">\</span>
+--enable-sysvshm <span class="token punctuation">\</span>
+--enable-mbregex <span class="token punctuation">\</span>
+--enable-mbstring <span class="token punctuation">\</span>
+--with-bz2<span class="token operator">=</span>/usr <span class="token punctuation">\</span>
+--enable-gd-native-ttf <span class="token punctuation">\</span>
+--with-mhash <span class="token punctuation">\</span>
+--with-xmlrpc <span class="token punctuation">\</span>
+--enable-zip <span class="token punctuation">\</span>
+--enable-soap <span class="token punctuation">\</span>
+--without-pear <span class="token punctuation">\</span>
+--enable-fpm <span class="token punctuation">\</span>
+--with-libdir<span class="token operator">=</span>lib64
+
+<span class="token comment">#php编译参数（141）</span>
+<span class="token function">sudo</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/web/software/php-5.6.40 <span class="token punctuation">\</span>
+--with-config-file-path<span class="token operator">=</span>/web/software/php-5.6.40/lib <span class="token punctuation">\</span>
+--with-mysql<span class="token operator">=</span>mysqlnd <span class="token punctuation">\</span>
+--with-mysqli<span class="token operator">=</span>mysqlnd <span class="token punctuation">\</span>
+--with-pdo-mysql<span class="token operator">=</span>mysqlnd <span class="token punctuation">\</span>
+--with-jpeg-dir<span class="token operator">=</span>/web/software/jpeg6 <span class="token punctuation">\</span>
+--with-png-dir<span class="token operator">=</span>/web/software/libpng2 <span class="token punctuation">\</span>
+--with-freetype-dir<span class="token operator">=</span>/web/software/freetype2 <span class="token punctuation">\</span>
+--with-libxml-dir<span class="token operator">=</span>/web/software/libxml2 <span class="token punctuation">\</span>
+--with-zlib-dir<span class="token operator">=</span>/usr/local/zlib/ <span class="token punctuation">\</span>
+--with-curl<span class="token operator">=</span>/web/software/curl <span class="token punctuation">\</span>
+--with-openssl<span class="token operator">=</span>/usr/local/ssl <span class="token punctuation">\</span>
+--disable-ipv6 <span class="token punctuation">\</span>
+--enable-sockets <span class="token punctuation">\</span>
+--disable-debug <span class="token punctuation">\</span>
+--enable-xml <span class="token punctuation">\</span>
+--disable-rpath <span class="token punctuation">\</span>
+--enable-bcmath <span class="token punctuation">\</span>
+--enable-shmop <span class="token punctuation">\</span>
+--enable-sysvsem <span class="token punctuation">\</span>
+--enable-inline-optimization <span class="token punctuation">\</span>
+--with-curl <span class="token punctuation">\</span>
+--enable-sysvmsg <span class="token punctuation">\</span>
+--enable-sysvshm <span class="token punctuation">\</span>
+--enable-mbregex <span class="token punctuation">\</span>
+--enable-mbstring <span class="token punctuation">\</span>
+--with-bz2<span class="token operator">=</span>/usr <span class="token punctuation">\</span>
+--enable-gd-native-ttf <span class="token punctuation">\</span>
+--with-mhash <span class="token punctuation">\</span>
+--with-xmlrpc <span class="token punctuation">\</span>
+--enable-zip <span class="token punctuation">\</span>
+--enable-soap <span class="token punctuation">\</span>
+--without-pear <span class="token punctuation">\</span>
+--enable-fpm <span class="token punctuation">\</span>
+--enable-pcntl
+
+<span class="token comment">#编译php时，遇到“Please reinstall the libcurl distribution...”</span>
+<span class="token comment">#sudo apt-get install libcurl4-gnutls-dev</span>
+<span class="token function">sudo</span> <span class="token function">ln</span> <span class="token parameter variable">-s</span> /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
+
+<span class="token comment">#make: *** [Makefile:590：ext/openssl/openssl.lo] 错误 1 (php5.6不兼容openssl1.1.1)</span>
+<span class="token comment">#openssl降级</span>
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="安装deepin版微信" tabindex="-1"><a class="header-anchor" href="#安装deepin版微信" aria-hidden="true">#</a> 安装deepin版微信</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<span class="token function">mkdir</span> ./deepintemp
+<span class="token builtin class-name">cd</span> ./deepintemp
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine_2.18-22~rc0_all.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine32_2.18-22~rc0_i386.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine32-preloader_2.18-22~rc0_i386.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-helper/deepin-wine-helper_1.2deepin8_i386.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-plugin/deepin-wine-plugin_1.0deepin2_amd64.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-plugin-virtual/deepin-wine-plugin-virtual_1.0deepin3_all.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-uninstaller/deepin-wine-uninstaller_0.1deepin2_i386.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/u/udis86/udis86_1.72-2_i386.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-fonts-wine_2.18-22~rc0_all.deb
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-libwine_2.18-22~rc0_i386.deb
+<span class="token function">wget</span> https://packages.deepin.com/deepin/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_1.5.1-2_amd64.deb --no-check-certificate
+<span class="token function">wget</span> https://packages.deepin.com/deepin/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_1.5.1-2_i386.deb --no-check-certificate
+<span class="token function">wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin.com.wechat/deepin.com.wechat_2.6.8.65deepin0_i386.deb
+
+<span class="token builtin class-name">echo</span> <span class="token string">&#39;准备添加32位支持&#39;</span>
+dpkg --add-architecture i386
+<span class="token builtin class-name">echo</span> <span class="token string">&#39;添加成功，准备刷新apt缓存信息...&#39;</span>
+<span class="token function">apt</span> update
+<span class="token builtin class-name">echo</span> <span class="token string">&#39;即将开始安装...&#39;</span>
+dpkg <span class="token parameter variable">-i</span> *.deb
+<span class="token builtin class-name">echo</span> <span class="token string">&#39;安装完成，正在自动安装依赖...&#39;</span>
+<span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-fy</span>
+dpkg <span class="token parameter variable">-i</span> deepin.com.wechat_2.6.8.65deepin0_i386.deb
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>中文问题，进入/opt/deepinwine/tools文件夹</p><p>在run.sh 和 run_v2.sh 中修改为</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment">#WINE_CMD=&quot;deepin-wine&quot;改为下行</span>
+<span class="token assign-left variable">WINE_CMD</span><span class="token operator">=</span><span class="token string">&quot;LC_ALL=zh_CN.UTF-8 deepin-wine&quot;</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="安装navicat" tabindex="-1"><a class="header-anchor" href="#安装navicat" aria-hidden="true">#</a> 安装navicat</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">wget</span> https://download3.navicat.com/download/navicat15-premium-en.AppImage --no-check-certificate
+<span class="token function">chmod</span> +x navicat15-premium-en.AppImage
+./navicat15-premium-en.AppImage
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/doflam-z/doflam-z.github.io/edit/main/linux/debian10.md" rel="noopener noreferrer" target="_blank" aria-label="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="edit icon"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2022/8/25 09:01:21</span></div><!----></footer><!----><div class="waline-wrapper" darkmode="false" style="display:block;"><div data-waline provider="Waline" pageview="true"><div class="wl-comment"><!--v-if--><div class="wl-panel"><div class="wl-header item3"><!--[--><div class="wl-header-item"><label for="nick">昵称</label><input id="wl-nick" class="wl-input wl-nick" name="nick" type="text" value></div><div class="wl-header-item"><label for="mail">邮箱</label><input id="wl-mail" class="wl-input wl-mail" name="mail" type="email" value></div><div class="wl-header-item"><label for="link">网址</label><input id="wl-link" class="wl-input wl-link" name="link" type="text" value></div><!--]--></div><textarea id="wl-edit" class="wl-editor" placeholder="请留言。(填写邮箱可在被回复时收到邮件提醒)"></textarea><div class="wl-preview" style="display:none;"><hr><h4>预览:</h4><!-- eslint-disable-next-line vue/no-v-html --><div class="wl-content"></div></div><div class="wl-footer"><div class="wl-actions"><a href="https://guides.github.com/features/mastering-markdown/" title="Markdown Guide" aria-label="Markdown is supported" class="wl-action" target="_blank" rel="noreferrer"><svg width="16" height="16" ariahidden="true"><path d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z" fill="currentColor"></path></svg></a><button class="wl-action" title="表情" style="display:none;"><svg viewbox="0 0 1024 1024" width="24" height="24"><path d="M563.2 463.3 677 540c1.7 1.2 3.7 1.8 5.8 1.8.7 0 1.4-.1 2-.2 2.7-.5 5.1-2.1 6.6-4.4l25.3-37.8c1.5-2.3 2.1-5.1 1.6-7.8s-2.1-5.1-4.4-6.6l-73.6-49.1 73.6-49.1c2.3-1.5 3.9-3.9 4.4-6.6.5-2.7 0-5.5-1.6-7.8l-25.3-37.8a10.1 10.1 0 0 0-6.6-4.4c-.7-.1-1.3-.2-2-.2-2.1 0-4.1.6-5.8 1.8l-113.8 76.6c-9.2 6.2-14.7 16.4-14.7 27.5.1 11 5.5 21.3 14.7 27.4zM387 348.8h-45.5c-5.7 0-10.4 4.7-10.4 10.4v153.3c0 5.7 4.7 10.4 10.4 10.4H387c5.7 0 10.4-4.7 10.4-10.4V359.2c0-5.7-4.7-10.4-10.4-10.4zm333.8 241.3-41-20a10.3 10.3 0 0 0-8.1-.5c-2.6.9-4.8 2.9-5.9 5.4-30.1 64.9-93.1 109.1-164.4 115.2-5.7.5-9.9 5.5-9.5 11.2l3.9 45.5c.5 5.3 5 9.5 10.3 9.5h.9c94.8-8 178.5-66.5 218.6-152.7 2.4-5 .3-11.2-4.8-13.6zm186-186.1c-11.9-42-30.5-81.4-55.2-117.1-24.1-34.9-53.5-65.6-87.5-91.2-33.9-25.6-71.5-45.5-111.6-59.2-41.2-14-84.1-21.1-127.8-21.1h-1.2c-75.4 0-148.8 21.4-212.5 61.7-63.7 40.3-114.3 97.6-146.5 165.8-32.2 68.1-44.3 143.6-35.1 218.4 9.3 74.8 39.4 145 87.3 203.3.1.2.3.3.4.5l36.2 38.4c1.1 1.2 2.5 2.1 3.9 2.6 73.3 66.7 168.2 103.5 267.5 103.5 73.3 0 145.2-20.3 207.7-58.7 37.3-22.9 70.3-51.5 98.1-85 27.1-32.7 48.7-69.5 64.2-109.1 15.5-39.7 24.4-81.3 26.6-123.8 2.4-43.6-2.5-87-14.5-129zm-60.5 181.1c-8.3 37-22.8 72-43 104-19.7 31.1-44.3 58.6-73.1 81.7-28.8 23.1-61 41-95.7 53.4-35.6 12.7-72.9 19.1-110.9 19.1-82.6 0-161.7-30.6-222.8-86.2l-34.1-35.8c-23.9-29.3-42.4-62.2-55.1-97.7-12.4-34.7-18.8-71-19.2-107.9-.4-36.9 5.4-73.3 17.1-108.2 12-35.8 30-69.2 53.4-99.1 31.7-40.4 71.1-72 117.2-94.1 44.5-21.3 94-32.6 143.4-32.6 49.3 0 97 10.8 141.8 32 34.3 16.3 65.3 38.1 92 64.8 26.1 26 47.5 56 63.6 89.2 16.2 33.2 26.6 68.5 31 105.1 4.6 37.5 2.7 75.3-5.6 112.3z" fill="currentColor"></path></svg></button><button class="wl-action" title="表情包"><svg width="24" height="24" fill="currentcolor" viewbox="0 0 24 24"><path style="transform: translateY(0.5px)" d="M18.968 10.5H15.968V11.484H17.984V12.984H15.968V15H14.468V9H18.968V10.5V10.5ZM8.984 9C9.26533 9 9.49967 9.09367 9.687 9.281C9.87433 9.46833 9.968 9.70267 9.968 9.984V10.5H6.499V13.5H8.468V12H9.968V14.016C9.968 14.2973 9.87433 14.5317 9.687 14.719C9.49967 14.9063 9.26533 15 8.984 15H5.984C5.70267 15 5.46833 14.9063 5.281 14.719C5.09367 14.5317 5 14.2973 5 14.016V9.985C5 9.70367 5.09367 9.46933 5.281 9.282C5.46833 9.09467 5.70267 9.001 5.984 9.001H8.984V9ZM11.468 9H12.968V15H11.468V9V9Z"></path><path d="M18.5 3H5.75C3.6875 3 2 4.6875 2 6.75V18C2 20.0625 3.6875 21.75 5.75 21.75H18.5C20.5625 21.75 22.25 20.0625 22.25 18V6.75C22.25 4.6875 20.5625 3 18.5 3ZM20.75 18C20.75 19.2375 19.7375 20.25 18.5 20.25H5.75C4.5125 20.25 3.5 19.2375 3.5 18V6.75C3.5 5.5125 4.5125 4.5 5.75 4.5H18.5C19.7375 4.5 20.75 5.5125 20.75 6.75V18Z"></path></svg></button><input id="wl-image-upload" class="upload" type="file" accept=".png,.jpg,.jpeg,.webp,.bmp,.gif"><label for="wl-image-upload" class="wl-action" title="上传图片"><svg viewbox="0 0 1024 1024" width="24" height="24"><path d="M784 112H240c-88 0-160 72-160 160v480c0 88 72 160 160 160h544c88 0 160-72 160-160V272c0-88-72-160-160-160zm96 640c0 52.8-43.2 96-96 96H240c-52.8 0-96-43.2-96-96V272c0-52.8 43.2-96 96-96h544c52.8 0 96 43.2 96 96v480z" fill="currentColor"></path><path d="M352 480c52.8 0 96-43.2 96-96s-43.2-96-96-96-96 43.2-96 96 43.2 96 96 96zm0-128c17.6 0 32 14.4 32 32s-14.4 32-32 32-32-14.4-32-32 14.4-32 32-32zm462.4 379.2-3.2-3.2-177.6-177.6c-25.6-25.6-65.6-25.6-91.2 0l-80 80-36.8-36.8c-25.6-25.6-65.6-25.6-91.2 0L200 728c-4.8 6.4-8 14.4-8 24 0 17.6 14.4 32 32 32 9.6 0 16-3.2 22.4-9.6L380.8 640l134.4 134.4c6.4 6.4 14.4 9.6 24 9.6 17.6 0 32-14.4 32-32 0-9.6-4.8-17.6-9.6-24l-52.8-52.8 80-80L769.6 776c6.4 4.8 12.8 8 20.8 8 17.6 0 32-14.4 32-32 0-8-3.2-16-8-20.8z" fill="currentColor"></path></svg></label><button class="wl-action" title="预览"><svg viewbox="0 0 1024 1024" width="24" height="24"><path d="M710.816 654.301c70.323-96.639 61.084-230.578-23.705-314.843-46.098-46.098-107.183-71.109-172.28-71.109-65.008 0-126.092 25.444-172.28 71.109-45.227 46.098-70.756 107.183-70.756 172.106 0 64.923 25.444 126.007 71.194 172.106 46.099 46.098 107.184 71.109 172.28 71.109 51.414 0 100.648-16.212 142.824-47.404l126.53 126.006c7.058 7.06 16.297 10.979 26.406 10.979 10.105 0 19.343-3.919 26.402-10.979 14.467-14.467 14.467-38.172 0-52.723L710.816 654.301zm-315.107-23.265c-65.88-65.88-65.88-172.54 0-238.42 32.069-32.07 74.245-49.149 119.471-49.149 45.227 0 87.407 17.603 119.472 49.149 65.88 65.879 65.88 172.539 0 238.42-63.612 63.178-175.242 63.178-238.943 0zm0 0" fill="currentColor"></path><path d="M703.319 121.603H321.03c-109.8 0-199.469 89.146-199.469 199.38v382.034c0 109.796 89.236 199.38 199.469 199.38h207.397c20.653 0 37.384-16.645 37.384-37.299 0-20.649-16.731-37.296-37.384-37.296H321.03c-68.582 0-124.352-55.77-124.352-124.267V321.421c0-68.496 55.77-124.267 124.352-124.267h382.289c68.582 0 124.352 55.771 124.352 124.267V524.72c0 20.654 16.736 37.299 37.385 37.299 20.654 0 37.384-16.645 37.384-37.299V320.549c-.085-109.8-89.321-198.946-199.121-198.946zm0 0" fill="currentColor"></path></svg></button></div><div class="wl-info"><div class="wl-text-number">0 <!--v-if-->  字</div><button class="wl-btn">登录</button><button class="wl-btn primary" title="Cmd|Ctrl + Enter"><!--[-->提交<!--]--></button></div><div class="wl-gif-popup"><input type="text" placeholder="搜索表情包"><div class="wl-gallery" style="gap:6px;"><!--[--><!--]--></div><div class="wl-loading"><svg width="30" height="30" viewbox="0 0 100 100" preserveaspectratio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="currentColor" strokewidth="4" r="40" stroke-dasharray="85 30"><animateTransform attributename="transform" type="rotate" repeatcount="indefinite" dur="1s" values="0 50 50;360 50 50" keytimes="0;1"></animateTransform></circle></svg></div></div><div class="wl-emoji-popup"><!--[--><!--]--><!--v-if--></div></div></div><!--v-if--></div><div class="wl-count"><!--v-if--> 评论</div><div class="wl-cards"><!--[--><!--]--></div><!--[--><div class="wl-loading"><svg width="30" height="30" viewbox="0 0 100 100" preserveaspectratio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="currentColor" strokewidth="4" r="40" stroke-dasharray="85 30"><animateTransform attributename="transform" type="rotate" repeatcount="indefinite" dur="1s" values="0 50 50;360 50 50" keytimes="0;1"></animateTransform></circle></svg></div><!--]--><!-- Copyright Information --><div class="wl-power"> Powered by <a href="https://github.com/walinejs/waline" target="_blank" rel="noreferrer"> Waline </a> v2.6.3</div></div></div><!----><!--]--></main><!--]--><!----><!--]--></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.967b4e7a.js" defer></script>
+  </body>
+</html>
