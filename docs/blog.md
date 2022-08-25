@@ -1,12 +1,12 @@
 ---
-#博客首页设置：https://vuepress-theme-hope.github.io/v2/zh/guide/blog/home.html
+#博客首页设置
 home: true
 layout: Blog
 icon: home
 bgImage: http://tc.seoipo.com/home-bg-1.jpg
-title: 互联网小白
+title: Z_blog
 #heroImage: /logo.svg
-heroText: 互联网小白
+heroText: Z_blog
 heroFullScreen: false
 tagline: 盛年不重来，一日难再晨
 #projects:
