@@ -6,8 +6,8 @@
     <link>https://newzone.top/</link>
     <description>开源工具、效率方法、心理学探索的自我提升笔记，记录并输出一切能让自己提升的知识。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 25 Aug 2022 09:11:54 GMT</pubDate>
-    <lastBuildDate>Thu, 25 Aug 2022 09:11:54 GMT</lastBuildDate>
+    <pubDate>Thu, 25 Aug 2022 09:35:42 GMT</pubDate>
+    <lastBuildDate>Thu, 25 Aug 2022 09:35:42 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -51,6 +51,18 @@
 <div><pre><code><span>composer</span> require topthink/think-multi-app 
 php think build adimn
 </code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>队列</title>
+      <link>https://newzone.top/code/%E9%98%9F%E5%88%97.html</link>
+      <guid>https://newzone.top/code/%E9%98%9F%E5%88%97.html</guid>
+      <source url="https://newzone.top/rss.xml">队列</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="队列" tabindex="-1"> 队列</h1>
+<p>curl &quot;http://192.168.2.137:1818/?name=positionCooperationClick&amp;opt=get&quot;  //获取一个队列数据</p>
+<p>curl &quot;http://192.168.2.136:1818/?name=test&amp;opt=put&amp;data=test&quot;//存一个队列</p>
+<p><img src="@source/images/麻了.jpg" alt="" loading="lazy"></p>
+]]></content:encoded>
     </item>
     <item>
       <title>debian10</title>
@@ -539,6 +551,268 @@ dpkg <span>-i</span> deepin.com.wechat_2.6.8.65deepin0_i386.deb
 <span>chmod</span> +x navicat15-premium-en.AppImage
 ./navicat15-premium-en.AppImage
 </code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>debian10编译安装php7.4</title>
+      <link>https://newzone.top/linux/debian10%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85php7.4.html</link>
+      <guid>https://newzone.top/linux/debian10%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85php7.4.html</guid>
+      <source url="https://newzone.top/rss.xml">debian10编译安装php7.4</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="debian10编译安装php7-4" tabindex="-1"> debian10编译安装php7.4</h1>
+<div><pre><code><span>##/bin/bash</span>
+
+<span>apt-get</span> <span>install</span> <span>-y</span> libsqlite3-dev libmemcached-dev libmagickwand-dev libmagickcore-dev <span>\</span>
+libdatrie-dev libmcrypt-dev procps libonig-dev libzip-dev
+
+<span>#apt-get install -y build-essential libexpat1-dev libgeoip-dev libpng-dev libpcre3-dev libssl-dev libxml2-dev rcs zlib1g-dev libmcrypt-dev libjpeg-dev libpng-dev libwebp-dev pkg-config libbz2-dev libcurl4-openssl-dev autoconf libmemcached-dev libmemcached11</span>
+
+<span>cd</span> /usr/local/src/package/php-7.4.24/ <span>&amp;&amp;</span> <span>\</span>
+	./configure <span>\</span>
+    <span>--prefix</span><span>=</span>/web/software/php-7.4.24 <span>\</span>
+    --with-config-file-path<span>=</span>/web/software/php-7.4.24/lib <span>\</span>
+    --with-mysqli<span>=</span>mysqlnd <span>\</span>
+    --with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
+    --with-zlib <span>\</span>
+    --disable-ipv6 <span>\</span>
+    --enable-sockets <span>\</span>
+    --disable-debug <span>\</span>
+    --enable-xml <span>\</span>
+    --disable-rpath <span>\</span>
+    --enable-bcmath <span>\</span>
+    --enable-shmop <span>\</span>
+    --enable-sysvsem <span>\</span>
+    --enable-inline-optimization <span>\</span>
+    --enable-sysvmsg <span>\</span>
+    --enable-sysvshm <span>\</span>
+    --enable-mbregex <span>\</span>
+    --enable-mbstring <span>\</span>
+    --with-bz2 <span>\</span>
+    --with-libxml <span>\</span>
+    --with-curl <span>\</span>
+    --with-openssl <span>\</span>
+    --with-mhash <span>\</span>
+    --with-xmlrpc <span>\</span>
+    --with-zip <span>\</span>
+    --enable-soap <span>\</span>
+    --without-pear <span>\</span>
+    --enable-fpm <span>&amp;&amp;</span> <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span>
+
+<span># apcu</span>
+    <span>cd</span> /usr/local/src/package/apcu-5.1.19 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># blitz</span>
+    <span>cd</span> /usr/local/src/package/blitz-0.10.4-PHP7/ <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># memcached</span>
+    <span>cd</span> /usr/local/src/package/memcached-3.1.5 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># memcache</span>
+    <span>cd</span> /usr/local/src/package/memcache-8.0 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># mongodb</span>
+    <span>cd</span> /usr/local/src/package/mongodb-1.10.0 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># igbinary</span>
+    <span>cd</span> /usr/local/src/package/igbinary-3.2.6 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># redis</span>
+    <span>cd</span> /usr/local/src/package/redis-4.3.0 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># imagick</span>
+    <span>cd</span> /usr/local/src/package/imagick-3.5.1 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># qqwry</span>
+	<span>cd</span> /usr/local/src/package <span>\</span>
+    <span>cd</span> /usr/local/src/package/qqwry-master/php/qqwry/ <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># xhprof</span>
+    <span>cd</span> /usr/local/src/package/xhprof-2.3.4/extension/ <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># php-ext-trie-filter</span>
+    <span>cd</span> /usr/local/src/package/php-ext-trie-filter-php7 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># scws</span>
+    <span>cd</span> /usr/local/src/package/scws-1.2.3/ <span>\</span>
+    ./configure <span>--prefix</span><span>=</span>/web/software/scws-1.2.3/ <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+    <span>cp</span> <span>-r</span> /usr/local/src/package/dict* /web/software/scws-1.2.3/etc/ <span>\</span>
+<span># scws-phpext</span>
+    <span>cd</span> /usr/local/src/package/scws-1.2.3/phpext <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-scws<span>=</span>/web/software/scws-1.2.3 --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># mcrypt</span>
+    <span>cd</span> /usr/local/src/package/mcrypt-1.0.4 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    aclocal <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># gd</span>
+    <span>cd</span> /usr/local/src/package/php-7.4.24/ext/gd <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure -with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config --enable-gd --with-jpeg --with-freetype <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+
+<span>cp</span> /usr/local/src/docker/php/php-fpm.conf /web/software/php-7.4.24/etc/php-fpm.conf
+
+<span>cp</span> /usr/local/src/docker/php/php-fpm /etc/init.d/php-fpm
+
+<span>chmod</span> <span>755</span> /etc/init.d/php-fpm
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>iptables</title>
+      <link>https://newzone.top/linux/iptables.html</link>
+      <guid>https://newzone.top/linux/iptables.html</guid>
+      <source url="https://newzone.top/rss.xml">iptables</source>
+      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="iptables" tabindex="-1"> iptables</h1>
+<div><pre><code><span>#1.开启一个ssh端口</span>
+
+<span>vi</span> /etc/ssh/sshd_config
+
+<span>#把#Port 22</span>
+<span>#修改为</span>
+
+Port <span>22</span>
+Port <span>2222</span>
+
+<span>service</span> sshd restart
+
+<span>#防火墙开启2222端口（如果开启了selinux，记得一定要关闭）</span>
+
+<span>#去测试一下2222端口是否开启，这点很重要</span>
+
+<span>#2.设置方法一：只允许192.168.5.231访问</span>
+
+<span>#运行完下面这一行，你已经不能访问了，改用2222去设置下面一行</span>
+iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
+
+<span>#用2222端口去运行下面一行，运行完，22端口就可以使用</span>
+iptables <span>-I</span> INPUT <span>-s</span> <span>14.23</span>.97.250 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
+
+<span>#保存</span>
+<span>service</span> iptables save
+
+<span>#重启</span>
+<span>service</span> iptables restart
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code>#!/bin/sh
+
+# 先备份iptables规则
+mkdir /web/shell/iptables_bak
+cp /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
+
+# 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题
+service iptables stop
+
+# 禁止所有ip访问60011端口
+iptables -I INPUT -p tcp --dport 60011 -j DROP
+
+# 开放指定ip可以连接60011端口
+iptables -A INPUT -i 127.0.0.1 -p tcp --dport 60011 -j ACCEPT
+iptables -I INPUT -s 14.23.97.250,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
+
+# 允许部分出去的网络  			
+iptables -A OUTPUT -d 192.168.2.0/24,14.23.97.250,121.201.88.88,114.114.114.114 -j ACCEPT    
+   
+# 允许访问的外网
+iptables -A OUTPUT -d open.work.weixin.qq.com,v0.api.upyun.com,v1.api.upyun.com,v2.api.upyun.com,v3.api.upyun.com,graph.qq.com,apis.map.qq.com,api.weixin.qq.com,login.weixin.qq.com,wx.qq.com,api.weibo.com,js4.jobui.com,css4.jobui.com,m.jobui.com,www.jobui.com,apis.jobui.com -j ACCEPT
+
+
+#允许icmp包通过,也就是允许ping
+iptables -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+
+#本机对外请求相当于OUTPUT,对于返回数据包必须接收啊，这相当于INPUT了
+iptables -I INPUT -i lo -j ACCEPT
+iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# 禁用所有出去的网络
+iptables -P OUTPUT DROP
+
+# 保存iptbales规则
+service iptables save
+
+# 重新启动
+service iptables restart 
+
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code><span># 查看所有规则列表并打印编号</span>
+iptables <span>-L</span> <span>-n</span> --line-numbers
+
+<span># 删除一条规则</span>
+iptables <span>-D</span> INPUT <span>7</span>
+<span># 或</span>
+iptables <span>-D</span> OUTPUT <span>7</span>
+
+<span># 允许所有出口访问</span>
+<span>sudo</span> iptables <span>-A</span> OUTPUT <span>-j</span> ACCEPT
+
+<span>#允许所有入口访问</span>
+<span>sudo</span> iptables <span>-A</span> INPUT <span>-j</span> ACCEPT
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code><span>#!/bin/sh</span>
+
+<span># 先备份iptables规则</span>
+<span>mkdir</span> /web/shell/iptables_bak
+<span>cp</span> /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
+
+<span>sed</span> <span>-i</span> <span>"s|#Port 22|Port 60011|g"</span> /etc/ssh/sshd_config
+
+<span># 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题</span>
+<span>#service iptables stop</span>
+
+<span># 禁止所有ip访问60011端口</span>
+iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> DROP
+
+<span># 开放指定ip可以连接60011端口</span>
+iptables <span>-A</span> INPUT <span>-i</span> <span>127.0</span>.0.1 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
+iptables <span>-I</span> INPUT <span>-s</span> <span>14.23</span>.97.250,192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
+
+<span>service</span> iptables save
+<span>service</span> sshd restart
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><blockquote>
+<p>debian管理iptables需要用到iptables-persistent</p>
+<p>通过iptables-persistent生成的规则默认将被存储在以下文件中</p>
+<p>/etc/iptables/rules.v4    /etc/iptables/rules.v6</p>
+</blockquote>
+<div><pre><code><span>apt</span> <span>install</span> iptables-persistent <span>-y</span>
+
+<span># 保存重载</span>
+ <span>sudo</span> netfilter-persistent save
+ <span>sudo</span> netfilter-persistent reload
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>iptables -A INPUT -i 14.23.97.250 -p tcp --dport 80 -j ACCEPT</p>
+<p>iptables -A INPUT -i 14.23.97.250 -p tcp --dport 443 -j ACCEPT</p>
+<h3 id="服务器处理" tabindex="-1"> 服务器处理</h3>
+<ol>
+<li>限制登陆ip只有14.23.97.250才能登陆</li>
+<li>防火墙限制访问外网ip</li>
+<li>修改默认ssh端口为60011</li>
+<li>修改全部账号密码，root、jobui及个人账号，删除可疑账号</li>
+</ol>
+]]></content:encoded>
     </item>
     <item>
       <title>ElasticSearch</title>
