@@ -6,10 +6,360 @@
     <link>https://newzone.top/</link>
     <description>开源工具、效率方法、心理学探索的自我提升笔记，记录并输出一切能让自己提升的知识。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 25 Aug 2022 09:35:42 GMT</pubDate>
-    <lastBuildDate>Thu, 25 Aug 2022 09:35:42 GMT</lastBuildDate>
+    <pubDate>Thu, 25 Aug 2022 09:56:37 GMT</pubDate>
+    <lastBuildDate>Thu, 25 Aug 2022 09:56:37 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+    <item>
+      <title>Linux基础命令</title>
+      <link>https://newzone.top/linux/linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4.html</link>
+      <guid>https://newzone.top/linux/linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4.html</guid>
+      <source url="https://newzone.top/rss.xml">Linux基础命令</source>
+      <pubDate>Thu, 25 Aug 2022 09:55:40 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="linux基础命令" tabindex="-1"> Linux基础命令</h1>
+<h3 id="shell命令" tabindex="-1"> shell命令</h3>
+<div><pre><code><span>#查看一级目录文件夹大小</span>
+<span>sudo</span> <span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span>
+
+<span>#查看已删除文件进程</span>
+<span>lsof</span> <span>|</span> <span>grep</span> deleted 
+
+<span>#查看发行版</span>
+lsb_release <span>-a</span> 
+
+<span>#查看cpu核心数</span>
+nproc
+
+<span>#查看cpu型号 “| head -1”是只返回第一个</span>
+<span>cat</span> /proc/cpuinfo <span>|</span><span>grep</span> <span>"model name"</span> <span>|</span> <span>head</span> <span>-1</span>
+
+<span>#循环执行一条命令</span>
+<span>while</span> <span>true</span><span>;</span> <span>do</span> <span>date</span><span>;</span> <span>sleep</span> <span>1</span><span>;</span> <span>done</span>
+<span>watch</span> <span>-n</span> <span>1</span> <span>-d</span> <span>netstat</span> <span>-ant</span>
+
+<span># 统计文本中出现关键字的次数</span>
+<span>grep</span> <span>-o</span> objStr  filename<span>|</span><span>wc</span> <span>-l</span>
+
+<span>#kill掉所有符合关键字的进程</span>
+<span>ps</span> <span>-ef</span> <span>|</span> <span>grep</span> jobTypeRankDailyData<span>|</span> <span>grep</span> <span>-v</span> <span>grep</span> <span>|</span> <span>cut</span> <span>-c</span> <span>9</span>-15 <span>|</span> <span>xargs</span> <span>kill</span>
+
+<span>ps</span> <span>-ef</span> <span>|</span> <span>grep</span> rabbitmq<span>|</span> <span>grep</span> <span>-v</span> <span>grep</span> <span>|</span> <span>cut</span> <span>-c</span> <span>9</span>-15 <span>|</span> <span>xargs</span> <span>kill</span>
+
+<span>#根据进程id查端口</span>
+<span>netstat</span> <span>-nap</span> <span>|</span> <span>grep</span> 进程pid
+
+<span>#根据监听端口查看进程</span>
+<span>netstat</span> <span>-ntpl</span> <span>|</span> <span>grep</span> <span>":8755"</span>
+
+<span>#切换用户只执行一条命令的可以用: </span>
+<span>su</span> - user <span>-c</span> <span>command</span>
+<span>#切换用户执行一个shell文件可以用: </span>
+<span>su</span> - user <span>-s</span> /bin/bash shell.sh
+
+<span>#设置环境变量（临时）</span>
+<span>export</span> <span>LIBZIP_LIBS</span><span>=</span><span>"/web/software/libzip-1.3.2/lib"</span>
+<span>#设置环境变量（永久）(尽量直接编辑，不要echo，容易不小心覆盖文件)</span>
+<span>echo</span> <span>"export ONIG_CFLAGS=/usr/bin/onig-config"</span> <span>>></span> /etc/profile
+<span>#立即生效</span>
+<span>source</span> /etc/profile
+
+<span>#rpm查找包</span>
+<span>rpm</span> <span>-q</span> libcurl
+<span>#rpm安装包</span>
+<span>rpm</span> <span>-ivh</span> libcurl
+<span>#rpm卸载包 （ --nodeps忽略依赖）</span>
+<span>rpm</span> <span>-e</span> <span>--nodeps</span> libcurl
+   
+<span>#搜索替换文件内容</span>
+<span>sudo</span> <span>sed</span> <span>-i</span> <span>'s/track_errors = On/track_errors = Off/g'</span> /web/software/php-7.4.23/lib/php.ini
+
+<span>#统计文件夹大小（包含文件）</span>
+<span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span> /mysql
+
+<span>#统计当前目录文件按大小排序</span>
+<span>du</span> <span>-s</span> * <span>|</span> <span>sort</span> <span>-nr</span>
+
+<span>#批量解压zip文件到指定文件夹</span>
+<span>ls</span> *.zip <span>|</span> <span>xargs</span> <span>-n1</span> <span>unzip</span> <span>-o</span> <span>-d</span> unzip/
+
+<span>#批量解压tar压缩文件</span>
+<span>ls</span> *.tar.gz <span>|</span> <span>xargs</span> <span>-n1</span> <span>tar</span> <span>-zxvf</span>
+
+<span>#xargs是给命令传递参数的一个过滤器，可以将前一个命令产生的输出作为后一个命令的参数</span>
+<span>find</span> test2/ <span>-name</span> <span>'*.tes'</span> <span>|</span><span>xargs</span> <span>rm</span> <span>-rf</span>
+<span>#命令即将find产生的输出（test2目录下的所有tes文件），作为rm的参数，从而完全删除</span>
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="shell判断" tabindex="-1"> shell判断</h3>
+<div><pre><code><span>if</span> list <span>then</span>
+	<span>do</span> something here
+<span>elif</span> list <span>then</span>
+	<span>do</span> another thing here
+<span>else</span>
+	<span>do</span> something <span>else</span> here
+<span>fi</span>
+  
+<span>#EX1:</span>
+<span>#!/bin/sh</span>
+
+<span>SYSTEM</span><span>=</span><span><span>`</span><span>uname</span> <span>-s</span><span>`</span></span>    <span>#获取操作系统类型，我本地是linux</span>
+
+<span>if</span> <span>[</span> <span>$SYSTEM</span> <span>=</span> <span>"Linux"</span> <span>]</span> <span>;</span> <span>then</span>     <span>#如果是linux的话打印linux字符串</span>
+<span>echo</span> <span>"Linux"</span>
+<span>elif</span> <span>[</span> <span>$SYSTEM</span> <span>=</span> <span>"FreeBSD"</span> <span>]</span> <span>;</span> <span>then</span>   
+<span>echo</span> <span>"FreeBSD"</span>
+<span>elif</span> <span>[</span> <span>$SYSTEM</span> <span>=</span> <span>"Solaris"</span> <span>]</span> <span>;</span> <span>then</span>
+<span>echo</span> <span>"Solaris"</span>
+<span>else</span>
+<span>echo</span> <span>"What?"</span>
+<span>fi</span>     <span>#ifend</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>基本上和其他脚本语言一样。没有太大区别。不过值得注意的是。[]里面的条件判断。[]内两边要有空格</p>
+<p>1 字符串判断</p>
+<div><pre><code>str1 <span>=</span> str2　　　　　　当两个串有相同内容、长度时为真
+str1 <span>!=</span> str2　　　　　 当串str1和str2不等时为真
+<span>-n</span> str1　　　　　　　 当串的长度大于0时为真<span>(</span>串非空<span>)</span>
+<span>-z</span> str1　　　　　　　 当串的长度为0时为真<span>(</span>空串<span>)</span>
+str1　　　　　　　　   当串str1为非空时为真
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>2 数字的判断</p>
+<div><pre><code>int1 <span>-eq</span> int2　　　　两数相等为真
+int1 <span>-ne</span> int2　　　　两数不等为真
+int1 <span>-gt</span> int2　　　　int1大于int2为真
+int1 <span>-ge</span> int2　　　　int1大于等于int2为真
+int1 <span>-lt</span> int2　　　　int1小于int2为真
+int1 <span>-le</span> int2　　　　int1小于等于int2为真
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>3 文件的判断</p>
+<div><pre><code><span>-r</span> <span>file</span>　　　　　用户可读为真
+<span>-w</span> <span>file</span>　　　　　用户可写为真
+<span>-x</span> <span>file</span>　　　　　用户可执行为真
+<span>-f</span> <span>file</span>　　　　　文件为正规文件为真
+<span>-d</span> <span>file</span>　　　　　文件为目录为真
+<span>-c</span> <span>file</span>　　　　　文件为字符特殊文件为真
+<span>-b</span> <span>file</span>　　　　　文件为块特殊文件为真
+<span>-s</span> <span>file</span>　　　　　文件大小非0时为真
+<span>-t</span> <span>file</span>　　　　　当文件描述符<span>(</span>默认为1<span>)</span>指定的设备为终端时为真
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>3 复杂逻辑判断</p>
+<div><pre><code><span>-a</span> 　 　　　　　 与
+<span>-o</span>　　　　　　　 或
+<span>!</span>　　　　　　　　非
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><p>4 参数判断</p>
+<div><pre><code><span>$0</span> 这个程式的执行名字
+<span>$n</span> 这个程式的第n个参数值，n<span>=</span><span>1</span><span>..</span><span>9</span>
+<span>$*</span> 这个程式的所有参数,此选项参数可超过9个。
+<span>$#</span> 这个程式的参数个数
+<span>$$</span> 这个程式的PID<span>(</span>脚本运行的当前进程ID号<span>)</span>
+<span>$!</span> 执行上一个背景指令的PID<span>(</span>后台运行的最后一个进程的进程ID号<span>)</span>
+<span>$?</span> 执行上一个指令的返回值 <span>(</span>显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误<span>)</span>
+$- 显示shell使用的当前选项，与set命令功能相同
+<span>$@</span> 跟<span>$*</span>类似，但是可以当作数组
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="判断目录文件数量" tabindex="-1"> 判断目录文件数量</h3>
+<p>Linux下有三个命令：<code>ls</code>、<code>grep</code>、<code>wc</code>。通过这三个命令的组合可以统计目录下文件及文件夹的个数。</p>
+<p>统计当前目录下文件的个数（不包括目录）</p>
+<div><pre><code><span>ls</span> <span>-l</span> <span>|</span> <span>grep</span> <span>"^-"</span> <span>|</span> <span>wc</span> <span>-l</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>统计当前目录下文件的个数（包括子目录）</p>
+<div><pre><code><span>ls</span> -lR<span>|</span> <span>grep</span> <span>"^-"</span> <span>|</span> <span>wc</span> <span>-l</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查看某目录下文件夹(目录)的个数（包括子目录）</p>
+<div><pre><code><span>ls</span> <span>-lR</span> <span>|</span> <span>grep</span> <span>"^d"</span> <span>|</span> <span>wc</span> <span>-l</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="vim" tabindex="-1"> vim</h3>
+<p>Vim中如何全选并复制？（区分大小写！！！）</p>
+<ol>
+<li>全部删除：按esc键后，先按gg（到达顶部），然后dG</li>
+<li>全部复制：按esc键后，先按gg，然后ggyG</li>
+<li>全选高亮显示：按esc键后，先按gg，然后ggvG或者ggVG</li>
+<li>单行复制：按esc键后，然后yy</li>
+<li>单行删除：按esc键后，然后dd</li>
+<li>粘贴：按esc键后，然后p</li>
+</ol>
+<p>vim批量注释</p>
+<p>1.按下v然后上下键选中内容</p>
+<p>2.按下ctrl+v进入列模式，再按下大写I进入插入模式，输入注释符</p>
+<p>3.最后按两次esc</p>
+<p>vim批量取消注释</p>
+<p>1.按ctrl+v，上下键选中后注释符号后按d</p>
+<h3 id="ssh" tabindex="-1"> ssh</h3>
+<div><pre><code><span>#生成本机密钥</span>
+ssh-keygen <span>-t</span> rsa <span>-C</span> <span>"zax"</span>
+
+<span>#发送公钥到指定服务器账户</span>
+<span>scp</span> /home/zax/.ssh/id_rsa.pub zax@192.168.2.132:/home/zax/.ssh/authorized_keys
+
+<span>#使用mkpasswd可以根据自己的定义来随意生成密码，其中包括长度，包含内容的个数等。</span>
+<span>#首先需要安装expect</span>
+yum <span>-y</span> <span>install</span> <span>expect</span>
+<span>#安装完成就可以使用了，以下为使用参数（这几个参数基本够用）：</span>
+<span>-l</span> <span>#      (密码的长度定义, 默认是 9)</span>
+<span>-d</span> <span>#      (数字个数, 默认是 2)</span>
+<span>-c</span> <span>#      (小写字符, 默认是 3)</span>
+<span>-C</span> <span>#      (大写字符, 默认是 2)</span>
+<span>-s</span> <span>#      (特殊字符, 默认是  1)</span>
+
+mkpasswd <span>-l</span> <span>16</span> <span>-d</span> <span>2</span> <span>-C</span> <span>2</span> <span>-s</span> <span>2</span>
+
+<span>#sshd_config配置只允许指定用户+ip登录</span>
+AllowUsers zax@192.168.1.63 zax@192.168.1.75
+
+<span>#iptables配置只允许指定ip登录</span>
+<span>#禁止所有ip连接22端口</span>
+<span>sudo</span> iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
+<span>#开启ip段192.168.1.0/24端的80口 可以改成别的端口号</span>
+<span>sudo</span> iptables <span>-I</span> INPUT <span>-s</span> <span>192.168</span>.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
+<span>#保存</span>
+sservice iptables save
+
+<span>#删除规则</span>
+iptables <span>-L</span> INPUT --line-numbers
+iptables <span>-D</span> INPUT <span>7</span>
+
+<span>#安装telnet</span>
+yum <span>-y</span> <span>install</span> telnet-server.x86_64
+
+<span>#将disable = yes改为 disable = no，退出保存。</span>
+<span>nano</span> /etc/xinetd.d/telnet
+
+<span>#然后启动telnet服务：</span>
+<span>service</span> xinetd start
+
+<span>#查看启用的加密算法</span>
+<span>sudo</span> <span>ssh</span> <span>-Q</span> cipher
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="linux-用-grep-查找单个或多个字符串-关键字" tabindex="-1"> linux 用 grep 查找单个或多个字符串（关键字)</h3>
+<p>单个字符串进行查找：</p>
+<ol>
+<li>
+<p>查找当前目录文件名中的字符串：    grep  字符串  文件名</p>
+</li>
+<li>
+<p>查找某个文件中字符串，并输出行号：grep -n 字符串 文件名</p>
+</li>
+<li>
+<p>查找当前目录（包含子目录）的字符串：grep -r 字符串 *</p>
+</li>
+<li>
+<p>查找当前目录（包含子目录）的字符串，并输出行号：grep -rn 字符串 *</p>
+</li>
+<li>
+<ul>
+<li>:通配符，表示当前目录所有文件，也可以按照某种模式进行匹配，例如：</li>
+</ul>
+<p>grep 字符串 *.txt   匹配所有文件后缀名为txt的字符串</p>
+</li>
+<li>
+<p>-r ：递归查找</p>
+</li>
+<li>
+<p>-n ：显示行号</p>
+</li>
+<li>
+<p>-R ：查找所有文件包含子目录</p>
+</li>
+<li>
+<p>-i ：忽略大小写</p>
+</li>
+<li>
+<p>2、同时满足多个字符串查找：</p>
+</li>
+<li>
+<p>grep 字符串1 文件名| grep 字符串2|grep 字符串3|grep ...</p>
+</li>
+<li>
+<p>3、满足多个关键字之一</p>
+</li>
+<li>
+<p>grep -E &quot;字符串1|字符串2|字符串3|&quot;  文件名   或者</p>
+</li>
+<li>
+<p>egrep  &quot;字符串1|字符串2|字符串3|&quot;  文件名</p>
+</li>
+</ol>
+<div><pre><code><span>grep</span> <span>-v</span> <span>"^#"</span> /etc/ssh/sshd_config	<span>#不匹配#开头的行</span>
+<span>egrep</span> <span>-v</span> <span>"^#|^$"</span> /etc/ssh/sshd_config
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="查看实时网速" tabindex="-1"> 查看实时网速</h3>
+<div><pre><code><span>watch</span> <span>-n</span> <span>1</span> <span>"/sbin/ifconfig eth1 | grep bytes"</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="磁盘相关命令" tabindex="-1"> 磁盘相关命令</h3>
+<div><pre><code><span>#查看磁盘信息</span>
+<span>sudo</span> lsblk
+
+<span>sudo</span> <span>fdisk</span> <span>-l</span>
+
+<span>sudo</span> <span>df</span> <span>-h</span>
+
+<span>#查看分区uuid</span>
+<span>sudo</span> blkid
+
+<span>#更新磁盘分区表</span>
+partx <span>-v</span> <span>-a</span> /dev/sda
+
+<span>#新建分区</span>
+<span>fdisk</span> /dev/sda
+n
+w
+
+<span>#格式化</span>
+<span>sudo</span> mkfs.ext4 /dev/sdb1
+
+<span>#开机读取的挂载目录,可以在这里屏蔽有问题的分区</span>
+<span>vim</span> /etc/fstab
+
+<span>#安装smartmontools</span>
+------------ 在基于 Debian/Ubuntu 的系统上 ------------
+<span>sudo</span> <span>apt-get</span> <span>install</span> smartmontools
+------------ 在基于 RHEL/CentOS 的系统上 ------------
+<span>sudo</span> yum <span>install</span> smartmontools
+<span>#检测</span>
+<span>sudo</span> smartctl <span>-H</span> /dev/sda
+
+<span># 测试磁盘读写速度</span>
+<span># 测试写入速度</span>
+<span>sudo</span> <span>dd</span> <span>if</span><span>=</span>/dev/zero <span>of</span><span>=</span>/jobui/tempfile <span>bs</span><span>=</span>1M <span>count</span><span>=</span><span>1024</span>
+<span># 测试读取速度</span>
+<span>sudo</span> <span>dd</span> <span>if</span><span>=</span>/jobui/tempfile <span>of</span><span>=</span>/dev/null <span>bs</span><span>=</span>1M <span>count</span><span>=</span><span>1024</span>
+
+<span># 查看硬盘型号</span>
+hdparm <span>-i</span> /dev/hda
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="创建lvm磁盘" tabindex="-1"> 创建LVM磁盘</h3>
+<div><pre><code><span>#将硬盘添加到pv分区</span>
+<span>sudo</span> pvcreate /dev/sda
+<span>sudo</span> pvcreate /dev/sdb
+<span>sudo</span> pvcreate /dev/sdc
+<span>sudo</span> pvcreate /dev/sdd
+<span>#查看pv分区信息</span>
+<span>sudo</span> pvs
+
+<span>#创建并将sda加入VG_SSD1</span>
+<span>sudo</span> vgcreate VG_SSD1 /dev/sda
+<span>#将sdb加入VG_SSD1</span>
+<span>sudo</span> vgextend VG_SSD1 /dev/sdb
+
+<span>#创建并将sdc加入VG_SSD2</span>
+<span>sudo</span> vgcreate VG_SSD2 /dev/sdc
+<span>#将sdd加入VG_SSD2</span>
+<span>sudo</span> vgextend VG_SSD1 /dev/sdd
+
+<span>#查看vg分区信息</span>
+<span>sudo</span> vgs
+<span>#查看vg详情</span>
+<span>sudo</span> vgdisplay VG_SSD1
+
+<span>#创建lv分区</span>
+<span>sudo</span> lvcreate <span>--extents</span> <span>100</span>%FREE VG_SSD1 <span>-n</span> LV_SSD1
+<span>sudo</span> lvcreate <span>--extents</span> <span>100</span>%FREE VG_SSD2 <span>-n</span> LV_SSD2
+<span>#查看lv分区</span>
+<span>sudo</span> lvs
+<span>#以上步骤创建完了逻辑卷接下来格式化分区</span>
+<span>sudo</span> mkfs.ext4 /dev/VG_SSD1/LV_SSD1
+<span>sudo</span> mkfs.ext4 /dev/VG_SSD2/LV_SSD2
+
+<span>#挂载分区</span>
+<span>mount</span> <span>-o</span> noatime,nodiratime /dev/mapper/VG_SSD1-LV_SSD1 /ssd_jobui
+<span>mount</span> <span>-o</span> noatime,nodiratime /dev/mapper/VG_SSD2-LV_SSD2 /ssd_company
+
+
+lvm vgscan
+lvm vgchange <span>-ay</span>
+lvm lvs
+最后使用e2fsck命令修复一下LVM磁盘：
+e2fsck <span>-f</span> <span>-y</span> /dev/mapper/VolGroup00-LogVol00
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
     <item>
       <title>tp6笔记</title>
       <link>https://newzone.top/code/tp6.html</link>
@@ -1981,210 +2331,6 @@ SELECT COUNT(*) FROM `jobui_company`.`tb_company_review-list` WHERE `CR_PushStat
 <div><pre><code>SELECT COUNT(*) FROM `jobui_company`.`tb_company_comment-list`
 SELECT COUNT(*) FROM `jobui_company`.`tb_company_comment-list` WHERE `CC_PushStatus` = 'Y'
 </code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>redis</title>
-      <link>https://newzone.top/services/redis.html</link>
-      <guid>https://newzone.top/services/redis.html</guid>
-      <source url="https://newzone.top/rss.xml">redis</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="redis" tabindex="-1"> redis</h1>
-<h3 id="启动redis-server" tabindex="-1"> 启动redis-server</h3>
-<div><pre><code><span># 配置后台启动，且端口是 1123</span>
-redis-server ./redis.conf <span>--daemonize</span> <span>yes</span> <span>--port</span> <span>1123</span>
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="连接redis" tabindex="-1"> 连接redis</h3>
-<div><pre><code>redis-cli <span>-h</span> <span>hostname</span> <span>-p</span> <span>6381</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="查看redis状态" tabindex="-1"> 查看redis状态</h3>
-<div><pre><code><span>></span>info all
-<span>></span>info Stats
-connected_clients:68  <span>#连接的客户端数量</span>
-used_memory_rss_human:847.62M <span>#系统给redis分配的内存</span>
-used_memory_peak_human:794.42M  <span>#内存使用的峰值大小</span>
-total_connections_received:619104 <span>#服务器已接受的连接请求数量</span>
-instantaneous_ops_per_sec:1159 <span>#服务器每秒钟执行的命令数量</span>
-instantaneous_input_kbps:55.85 <span>#redis网络入口kps</span>
-instantaneous_output_kbps:3553.89 <span>#redis网络出口kps</span>
-rejected_connections:0 <span>#因为最大客户端数量限制而被拒绝的连接请求数量</span>
-expired_keys:0 <span>#因为过期而被自动删除的数据库键数量</span>
-evicted_keys:0 <span>#因为最大内存容量限制而被驱逐（evict）的键数量</span>
-keyspace_hits:0 <span>#查找数据库键成功的次数</span>
-keyspace_misses:0 <span>#查找数据库键失败的次数</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="数据类型" tabindex="-1"> 数据类型</h3>
-<p>Redis支持五种数据类型：string（字符串），hash（哈希），list（列表），set（集合）及zset(sorted set：有序集合)。</p>
-<h3 id="基础命令" tabindex="-1"> 基础命令</h3>
-<p>查看所有key</p>
-<div><pre><code>127.0.0.1:6379>KEYS pattern
-127.0.0.1:6379>KEYS *
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>查看当前redis的配置文件</p>
-<div><pre><code>redis-cli info <span>|</span> <span>grep</span> config
-</code></pre><div aria-hidden="true"><div></div></div></div><h4 id="string类型" tabindex="-1"> string类型</h4>
-<p>设置、获取、删除单个值</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> <span>set</span> key1
-<span>127.0</span>.0.1:637<span><span>9</span>></span> get key1
-<span>127.0</span>.0.1:637<span><span>9</span>></span> del key1
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><p>批量获取、设置值</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> mset key1 <span>"Hello"</span> key2 <span>"World"</span>
-<span>127.0</span>.0.1:637<span><span>9</span>></span> mget key1 key2
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>设置有实效的数据</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> setex key1 <span>10</span> value
-<span>127.0</span>.0.1:637<span><span>9</span>></span> psetex key1 <span>10</span> value
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>追加数据</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> append key1 value
-</code></pre><div aria-hidden="true"><div></div></div></div><p>自增自减</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> incr key1
-<span>127.0</span>.0.1:637<span><span>9</span>></span> decr key1
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>指定数量自增自减</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> incrby key1
-<span>127.0</span>.0.1:637<span><span>9</span>></span> decrby key1
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h4 id="hash类型" tabindex="-1"> hash类型</h4>
-<p>设置、获取、删除数据</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> hset key field value
-<span>127.0</span>.0.1:637<span><span>9</span>></span> hget key field 
-<span>127.0</span>.0.1:637<span><span>9</span>></span> hgetall key 
-<span>127.0</span>.0.1:637<span><span>9</span>></span> hdel key field1 field2 
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><p>获取哈希表里的字段名或者字段值</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> hkeys key
-<span>127.0</span>.0.1:637<span><span>9</span>></span> hvals key
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>哈希表自增自减一个指定数值</p>
-<div><pre><code><span>127.0</span>.0.1:637<span><span>9</span>></span> hincrby key field <span>10</span>
-
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="查看redis状态-1" tabindex="-1"> 查看redis状态</h3>
-<div><pre><code><span>sudo</span> systemctl status redis-server
-</code></pre><div aria-hidden="true"><div></div></div></div><div><pre><code>connected_clients:68  <span>#连接的客户端数量</span>
-used_memory_rss_human:847.62M <span>#系统给redis分配的内存</span>
-used_memory_peak_human:794.42M  <span>#内存使用的峰值大小</span>
-total_connections_received:619104 <span>#服务器已接受的连接请求数量</span>
-instantaneous_ops_per_sec:1159 <span>#服务器每秒钟执行的命令数量</span>
-instantaneous_input_kbps:55.85 <span>#redis网络入口kps</span>
-instantaneous_output_kbps:3553.89 <span>#redis网络出口kps</span>
-rejected_connections:0 <span>#因为最大客户端数量限制而被拒绝的连接请求数量</span>
-expired_keys:0 <span>#因为过期而被自动删除的数据库键数量</span>
-evicted_keys:0 <span>#因为最大内存容量限制而被驱逐（evict）的键数量</span>
-keyspace_hits:0 <span>#查找数据库键成功的次数</span>
-keyspace_misses:0 <span>#查找数据库键失败的次数</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h2 id="redis集群" tabindex="-1"> redis集群</h2>
-<blockquote>
-<p>集群配置文件路径：/web/bcshell/cache/redis/redisCluster</p>
-<p>其中一个主节点配置一个从节点配置redis_145_master.conf redis_137_slave.conf</p>
-<p>采用错开部署方式，145一个主节点一个134的从节点，137一个主节点一个136的从节点，136一个主节点一个137的从节点，134一个主节点一个145的从节点，作用是其中任何一台宕机都不会影响redis正常运行。</p>
-</blockquote>
-<div><pre><code><span># 端口</span>
-port <span>6850</span>
-<span># 启用集群模式</span>
-cluster-enabled <span>yes</span> 
-<span># 根据你启用的节点来命名，最好和端口保持一致，这个是用来保存其他节点的名称，状态等信息的</span>
-cluster-config-file nodes_136_6850.conf 
-<span># 超时时间</span>
-cluster-node-timeout <span>5000</span>
-appendonly <span>yes</span>
-<span># 后台运行</span>
-daemonize <span>yes</span>
-<span># 非保护模式</span>
-protected-mode no 
-<span># 最大内存</span>
-maxmemory 4096M
-<span># lru模式</span>
-maxmemory-policy allkeys-lru
-
-pidfile  /var/run/redis_6850.pid
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="创建集群" tabindex="-1"> 创建集群</h3>
-<div><pre><code><span>#--cluster-replicas 1参数表示每个主节点后面自动创建从节点</span>
-redis-cli <span>--cluster</span> create <span>192.168</span>.2.145:6850 <span>192.168</span>.2.137:6850 <span>192.168</span>.2.136:6850 <span>192.168</span>.2.136:6851 <span>192.168</span>.2.137:6851 <span>192.168</span>.2.145:6851 --cluster-replicas <span>1</span>
-
-redis-cli <span>--cluster</span> create <span>192.168</span>.1.35:7001 <span>192.168</span>.1.35:7002 <span>192.168</span>.1.35:7003 <span>192.168</span>.1.35:7004 <span>192.168</span>.1.35:7005 <span>192.168</span>.1.35:7006 --cluster-replicas <span>1</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h3 id="正式创建流程" tabindex="-1"> 正式创建流程</h3>
-<div><pre><code><span>#只创建四个主节点，从节点手动配置(为了指定从节点)，添加从节点到主节点时不需要分配槽，添加主节点才需要</span>
-redis-cli <span>--cluster</span> create <span>192.168</span>.2.145:6850 <span>192.168</span>.2.134:6850 <span>192.168</span>.2.136:6850 <span>192.168</span>.2.137:6850
-
-<span>#添加从节点到主节点，先查一遍主节点id列表</span>
-<span>192.168</span>.2.145:685<span><span>0</span>></span> cluster nodes
-2e33878a625c2593c82438245152575c80fe9f4e <span>192.168</span>.2.134:6850@16850 master - <span>0</span> <span>1642588068170</span> <span>2</span> connected <span>4096</span>-8191
-0e6a6ce1f1cda274d37eb9038b6040e50889b6f8 <span>192.168</span>.2.136:6850@16850 master - <span>0</span> <span>1642588067168</span> <span>3</span> connected <span>8192</span>-12287
-6444c437523ebd5e8a359181749b2f737ad55040 <span>192.168</span>.2.137:6850@16850 master - <span>0</span> <span>1642588068670</span> <span>4</span> connected <span>12288</span>-16383
-9dc220f824f1e8a244721f7dac186d0ea3bf743c <span>192.168</span>.2.145:6850@16850 myself,master - <span>0</span> <span>1642588066000</span> <span>1</span> connected <span>0</span>-4095
-
-<span>#134:6851添加为145:6850从节点</span>
-redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.134:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c
-
-<span>#145:6851添加为134:6850从节点</span>
-redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.145:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 2e33878a625c2593c82438245152575c80fe9f4e
-
-<span>#136:6851添加为137:6850从节点</span>
-redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.136:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 6444c437523ebd5e8a359181749b2f737ad55040
-
-<span>#137:6851添加为136:6850从节点</span>
-redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.137:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 0e6a6ce1f1cda274d37eb9038b6040e50889b6f8
-
-<span>#注释：</span>
-<span>#--cluster-slave，表示添加的是从节点</span>
-<span>#--cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c,主节点的node id</span>
-<span>#192.168.2.134:6851,新节点</span>
-<span>#192.168.2.145:6850集群任一个主节点</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>添加后查看下节点如下，四主四从配置成功</p>
-<div><pre><code><span>192.168</span>.2.145:685<span><span>0</span>></span> cluster nodes
-0e6a6ce1f1cda274d37eb9038b6040e50889b6f8 <span>192.168</span>.2.136:6850@16850 master - <span>0</span> <span>1642589271961</span> <span>3</span> connected <span>8192</span>-12287
-2e33878a625c2593c82438245152575c80fe9f4e <span>192.168</span>.2.134:6850@16850 master - <span>0</span> <span>1642589271458</span> <span>2</span> connected <span>4096</span>-8191
-d493956d2fb46575e3ed4ee53a64f8ab5edfd97b <span>192.168</span>.2.145:6851@16851 slave 2e33878a625c2593c82438245152575c80fe9f4e <span>0</span> <span>1642589273462</span> <span>2</span> connected
-d4771a0b28c54652673c624216d3e08ba0cfe678 <span>192.168</span>.2.137:6851@16851 slave 0e6a6ce1f1cda274d37eb9038b6040e50889b6f8 <span>0</span> <span>1642589271000</span> <span>3</span> connected
-9dc220f824f1e8a244721f7dac186d0ea3bf743c <span>192.168</span>.2.145:6850@16850 myself,master - <span>0</span> <span>1642589269000</span> <span>1</span> connected <span>0</span>-4095
-99f84ea83b2e42eaf35a899cfdae86a8a31b739d <span>192.168</span>.2.136:6851@16851 slave 6444c437523ebd5e8a359181749b2f737ad55040 <span>0</span> <span>1642589272000</span> <span>4</span> connected
-4310ce12de0382bcdcc22dcd2f865ac95ec81d61 <span>192.168</span>.2.134:6851@16851 slave 9dc220f824f1e8a244721f7dac186d0ea3bf743c <span>0</span> <span>1642589272461</span> <span>1</span> connected
-6444c437523ebd5e8a359181749b2f737ad55040 <span>192.168</span>.2.137:6850@16850 master - <span>0</span> <span>1642589271000</span> <span>4</span> connected <span>12288</span>-16383
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="操作集群-进入集群操作" tabindex="-1"> 操作集群（进入集群操作）</h3>
-<div><pre><code><span>#集群(cluster) </span>
-<span>1</span>. CLUSTER INFO 打印集群的信息 
-<span>2</span>. CLUSTER NODES 列出集群当前已知的所有节点（node），以及这些节点的相关信息。  
-<span>3</span>. CLUSTER MEET <span>&lt;</span>ip<span>></span> <span>&lt;</span>port<span>></span> 将 <span>ip</span> 和 port 所指定的节点添加到集群当中，让它成为集群的一份子。 
-<span>4</span>. CLUSTER FORGET <span>&lt;</span>node_id<span>></span> 从集群中移除 node_id 指定的节点。 
-<span>5</span>. CLUSTER REPLICATE <span>&lt;</span>node_id<span>></span> 将当前节点设置为 node_id 指定的节点的从节点。 
-<span>6</span>. CLUSTER SAVECONFIG 将节点的配置文件保存到硬盘里面。  
-
-<span>#槽(slot) </span>
-<span>1</span>. CLUSTER ADDSLOTS <span>&lt;</span>slot<span>></span> <span>[</span>slot <span>..</span>.<span>]</span> 将一个或多个槽（slot）指派（assign）给当前节点。 
-<span>2</span>. CLUSTER DELSLOTS <span>&lt;</span>slot<span>></span> <span>[</span>slot <span>..</span>.<span>]</span> 移除一个或多个槽对当前节点的指派。 
-<span>3</span>. CLUSTER FLUSHSLOTS 移除指派给当前节点的所有槽，让当前节点变成一个没有指派任何槽的节点。 
-<span>4</span>. CLUSTER SETSLOT <span>&lt;</span>slot<span>></span> NODE <span>&lt;</span>node_id<span>></span> 将槽 slot 指派给 node_id 指定的节点，如果槽已经指派给另一个节点，那么先让另一个节点删除该槽<span>></span>，然后再进行指派。 
-<span>5</span>. CLUSTER SETSLOT <span>&lt;</span>slot<span>></span> MIGRATING <span>&lt;</span>node_id<span>></span> 将本节点的槽 slot 迁移到 node_id 指定的节点中。 
-<span>6</span>. CLUSTER SETSLOT <span>&lt;</span>slot<span>></span> IMPORTING <span>&lt;</span>node_id<span>></span> 从 node_id 指定的节点中导入槽 slot 到本节点。 
-<span>7</span>. CLUSTER SETSLOT <span>&lt;</span>slot<span>></span> STABLE 取消对槽 slot 的导入（import）或者迁移（migrate）。  
-<span>8</span>.  
-
-<span>#键 (key) </span>
-<span>1</span>. CLUSTER KEYSLOT <span>&lt;</span>key<span>></span> 计算键 key 应该被放置在哪个槽上。 
-<span>2</span>. CLUSTER COUNTKEYSINSLOT <span>&lt;</span>slot<span>></span> 返回槽 slot 目前包含的键值对数量。 
-<span>3</span>. CLUSTER GETKEYSINSLOT <span>&lt;</span>slot<span>></span> <span>&lt;</span>count<span>></span> 返回 count 个 slot 槽中的键。 
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="集群异常处理" tabindex="-1"> 集群异常处理</h3>
-<p>查看集群状态</p>
-<div><pre><code>redis-cli <span>--cluster</span> check <span>192.168</span>.2.145:6850
-</code></pre><div aria-hidden="true"><div></div></div></div><p>修复集群slot槽丢失问题</p>
-<div><pre><code>redis-cli <span>--cluster</span> fix <span>192.168</span>.2.145:6850
-</code></pre><div aria-hidden="true"><div></div></div></div><p>自动平衡集群中的各节点哈希槽数</p>
-<div><pre><code>redis-cli <span>--cluster</span> rebalance --cluster-use-empty-masters <span>192.168</span>.2.145:6850
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="添加一个新节点" tabindex="-1"> 添加一个新节点</h3>
-<p>添加主节点</p>
-<div><pre><code>redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.134:6850 <span>192.168</span>.2.136:6850
-<span>#注释：</span>
-<span>#192.168.2.134:6850是新增的节点</span>
-<span>#192.168.2.136:6850集群任一个旧节点</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><p>添加从节点</p>
-<div><pre><code>redis-cli <span>--cluster</span> add-node <span>192.168</span>.2.134:6851 <span>192.168</span>.2.145:6850 --cluster-slave --cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c
-<span>#注释：</span>
-<span>#--cluster-slave，表示添加的是从节点</span>
-<span>#--cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c,主节点的node id</span>
-<span>#192.168.2.134:6851,新节点</span>
-<span>#192.168.2.145:6850集群任一个旧节点</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="redis压力测试" tabindex="-1"> redis压力测试</h3>
-<p>redis-benchmark
-redis基准信息，redis服务器性能检测
-redis-benchmark -h localhost -p 6379 -c 100 -n 100000
-100个并发连接，100000个请求，检测host为localhost 端口为6379的redis服务器性能</p>
-<div><pre><code>f3fcf506ecc274c48400e84e1bc477316915a3ba <span>192.168</span>.2.145:6851@16851 slave 3a70fe2649fe7a58574582b92a9e11b4904b9585 <span>0</span> <span>1641892745000</span> <span>9</span> connected
-3a70fe2649fe7a58574582b92a9e11b4904b9585 <span>192.168</span>.2.137:6850@16850 myself,master - <span>0</span> <span>1641892746000</span> <span>9</span> connected <span>10923</span>-16383
-b8c3bc12879b22a3ab598c402eb30fb332d25b67 <span>192.168</span>.2.136:6851@16851 master - <span>0</span> <span>1641892744480</span> <span>10</span> connected <span>0</span>-5460
-406b33b2b7e588ab04d11a72b20c697b37b761e3 <span>192.168</span>.2.137:6851@16851 master - <span>0</span> <span>1641892745483</span> <span>6</span> connected <span>5461</span>-10922
-c06d455b7d9873235e996edcb23354e3d8045576 <span>192.168</span>.2.136:6850@16850 slave 406b33b2b7e588ab04d11a72b20c697b37b761e3 <span>0</span> <span>1641892746484</span> <span>6</span> connected
-63598fd0cdfe4395b014ec039f597649a2af1fb3 <span>192.168</span>.2.145:6850@16850 slave b8c3bc12879b22a3ab598c402eb30fb332d25b67 <span>0</span> <span>1641892746000</span> <span>10</span> connected
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>
