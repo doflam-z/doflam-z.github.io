@@ -23,7 +23,7 @@ service sshd restart
 iptables -I INPUT -p tcp --dport 22 -j DROP
 
 #用2222端口去运行下面一行，运行完，22端口就可以使用
-iptables -I INPUT -s 14.23.97.250 -p tcp --dport 22 -j ACCEPT
+iptables -I INPUT -s x.x.x.x -p tcp --dport 22 -j ACCEPT
 
 #保存
 service iptables save
@@ -49,10 +49,10 @@ iptables -I INPUT -p tcp --dport 60011 -j DROP
 
 # 开放指定ip可以连接60011端口
 iptables -A INPUT -i 127.0.0.1 -p tcp --dport 60011 -j ACCEPT
-iptables -I INPUT -s 14.23.97.250,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
+iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
 
 # 允许部分出去的网络  			
-iptables -A OUTPUT -d 192.168.2.0/24,14.23.97.250,121.201.88.88,114.114.114.114 -j ACCEPT    
+iptables -A OUTPUT -d 192.168.2.0/24,x.x.x.x,121.201.88.88,114.114.114.114 -j ACCEPT    
    
 # 允许访问的外网
 iptables -A OUTPUT -d open.work.weixin.qq.com,v0.api.upyun.com,v1.api.upyun.com,v2.api.upyun.com,v3.api.upyun.com,graph.qq.com,apis.map.qq.com,api.weixin.qq.com,login.weixin.qq.com,wx.qq.com,api.weibo.com,js4.jobui.com,css4.jobui.com,m.jobui.com,www.jobui.com,apis.jobui.com -j ACCEPT
@@ -110,7 +110,7 @@ iptables -I INPUT -p tcp --dport 60011 -j DROP
 
 # 开放指定ip可以连接60011端口
 iptables -A INPUT -i 127.0.0.1 -p tcp --dport 60011 -j ACCEPT
-iptables -I INPUT -s 14.23.97.250,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
+iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
 
 service iptables save
 service sshd restart
@@ -132,15 +132,15 @@ apt install iptables-persistent -y
  sudo netfilter-persistent reload
 ```
 
-iptables -A INPUT -i 14.23.97.250 -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -i x.x.x.x -p tcp --dport 80 -j ACCEPT
 
-iptables -A INPUT -i 14.23.97.250 -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -i x.x.x.x -p tcp --dport 443 -j ACCEPT
 
 
 
 ### 服务器处理
 
-1. 限制登陆ip只有14.23.97.250才能登陆
+1. 限制登陆ip只有x.x.x.x才能登陆
 2. 防火墙限制访问外网ip
 3. 修改默认ssh端口为60011
 4. 修改全部账号密码，root、jobui及个人账号，删除可疑账号
