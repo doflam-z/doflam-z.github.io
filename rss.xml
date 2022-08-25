@@ -6,8 +6,8 @@
     <link>https://newzone.top/</link>
     <description>开源工具、效率方法、心理学探索的自我提升笔记，记录并输出一切能让自己提升的知识。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 25 Aug 2022 09:56:37 GMT</pubDate>
-    <lastBuildDate>Thu, 25 Aug 2022 09:56:37 GMT</lastBuildDate>
+    <pubDate>Thu, 25 Aug 2022 10:04:40 GMT</pubDate>
+    <lastBuildDate>Thu, 25 Aug 2022 10:04:40 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -1063,7 +1063,7 @@ Port <span>2222</span>
 iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
 
 <span>#用2222端口去运行下面一行，运行完，22端口就可以使用</span>
-iptables <span>-I</span> INPUT <span>-s</span> <span>14.23</span>.97.250 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
+iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
 
 <span>#保存</span>
 <span>service</span> iptables save
@@ -1084,10 +1084,10 @@ iptables -I INPUT -p tcp --dport 60011 -j DROP
 
 # 开放指定ip可以连接60011端口
 iptables -A INPUT -i 127.0.0.1 -p tcp --dport 60011 -j ACCEPT
-iptables -I INPUT -s 14.23.97.250,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
+iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
 
 # 允许部分出去的网络  			
-iptables -A OUTPUT -d 192.168.2.0/24,14.23.97.250,121.201.88.88,114.114.114.114 -j ACCEPT    
+iptables -A OUTPUT -d 192.168.2.0/24,x.x.x.x,121.201.88.88,114.114.114.114 -j ACCEPT    
    
 # 允许访问的外网
 iptables -A OUTPUT -d open.work.weixin.qq.com,v0.api.upyun.com,v1.api.upyun.com,v2.api.upyun.com,v3.api.upyun.com,graph.qq.com,apis.map.qq.com,api.weixin.qq.com,login.weixin.qq.com,wx.qq.com,api.weibo.com,js4.jobui.com,css4.jobui.com,m.jobui.com,www.jobui.com,apis.jobui.com -j ACCEPT
@@ -1139,7 +1139,7 @@ iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>60
 
 <span># 开放指定ip可以连接60011端口</span>
 iptables <span>-A</span> INPUT <span>-i</span> <span>127.0</span>.0.1 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
-iptables <span>-I</span> INPUT <span>-s</span> <span>14.23</span>.97.250,192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
+iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x,192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
 
 <span>service</span> iptables save
 <span>service</span> sshd restart
@@ -1153,11 +1153,11 @@ iptables <span>-I</span> INPUT <span>-s</span> <span>14.23</span>.97.250,192.168
 <span># 保存重载</span>
  <span>sudo</span> netfilter-persistent save
  <span>sudo</span> netfilter-persistent reload
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>iptables -A INPUT -i 14.23.97.250 -p tcp --dport 80 -j ACCEPT</p>
-<p>iptables -A INPUT -i 14.23.97.250 -p tcp --dport 443 -j ACCEPT</p>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>iptables -A INPUT -i x.x.x.x -p tcp --dport 80 -j ACCEPT</p>
+<p>iptables -A INPUT -i x.x.x.x -p tcp --dport 443 -j ACCEPT</p>
 <h3 id="服务器处理" tabindex="-1"> 服务器处理</h3>
 <ol>
-<li>限制登陆ip只有14.23.97.250才能登陆</li>
+<li>限制登陆ip只有x.x.x.x才能登陆</li>
 <li>防火墙限制访问外网ip</li>
 <li>修改默认ssh端口为60011</li>
 <li>修改全部账号密码，root、jobui及个人账号，删除可疑账号</li>
@@ -2255,82 +2255,7 @@ $res = $collection->aggregate(array('$match' => $filter),array('$group' => $grou
 <div><pre><code>mysql
 </code></pre><div aria-hidden="true"><div></div></div></div><p>导入数据</p>
 <div><pre><code>/web/software/mysql/bin/mysql <span>-u</span> baicai_w <span>-p</span> zabbix <span>&lt;</span> zabbix.sql
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="数据库-145-百才" tabindex="-1"> 数据库：145（百才）</h3>
-<p>登记求职和要求流动服务人员（人）：128（baicai_personal.tb_personal_info/PI_RegisterTime大于要查询时间）</p>
-<div><pre><code>SELECT COUNT(PI_PersonalID) FROM `baicai_personal`.`tb_personal_info` WHERE `PI_RegisterTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>其中大专及以下学历人数：58（tb_personal_info_baseinfo， PIB_Degree=2、3、4）</p>
-<div><pre><code>SELECT COUNT(PIB_PersonalID) FROM `baicai_personal`.`tb_personal_info_baseinfo` WHERE `PIB_Degree` IN (2,3,4) AND `PIB_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>本科学历人数：27（PIB_Degree=5）</p>
-<div><pre><code>SELECT COUNT(PIB_PersonalID) FROM `baicai_personal`.`tb_personal_info_baseinfo` WHERE `PIB_Degree` = '5' AND `PIB_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>研究生及以上学历人数：3（PIB_Degree=6）</p>
-<div><pre><code>SELECT COUNT(PIB_PersonalID) FROM `baicai_personal`.`tb_personal_info_baseinfo` WHERE `PIB_Degree` = '6' AND `PIB_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>服务用人单位数（个）：1,884,188（tb_company_info）</p>
-<p>国企、事业单位：6（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+ORDER+BY+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=7、8、9）</p>
-<div><pre><code>SELECT COUNT(CI_CompanyID) FROM `baicai_company`.`tb_company_info` WHERE `CI_CompanyType` IN (7,8,9) AND `CI_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>民营：181（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+ORDER+BY+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=6）</p>
-<div><pre><code>SELECT COUNT(CI_CompanyID) FROM `baicai_company`.`tb_company_info` WHERE `CI_CompanyType` = '6' AND `CI_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>外资：146（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+ORDER+BY+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=2）</p>
-<div><pre><code>SELECT COUNT(CI_CompanyID) FROM `baicai_company`.`tb_company_info` WHERE `CI_CompanyType` = '2' AND `CI_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>其他：14（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+ORDER+BY+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=99）</p>
-<div><pre><code>SELECT COUNT(CI_CompanyID) FROM `baicai_company`.`tb_company_info` WHERE `CI_CompanyType` = '99' AND `CI_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>数据库现存职位信息总量：23,258,401（tb_job_info_status）</p>
-<p>全年新增入库求职信息：571 （JIS_AddTime&gt;=查询时间）</p>
-<div><pre><code>SELECT COUNT(JIS_JobID) FROM `baicai_company`.`tb_job_info_status` WHERE `JIS_AddTime` &gt; '1622476800' 
-</code></pre><div aria-hidden="true"><div></div></div></div><p>发布求职人次数：334（目前：baicai_personal.tb_resume_status，RS_LastUpdateTime&gt;=查询时间）</p>
-<div><pre><code>SELECT COUNT(RS_ResumeID) FROM `baicai_personal`.`tb_resume_status` WHERE `RS_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>发布求职信息（条）：251339</p>
-<div><pre><code>SELECT COUNT(JIS_JobID) FROM `baicai_company`.`tb_job_info_status` WHERE `JIS_IsPublish` = 'Y' AND `JIS_LastUpdateTime` &gt; '1622476800'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>20210601：1622476800</p>
-<p>20210930：1632886769</p>
-<p><strong>pc(pv):</strong></p>
-<p><strong>pc(uv):</strong></p>
-<p><strong>mobile(pv):</strong></p>
-<p><strong>mobile(uv):</strong></p>
-<p>服务人总数（PV）：</p>
-<p>帮助实现就业和流动人数（UV）：</p>
-<p>登记招聘人数（人次）：0</p>
-<p>登记求职和要求流动服务人员（人）：128（baicai_personal.tb_personal_info/PI_RegisterTime大于要查询时间）</p>
-<p>其中大专及以下学历人数：58（tb_personal_info_baseinfo， PIB_Degree=2、3、4）</p>
-<p>本科学历人数：27（PIB_Degree=5）</p>
-<p>研究生及以上学历人数：3（PIB_Degree=6）</p>
-<p>服务用人单位数（个）：1,883,862 （tb_company_info）</p>
-<p>国企、事业单位：20（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+%60tb_company_info%60+ORDER+BY+%60tb_company_info%60.%60CI_CompanyType%60+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=7、8、9）</p>
-<p>民营：274（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+%60tb_company_info%60+ORDER+BY+%60tb_company_info%60.%60CI_CompanyType%60+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=6）</p>
-<p>外资：254（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+%60tb_company_info%60+ORDER+BY+%60tb_company_info%60.%60CI_CompanyType%60+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=2）</p>
-<p>其他：40（<a href="http://121.9.201.145/phpMyAdmin-3.3/sql.php?db=baicai_company&amp;table=tb_company_info&amp;sql_query=SELECT+*+FROM+%60tb_company_info%60+ORDER+BY+%60tb_company_info%60.%60CI_CompanyType%60+ASC&amp;token=86576126e4fd62eec7293b890101f80d" target="_blank" rel="noopener noreferrer">CI_CompanyType</a>=99）</p>
-<p>建立人力资源数据库：1</p>
-<p>数据库现存职位信息总量：23,261,938（tb_job_info_status）</p>
-<p>全年新增入库求职信息：571</p>
-<p>发布求职人次数：334</p>
-<p>发布求职信息（条）：251339</p>
-<p>现存档案数量（份）：6,033,500</p>
-<p>依托档案提供服务（人次）：0</p>
-<h3 id="统计一个字段相同数字出现的频率" tabindex="-1"> 统计一个字段相同数字出现的频率</h3>
-<div><pre><code>SELECT UVEL_UserID,COUNT(1) as number FROM tb_user_status_export GROUP BY UVEL_UserID ORDER BY COUNT(1) DESC
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="删除自动递增的id" tabindex="-1"> 删除自动递增的id</h3>
-<div><pre><code>ALTER TABLE tb_data_tmp_company AUTO_INCREMENT = 1;
-</code></pre><div aria-hidden="true"><div></div></div></div><div><pre><code>UPDATE `jobui_data_day`.`jobui_data_company-2022-day_copy1` SET DC_Area=CONCAT('0',`DC_Area`) where char_length(`DC_Area`)=5
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="hr-相关通知开发" tabindex="-1"> HR 相关通知开发</h3>
-<p>绑定微信企业总数 804</p>
-<div><pre><code>SELECT COUNT(`UWM_ID`) FROM `jobui_user`.`tb_user_wx_mapping` WHERE `UWM_CompanyID` &lt;&gt; '0'
-</code></pre><div aria-hidden="true"><div></div></div></div><p>留言反馈总量：278176</p>
-<p>已推送：586</p>
-<div><pre><code>SELECT COUNT(`UOA_ID`) FROM `jobui_user`.`tb_user_online_ask` WHERE `UOA_IsDelete` = 'N'
-
-SELECT COUNT(`UOA_ID`) FROM `jobui_user`.`tb_user_online_ask` WHERE `UOA_IsDelete` = 'N' AND `UOA_PushStatus` = 'Y'
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><p>面试经验总量：18922</p>
-<p>已推送：178</p>
-<div><pre><code>SELECT COUNT(*) FROM `jobui_company`.`tb_company_interview_experience-list`
-SELECT COUNT(*) FROM `jobui_company`.`tb_company_interview_experience-list`  WHERE `CIE_PushStatus` = 'Y'
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>长评：478498</p>
-<p>已推送：94</p>
-<div><pre><code>SELECT COUNT(*) FROM `jobui_company`.`tb_company_review-list`
-SELECT COUNT(*) FROM `jobui_company`.`tb_company_review-list` WHERE `CR_PushStatus` = 'Y'
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>短评：999118</p>
-<p>已推送：119</p>
-<div><pre><code>SELECT COUNT(*) FROM `jobui_company`.`tb_company_comment-list`
-SELECT COUNT(*) FROM `jobui_company`.`tb_company_comment-list` WHERE `CC_PushStatus` = 'Y'
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
+</code></pre><div aria-hidden="true"><div></div></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>
