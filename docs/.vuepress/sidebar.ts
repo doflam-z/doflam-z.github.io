@@ -13,7 +13,7 @@ export default sidebar([
   {
     text: "Linux",
     icon: "",
-    prefix: "/services/",
+    prefix: "/linux/",
     link: "",
     collapsable: true,
     children: "structure",
@@ -36,7 +36,7 @@ export default sidebar([
   },
   {
     text: "博客",
-    icon: "blog",
+    icon: "",
     prefix: "/_posts/",
     link: "/blog",
     collapsable: true,
