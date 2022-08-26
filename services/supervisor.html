@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta property="og:url" content="https://doflam-z.github.io/services/supervisor.html"><meta property="og:site_name" content="CodeNote"><meta property="og:title" content="supervisor"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-08-26T06:14:34.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:modified_time" content="2022-08-26T06:14:34.000Z"><title>supervisor | CodeNote</title><meta name="description" content="笔记网站。">
+    <meta name="keywords" content="学习笔记" />
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/style.65a328d2.css">
+    <link rel="modulepreload" href="/assets/app.eb749dcb.js"><link rel="modulepreload" href="/assets/supervisor.html.b18823bd.js"><link rel="modulepreload" href="/assets/plugin-vue_export-helper.21dcd24c.js"><link rel="modulepreload" href="/assets/supervisor.html.9ae37b89.js">
+    <!-- Matomo 此区块为统计代码，请删除-->
+    <!-- End Matomo Code 此区块为统计代码，请删除-->
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container has-toc"><!--[--><!--[--><header class="navbar"><div class="navbar-left"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><!----><a href="/" class="brand"><img class="logo" src="/logo.svg" alt="CodeNote"><!----><span class="site-name hide-in-pad">CodeNote</span></a><!----></div><div class="navbar-center"><!----><nav class="nav-links"><div class="nav-item hide-in-mobile"><a href="/blog.html" class="nav-link" aria-label="博客"><span class="icon iconfont icon-blog"></span>博客<!----></a></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="代码"><span class="title"><span class="icon iconfont icon-code"></span>代码</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/code/php.html" class="nav-link" aria-label="PHP"><!---->PHP<!----></a></li><li class="dropdown-item"><a href="/code/tp6笔记" class="nav-link" aria-label="/code/tp6笔记"><!---->/code/tp6笔记<!----></a></li><li class="dropdown-item"><a href="/code/Python笔记" class="nav-link" aria-label="/code/Python笔记"><!---->/code/Python笔记<!----></a></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>Linux</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/linux/iptables.html" class="nav-link" aria-label="iptables"><!---->iptables<!----></a></li><li class="dropdown-subitem"><a href="/linux/linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4.html" class="nav-link" aria-label="Linux基础命令"><!---->Linux基础命令<!----></a></li><li class="dropdown-subitem"><a href="/linux/Debian10常用命令" class="nav-link" aria-label="/linux/Debian10常用命令"><!---->/linux/Debian10常用命令<!----></a></li></ul></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="service"><span class="title"><span class="icon iconfont icon-app"></span>service</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a href="/service/redis" class="nav-link" aria-label="/service/redis"><!---->/service/redis<!----></a></li><li class="dropdown-item"><a href="/service/Mysql常用命令" class="nav-link" aria-label="/service/Mysql常用命令"><!---->/service/Mysql常用命令<!----></a></li><li class="dropdown-item"><a href="/service/mongo" class="nav-link" aria-label="/service/mongo"><!---->/service/mongo<!----></a></li></ul></button></div></div></nav><!----></div><div class="navbar-right"><!----><div class="nav-item"><a class="repo-link" href="https://github.com/doflam-z/doflam-z.github.io" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="github icon" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></svg></a></div><div class="nav-item hide-in-mobile"><button class="outlook-button" tabindex="-1" ariahidden="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon outlook-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="outlook icon"><path d="M224 800c0 9.6 3.2 44.8 6.4 54.4 6.4 48-48 76.8-48 76.8s80 41.6 147.2 0 134.4-134.4 38.4-195.2c-22.4-12.8-41.6-19.2-57.6-19.2C259.2 716.8 227.2 761.6 224 800zM560 675.2l-32 51.2c-51.2 51.2-83.2 32-83.2 32 25.6 67.2 0 112-12.8 128 25.6 6.4 51.2 9.6 80 9.6 54.4 0 102.4-9.6 150.4-32l0 0c3.2 0 3.2-3.2 3.2-3.2 22.4-16 12.8-35.2 6.4-44.8-9.6-12.8-12.8-25.6-12.8-41.6 0-54.4 60.8-99.2 137.6-99.2 6.4 0 12.8 0 22.4 0 12.8 0 38.4 9.6 48-25.6 0-3.2 0-3.2 3.2-6.4 0-3.2 3.2-6.4 3.2-6.4 6.4-16 6.4-16 6.4-19.2 9.6-35.2 16-73.6 16-115.2 0-105.6-41.6-198.4-108.8-268.8C704 396.8 560 675.2 560 675.2zM224 419.2c0-28.8 22.4-51.2 51.2-51.2 28.8 0 51.2 22.4 51.2 51.2 0 28.8-22.4 51.2-51.2 51.2C246.4 470.4 224 448 224 419.2zM320 284.8c0-22.4 19.2-41.6 41.6-41.6 22.4 0 41.6 19.2 41.6 41.6 0 22.4-19.2 41.6-41.6 41.6C339.2 326.4 320 307.2 320 284.8zM457.6 208c0-12.8 12.8-25.6 25.6-25.6 12.8 0 25.6 12.8 25.6 25.6 0 12.8-12.8 25.6-25.6 25.6C470.4 233.6 457.6 220.8 457.6 208zM128 505.6C128 592 153.6 672 201.6 736c28.8-60.8 112-60.8 124.8-60.8-16-51.2 16-99.2 16-99.2l316.8-422.4c-48-19.2-99.2-32-150.4-32C297.6 118.4 128 291.2 128 505.6zM764.8 86.4c-22.4 19.2-390.4 518.4-390.4 518.4-22.4 28.8-12.8 76.8 22.4 99.2l9.6 6.4c35.2 22.4 80 12.8 99.2-25.6 0 0 6.4-12.8 9.6-19.2 54.4-105.6 275.2-524.8 288-553.6 6.4-19.2-3.2-32-19.2-32C777.6 76.8 771.2 80 764.8 86.4z"></path></svg><div class="outlook-dropdown"><!----></div></button></div><div id="docsearch-container"></div><!----><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><!----><span class="title">Code</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><!----><span class="title">Linux</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable active"><!----><span class="title">Services</span><span class="arrow down"></span></button><ul class="sidebar-links"><li><!--[--><a href="/services/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%BC%80%E5%8F%91.html" class="nav-link sidebar-link sidebar-page" aria-label="/services/数据库开发.md"><!---->/services/数据库开发.md<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/services/web_Dockerfile.html" class="nav-link sidebar-link sidebar-page" aria-label="dockerfile编写"><!---->dockerfile编写<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/services/jobui_docker%E7%8E%AF%E5%A2%83.html" class="nav-link sidebar-link sidebar-page" aria-label="Docker环境启动"><!---->Docker环境启动<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/services/Docker.html" class="nav-link sidebar-link sidebar-page" aria-label="docker笔记"><!---->docker笔记<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/services/ElasticSearch.html" class="nav-link sidebar-link sidebar-page" aria-label="ElasticSearch"><!---->ElasticSearch<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/services/%E5%AE%89%E8%A3%85es+kibana.html" class="nav-link sidebar-link sidebar-page" aria-label="es+kibana部署"><!---->es+kibana部署<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/services/mongo.html" class="nav-link sidebar-link sidebar-page" aria-label="mongo"><!---->mongo<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a href="/services/redis.html" class="nav-link sidebar-link sidebar-page" aria-label="redis"><!---->redis<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a aria-current="page" href="/services/supervisor.html" class="router-link-active router-link-exact-active nav-link active sidebar-link sidebar-page active" aria-label="supervisor"><!---->supervisor<!----></a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a aria-current="page" href="/services/supervisor.html#yum安装" class="router-link-active router-link-exact-active nav-link sidebar-link heading" aria-label="yum安装"><!---->yum安装<!----></a><ul class="sidebar-sub-headers"></ul></li><li class="sidebar-sub-header"><a aria-current="page" href="/services/supervisor.html#编译安装-需要python3支持" class="router-link-active router-link-exact-active nav-link sidebar-link heading" aria-label="编译安装，需要python3支持"><!---->编译安装，需要python3支持<!----></a><ul class="sidebar-sub-headers"></ul></li></ul><!--]--></li><li><!--[--><a href="/services/zabbix.html" class="nav-link sidebar-link sidebar-page" aria-label="源码安装zabbix5.4（centos6）"><!---->源码安装zabbix5.4（centos6）<!----></a><ul class="sidebar-sub-headers"></ul><!--]--></li></ul></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><!----><span class="title">工具</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><!----><a href="/blog.html" class="title">博客</a><span class="arrow right"></span></button><!----></section><!--]--></li></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!--[--><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><!---->supervisor</h1><div class="page-info"><!----><!----><span class="words-info" aria-label="字数🔠" data-balloon-pos="down" localizeddate="2022年8月26日" isoriginal="false" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon word-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="word icon"><path d="M518.217 432.64V73.143A73.143 73.143 0 01603.43 1.097a512 512 0 01419.474 419.474 73.143 73.143 0 01-72.046 85.212H591.36a73.143 73.143 0 01-73.143-73.143z"></path><path d="M493.714 566.857h340.297a73.143 73.143 0 0173.143 85.577A457.143 457.143 0 11371.566 117.76a73.143 73.143 0 0185.577 73.143v339.383a36.571 36.571 0 0036.571 36.571z"></path></svg><span>约 1853 字</span><meta property="wordCount" content="1853"></span><span class="reading-time-info" aria-label="阅读时间⌛" data-balloon-pos="down" localizeddate="2022年8月26日" isoriginal="false" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="timer icon"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></svg><span>大约 6 分钟</span><meta property="timeRequired" content="PT6M"></span><span class="visitor-info" aria-label="访问量🔢" data-balloon-pos="down" localizeddate="2022年8月26日" isoriginal="false"><svg xmlns="http://www.w3.org/2000/svg" class="icon eye-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="eye icon"><path d="M992 512.096c0-5.76-.992-10.592-1.28-11.136-.192-2.88-1.152-8.064-2.08-10.816-.256-.672-.544-1.376-.832-2.08-.48-1.568-1.024-3.104-1.6-4.32C897.664 290.112 707.104 160 512 160c-195.072 0-385.632 130.016-473.76 322.592-1.056 2.112-1.792 4.096-2.272 5.856a55.512 55.512 0 00-.64 1.6c-1.76 5.088-1.792 8.64-1.632 7.744-.832 3.744-1.568 11.168-1.568 11.168-.224 2.272-.224 4.032.032 6.304 0 0 .736 6.464 1.088 7.808.128 1.824.576 4.512 1.12 6.976h-.032c.448 2.08 1.12 4.096 1.984 6.08.48 1.536.992 2.976 1.472 4.032C126.432 733.856 316.992 864 512 864c195.136 0 385.696-130.048 473.216-321.696 1.376-2.496 2.24-4.832 2.848-6.912.256-.608.48-1.184.672-1.728 1.536-4.48 1.856-8.32 1.728-8.32l-.032.032c.608-3.104 1.568-7.744 1.568-13.28zM512 672c-88.224 0-160-71.776-160-160s71.776-160 160-160 160 71.776 160 160-71.776 160-160 160z"></path></svg><span class="waline-pageview-count" data-path="/services/supervisor.html">...</span></span></div><hr></div><div class="toc-place-holder"><aside id="toc"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/services/supervisor.html#yum安装" class="router-link-active router-link-exact-active toc-link level3">yum安装</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/services/supervisor.html#编译安装-需要python3支持" class="router-link-active router-link-exact-active toc-link level3">编译安装，需要python3支持</a></li><!----><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><h1 id="supervisor" tabindex="-1"><a class="header-anchor" href="#supervisor" aria-hidden="true">#</a> supervisor</h1><h3 id="yum安装" tabindex="-1"><a class="header-anchor" href="#yum安装" aria-hidden="true">#</a> yum安装</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>yum <span class="token function">install</span> epel-release
+yum <span class="token function">install</span> <span class="token parameter variable">-y</span> supervisor
+systemctl <span class="token builtin class-name">enable</span> supervisord <span class="token comment"># 开机自启动</span>
+systemctl start supervisord <span class="token comment"># 启动supervisord服务</span>
+
+systemctl status supervisord <span class="token comment"># 查看supervisord服务状态</span>
+<span class="token function">ps</span> -ef<span class="token operator">|</span><span class="token function">grep</span> supervisord <span class="token comment"># 查看是否存在supervisord进程</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="编译安装-需要python3支持" tabindex="-1"><a class="header-anchor" href="#编译安装-需要python3支持" aria-hidden="true">#</a> 编译安装，需要python3支持</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 下载安装python3.6.8</span>
+<span class="token function">wget</span> https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tgz
+
+<span class="token function">tar</span> <span class="token parameter variable">-zxvf</span> Python-3.6.8.tgz
+
+./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/usr/local/python3
+
+<span class="token function">make</span> <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token function">install</span>
+
+<span class="token function">ln</span> <span class="token parameter variable">-s</span> /usr/local/python3/bin/python3.6 /usr/bin/python3.6
+<span class="token function">ln</span> <span class="token parameter variable">-s</span> /usr/local/python3/bin/pip3 /usr/bin/pip3
+
+<span class="token comment"># 安装依赖</span>
+yum <span class="token function">install</span> gcc zlib-devel bzip2-devel openssl openssl-devel ncurses-devel sqlite-devel <span class="token parameter variable">-y</span>
+
+<span class="token comment">#源码安装supervisor</span>
+
+<span class="token builtin class-name">cd</span> /usr/local/src
+<span class="token function">wget</span> <span class="token parameter variable">-c</span> https://files.pythonhosted.org/packages/11/35/eab03782aaf70d87303b21a67c345b953d3b59d4e3971a568c51e523f5c0/supervisor-4.2.1.tar.gz
+
+<span class="token function">tar</span> <span class="token parameter variable">-zxvf</span> supervisor-4.2.1.tar.gz
+<span class="token builtin class-name">cd</span> supervisor-4.2.1
+
+Python3.6 setup.py <span class="token function">install</span>
+
+<span class="token comment">#创建软连接：</span>
+
+<span class="token function">ln</span> <span class="token parameter variable">-s</span> /usr/local/python3/bin/supervisorctl /usr/bin/supervisorctl
+<span class="token function">ln</span> <span class="token parameter variable">-s</span> /usr/local/python3/bin/supervisord /usr/bin/supervisord
+<span class="token function">ln</span> <span class="token parameter variable">-s</span> /usr/local/python3/bin/echo_supervisord_conf /usr/bin/echo_supervisord_conf
+
+<span class="token function">mkdir</span> /etc/supervisord.d
+
+<span class="token comment">#创建启动脚本</span>
+
+<span class="token function">vi</span> /etc/init.d/supervisord
+<span class="token comment">#写入如下配置</span>
+
+<span class="token comment">#!/bin/bash</span>
+<span class="token comment">#</span>
+<span class="token comment"># supervisord   This scripts turns supervisord on</span>
+<span class="token comment">#</span>
+<span class="token comment"># Author:       Mike McGrath &lt;mmcgrath@redhat.com&gt; (based off yumupdatesd)</span>
+<span class="token comment">#               Jason Koppe &lt;jkoppe@indeed.com&gt; adjusted to read sysconfig,</span>
+<span class="token comment">#                   use supervisord tools to start/stop, conditionally wait</span>
+<span class="token comment">#                   for child processes to shutdown, and startup later</span>
+<span class="token comment">#               Mikhail Mingalev &lt;mingalevme@gmail.com&gt; Merged</span>
+<span class="token comment">#                   redhat-init-jkoppe and redhat-sysconfig-jkoppe, and</span>
+<span class="token comment">#                   made the script &quot;simple customizable&quot;.</span>
+<span class="token comment">#               Brendan Maguire &lt;maguire.brendan@gmail.com&gt; Added OPTIONS to</span>
+<span class="token comment">#                   SUPERVISORCTL status call</span>
+<span class="token comment">#</span>
+<span class="token comment"># chkconfig:    345 83 04</span>
+<span class="token comment">#</span>
+<span class="token comment"># description:  supervisor is a process control utility.  It has a web based</span>
+<span class="token comment">#               xmlrpc interface as well as a few other nifty features.</span>
+<span class="token comment">#               Script was originally written by Jason Koppe &lt;jkoppe@indeed.com&gt;.</span>
+<span class="token comment">#</span>
+
+<span class="token comment"># source function library</span>
+<span class="token builtin class-name">.</span> /etc/rc.d/init.d/functions
+
+<span class="token builtin class-name">set</span> <span class="token parameter variable">-a</span>
+
+<span class="token assign-left variable">PREFIX</span><span class="token operator">=</span>/usr
+
+<span class="token assign-left variable">SUPERVISORD</span><span class="token operator">=</span><span class="token variable">$PREFIX</span>/bin/supervisord
+<span class="token assign-left variable">SUPERVISORCTL</span><span class="token operator">=</span><span class="token variable">$PREFIX</span>/bin/supervisorctl
+
+<span class="token assign-left variable">PIDFILE</span><span class="token operator">=</span>/var/run/supervisord.pid
+<span class="token assign-left variable">LOCKFILE</span><span class="token operator">=</span>/var/lock/subsys/supervisord
+
+<span class="token assign-left variable">OPTIONS</span><span class="token operator">=</span><span class="token string">&quot;-c /etc/supervisord.conf&quot;</span>
+
+<span class="token comment"># unset this variable if you don&#39;t care to wait for child processes to shutdown before removing the $LOCKFILE-lock</span>
+<span class="token assign-left variable">WAIT_FOR_SUBPROCESSES</span><span class="token operator">=</span>yes
+
+<span class="token comment"># remove this if you manage number of open files in some other fashion</span>
+<span class="token builtin class-name">ulimit</span> <span class="token parameter variable">-n</span> <span class="token number">96000</span>
+
+<span class="token assign-left variable">RETVAL</span><span class="token operator">=</span><span class="token number">0</span>
+
+
+<span class="token function-name function">running_pid</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment"># Check if a given process pid&#39;s cmdline matches a given name</span>
+    <span class="token assign-left variable">pid</span><span class="token operator">=</span><span class="token variable">$1</span>
+    <span class="token assign-left variable">name</span><span class="token operator">=</span><span class="token variable">$2</span>
+    <span class="token punctuation">[</span> <span class="token parameter variable">-z</span> <span class="token string">&quot;<span class="token variable">$pid</span>&quot;</span> <span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">return</span> <span class="token number">1</span>
+    <span class="token punctuation">[</span> <span class="token operator">!</span> <span class="token parameter variable">-d</span> /proc/<span class="token variable">$pid</span> <span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">return</span> <span class="token number">1</span>
+    <span class="token punctuation">(</span>cat /proc/<span class="token variable">$pid</span>/cmdline <span class="token operator">|</span> <span class="token function">tr</span> <span class="token string">&quot;<span class="token entity" title="\000">\000</span>&quot;</span> <span class="token string">&quot;<span class="token entity" title="\n">\n</span>&quot;</span><span class="token operator">|</span><span class="token function">grep</span> <span class="token parameter variable">-q</span> <span class="token variable">$name</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token builtin class-name">return</span> <span class="token number">1</span>
+    <span class="token builtin class-name">return</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+
+<span class="token function-name function">running</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token comment"># Check if the process is running looking at /proc</span>
+<span class="token comment"># (works for all users)</span>
+
+    <span class="token comment"># No pidfile, probably no daemon present</span>
+    <span class="token punctuation">[</span> <span class="token operator">!</span> <span class="token parameter variable">-f</span> <span class="token string">&quot;<span class="token variable">$PIDFILE</span>&quot;</span> <span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">return</span> <span class="token number">1</span>
+    <span class="token comment"># Obtain the pid and check it against the binary name</span>
+    <span class="token assign-left variable">pid</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">cat</span> $PIDFILE<span class="token variable">`</span></span>
+    running_pid <span class="token variable">$pid</span> <span class="token variable">$SUPERVISORD</span> <span class="token operator">||</span> <span class="token builtin class-name">return</span> <span class="token number">1</span>
+    <span class="token builtin class-name">return</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+
+<span class="token function-name function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token builtin class-name">echo</span> <span class="token string">&quot;Starting supervisord: &quot;</span>
+	
+        <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token parameter variable">-e</span> <span class="token variable">$PIDFILE</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span> 
+		<span class="token builtin class-name">echo</span> <span class="token string">&quot;ALREADY STARTED&quot;</span>
+		<span class="token builtin class-name">return</span> <span class="token number">1</span>
+	<span class="token keyword">fi</span>
+
+	<span class="token comment"># start supervisord with options from sysconfig (stuff like -c)</span>
+        <span class="token variable">$SUPERVISORD</span> <span class="token variable">$OPTIONS</span>
+	
+	<span class="token comment"># show initial startup status</span>
+	<span class="token variable">$SUPERVISORCTL</span> <span class="token variable">$OPTIONS</span> status
+	
+	<span class="token comment"># only create the subsyslock if we created the PIDFILE</span>
+        <span class="token punctuation">[</span> <span class="token parameter variable">-e</span> <span class="token variable">$PIDFILE</span> <span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token function">touch</span> <span class="token variable">$LOCKFILE</span>
+<span class="token punctuation">}</span>
+
+<span class="token function-name function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">&quot;Stopping supervisord: &quot;</span>
+        <span class="token variable">$SUPERVISORCTL</span> <span class="token variable">$OPTIONS</span> <span class="token function">shutdown</span>
+	<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token parameter variable">-n</span> <span class="token string">&quot;<span class="token variable">$WAIT_FOR_SUBPROCESSES</span>&quot;</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span> 
+            <span class="token builtin class-name">echo</span> <span class="token string">&quot;Waiting roughly 60 seconds for <span class="token variable">$PIDFILE</span> to be removed after child processes exit&quot;</span>
+            <span class="token keyword">for</span> <span class="token for-or-select variable">sleep</span> <span class="token keyword">in</span>  <span class="token number">2</span> <span class="token number">2</span> <span class="token number">2</span> <span class="token number">2</span> <span class="token number">4</span> <span class="token number">4</span> <span class="token number">4</span> <span class="token number">4</span> <span class="token number">8</span> <span class="token number">8</span> <span class="token number">8</span> <span class="token number">8</span> last<span class="token punctuation">;</span> <span class="token keyword">do</span>
+                <span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token operator">!</span> <span class="token parameter variable">-e</span> <span class="token variable">$PIDFILE</span> <span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token keyword">then</span>
+                    <span class="token builtin class-name">echo</span> <span class="token string">&quot;Supervisord exited as expected in under <span class="token variable">$total_sleep</span> seconds&quot;</span>
+                    <span class="token builtin class-name">break</span>
+                <span class="token keyword">else</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token variable">$sleep</span> <span class="token parameter variable">-eq</span> <span class="token string">&quot;last&quot;</span> <span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token keyword">then</span>
+                        <span class="token builtin class-name">echo</span> <span class="token string">&quot;Supervisord still working on shutting down. We&#39;ve waited roughly 60 seconds, we&#39;ll let it do its thing from here&quot;</span>
+                        <span class="token builtin class-name">return</span> <span class="token number">1</span>
+                    <span class="token keyword">else</span>
+                        <span class="token function">sleep</span> <span class="token variable">$sleep</span>
+                        <span class="token assign-left variable">total_sleep</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$((</span> $total_sleep <span class="token operator">+</span> $sleep <span class="token variable">))</span></span>
+                    <span class="token keyword">fi</span>
+
+                <span class="token keyword">fi</span>
+            <span class="token keyword">done</span>
+        <span class="token keyword">fi</span>
+
+        <span class="token comment"># always remove the subsys. We might have waited a while, but just remove it at this point.</span>
+        <span class="token function">rm</span> <span class="token parameter variable">-f</span> <span class="token variable">$LOCKFILE</span>
+<span class="token punctuation">}</span>
+
+<span class="token function-name function">restart</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        stop
+        start
+<span class="token punctuation">}</span>
+
+<span class="token keyword">case</span> <span class="token string">&quot;<span class="token variable">$1</span>&quot;</span> <span class="token keyword">in</span>
+    start<span class="token punctuation">)</span>
+        start
+        <span class="token assign-left variable">RETVAL</span><span class="token operator">=</span><span class="token variable">$?</span>
+        <span class="token punctuation">;</span><span class="token punctuation">;</span>
+    stop<span class="token punctuation">)</span>
+        stop
+        <span class="token assign-left variable">RETVAL</span><span class="token operator">=</span><span class="token variable">$?</span>
+        <span class="token punctuation">;</span><span class="token punctuation">;</span>
+    restart<span class="token operator">|</span>force-reload<span class="token punctuation">)</span>
+        restart
+        <span class="token assign-left variable">RETVAL</span><span class="token operator">=</span><span class="token variable">$?</span>
+        <span class="token punctuation">;</span><span class="token punctuation">;</span>
+    reload<span class="token punctuation">)</span>
+        <span class="token variable">$SUPERVISORCTL</span> <span class="token variable">$OPTIONS</span> reload
+        <span class="token assign-left variable">RETVAL</span><span class="token operator">=</span><span class="token variable">$?</span>
+        <span class="token punctuation">;</span><span class="token punctuation">;</span>
+    condrestart<span class="token punctuation">)</span>
+        <span class="token punctuation">[</span> <span class="token parameter variable">-f</span> <span class="token variable">$LOCKFILE</span> <span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> restart
+        <span class="token assign-left variable">RETVAL</span><span class="token operator">=</span><span class="token variable">$?</span>
+        <span class="token punctuation">;</span><span class="token punctuation">;</span>
+    status<span class="token punctuation">)</span>
+        <span class="token variable">$SUPERVISORCTL</span> <span class="token variable">$OPTIONS</span> status
+        <span class="token keyword">if</span> running <span class="token punctuation">;</span> <span class="token keyword">then</span>
+            <span class="token assign-left variable">RETVAL</span><span class="token operator">=</span><span class="token number">0</span>
+        <span class="token keyword">else</span>
+            <span class="token assign-left variable">RETVAL</span><span class="token operator">=</span><span class="token number">1</span>
+        <span class="token keyword">fi</span>
+        <span class="token punctuation">;</span><span class="token punctuation">;</span>
+    *<span class="token punctuation">)</span>
+        <span class="token builtin class-name">echo</span> $<span class="token string">&quot;Usage: <span class="token variable">$0</span> {start|stop|status|restart|reload|force-reload|condrestart}&quot;</span>
+        <span class="token builtin class-name">exit</span> <span class="token number">1</span>
+<span class="token keyword">esac</span>
+
+<span class="token builtin class-name">exit</span> <span class="token variable">$RETVAL</span>
+
+<span class="token comment"># 加入服务</span>
+<span class="token function">chkconfig</span> <span class="token parameter variable">--add</span> supervisord
+
+<span class="token comment"># 设置权限</span>
+<span class="token function">chmod</span> <span class="token number">755</span> /etc/init.d/supervisord
+
+<span class="token comment"># 开机启动</span>
+<span class="token function">chkconfig</span> supervisord on
+
+<span class="token comment"># 生成配置文件</span>
+echo_supervisord_conf <span class="token operator">&gt;</span> /etc/supervisord.conf
+<span class="token function">vim</span> /etc/supervisord.conf
+
+<span class="token comment"># 修改以下几处</span>
+
+<span class="token assign-left variable">file</span><span class="token operator">=</span>/var/run/supervisor.sock
+
+<span class="token assign-left variable">logfile</span><span class="token operator">=</span>/var/log/supervisord.log
+
+<span class="token assign-left variable">pidfile</span><span class="token operator">=</span>/var/run/supervisord.pid
+
+<span class="token assign-left variable">serverurl</span><span class="token operator">=</span>unix:///var/run/supervisor.sock
+
+<span class="token punctuation">[</span>inet_http_server<span class="token punctuation">]</span>         <span class="token punctuation">;</span> inet <span class="token punctuation">(</span>TCP<span class="token punctuation">)</span> server disabled by default
+<span class="token assign-left variable">port</span><span class="token operator">=</span><span class="token number">0.0</span>.0.0:9100        <span class="token punctuation">;</span> ip_address:port specifier, *:port <span class="token keyword">for</span> all iface
+<span class="token assign-left variable">username</span><span class="token operator">=</span>jobui              <span class="token punctuation">;</span> default is no username <span class="token punctuation">(</span>open server<span class="token punctuation">)</span>
+<span class="token assign-left variable">password</span><span class="token operator">=</span>jobui123              <span class="token punctuation">;</span> default is no password <span class="token punctuation">(</span>open server<span class="token punctuation">)</span>
+
+<span class="token punctuation">[</span>include<span class="token punctuation">]</span>
+files <span class="token operator">=</span> supervisord.d/*.conf
+
+<span class="token comment"># 新建子文档：</span>
+<span class="token function">vi</span> /etc/supervisord.d/test.conf
+
+<span class="token punctuation">[</span>program:test1<span class="token punctuation">]</span>
+<span class="token assign-left variable">command</span><span class="token operator">=</span> php /root/download/test/test1.php
+<span class="token assign-left variable">process_name</span><span class="token operator">=</span>%<span class="token punctuation">(</span>program_name<span class="token punctuation">)</span>s_%<span class="token punctuation">(</span>process_num<span class="token punctuation">)</span>02d
+<span class="token assign-left variable">autorestart</span><span class="token operator">=</span>false
+<span class="token assign-left variable">autostart</span><span class="token operator">=</span>false
+<span class="token assign-left variable">numprocs</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">startsecs</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">stderr_logfile</span><span class="token operator">=</span>/var/log/test1.err.log
+<span class="token assign-left variable">stdout_logfile</span><span class="token operator">=</span>/var/log/test1.out.log
+
+<span class="token punctuation">[</span>program:test2<span class="token punctuation">]</span>
+<span class="token assign-left variable">command</span><span class="token operator">=</span> php /root/download/test/test2.php
+<span class="token assign-left variable">process_name</span><span class="token operator">=</span>%<span class="token punctuation">(</span>program_name<span class="token punctuation">)</span>s_%<span class="token punctuation">(</span>process_num<span class="token punctuation">)</span>02d
+<span class="token assign-left variable">autorestart</span><span class="token operator">=</span>false
+<span class="token assign-left variable">autostart</span><span class="token operator">=</span>false
+<span class="token assign-left variable">numprocs</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">startsecs</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">stderr_logfile</span><span class="token operator">=</span>/var/log/test2.err.log
+<span class="token assign-left variable">stdout_logfile</span><span class="token operator">=</span>/var/log/test2.out.log
+
+
+<span class="token punctuation">[</span>program:test3<span class="token punctuation">]</span>
+<span class="token assign-left variable">command</span><span class="token operator">=</span> php /root/download/test/test3.php
+<span class="token assign-left variable">process_name</span><span class="token operator">=</span>%<span class="token punctuation">(</span>program_name<span class="token punctuation">)</span>s_%<span class="token punctuation">(</span>process_num<span class="token punctuation">)</span>02d
+<span class="token assign-left variable">autorestart</span><span class="token operator">=</span>false
+<span class="token assign-left variable">autostart</span><span class="token operator">=</span>false
+<span class="token assign-left variable">numprocs</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">startsecs</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">stderr_logfile</span><span class="token operator">=</span>/var/log/test3.err.log
+<span class="token assign-left variable">stdout_logfile</span><span class="token operator">=</span>/var/log/test3.out.log
+
+<span class="token comment"># 启动</span>
+supervisord <span class="token parameter variable">-c</span> /etc/supervisord.conf
+
+<span class="token comment"># 查看进程</span>
+<span class="token function">ps</span> aux <span class="token operator">|</span> <span class="token function">grep</span> supervisord
+
+
+
+<span class="token comment"># 查看子进程</span>
+supervisorctl status
+
+<span class="token comment"># 控制进程</span>
+<span class="token comment">#supervisord 启动成功后，可以通过 supervisorctl 客户端控制进程，启动、停止、重启。运行 supervisorctl 命令，不加参数，会进入 supervisor 客户端的交互终端，并会列出当前所管理的所有进程。</span>
+<span class="token comment">#输入help可以查看可以执行的命令列表，如果想看某个命令的作用，运行 help 命令名称，如：help stop</span>
+
+stop tomcat <span class="token comment"># 表示停止tomcat进程</span>
+stop all <span class="token comment"># 表示停止所有进程</span>
+bash终端
+supervisorctl status
+supervisorctl stop name
+supervisorctl start name
+supervisorctl restart name
+supervisorctl reload
+supervisorctl update
+
+<span class="token comment">#配置参数说明</span>
+<span class="token punctuation">[</span>unix_http_server<span class="token punctuation">]</span>
+<span class="token assign-left variable">file</span><span class="token operator">=</span>/tmp/supervisor.sock   <span class="token punctuation">;</span>UNIX socket 文件，supervisorctl 会使用
+<span class="token punctuation">;</span><span class="token assign-left variable">chmod</span><span class="token operator">=</span>0700                 <span class="token punctuation">;</span>socket文件的mode，默认是0700
+<span class="token punctuation">;</span><span class="token assign-left variable">chown</span><span class="token operator">=</span>nobody:nogroup       <span class="token punctuation">;</span>socket文件的owner，格式：uid:gid
+
+<span class="token punctuation">;</span><span class="token punctuation">[</span>inet_http_server<span class="token punctuation">]</span>         <span class="token punctuation">;</span>HTTP服务器，提供web管理界面
+<span class="token punctuation">;</span><span class="token assign-left variable">port</span><span class="token operator">=</span><span class="token number">127.0</span>.0.1:9001        <span class="token punctuation">;</span>Web管理后台运行的IP和端口，如果开放到公网，需要注意安全性
+<span class="token punctuation">;</span><span class="token assign-left variable">username</span><span class="token operator">=</span>user              <span class="token punctuation">;</span>登录管理后台的用户名
+<span class="token punctuation">;</span><span class="token assign-left variable">password</span><span class="token operator">=</span><span class="token number">123</span>               <span class="token punctuation">;</span>登录管理后台的密码
+
+<span class="token punctuation">[</span>supervisord<span class="token punctuation">]</span>
+<span class="token assign-left variable">logfile</span><span class="token operator">=</span>/tmp/supervisord.log <span class="token punctuation">;</span>日志文件，默认是 <span class="token variable">$CWD</span>/supervisord.log
+<span class="token assign-left variable">logfile_maxbytes</span><span class="token operator">=</span>50MB        <span class="token punctuation">;</span>日志文件大小，超出会rotate，默认 50MB，如果设成0，表示不限制大小
+<span class="token assign-left variable">logfile_backups</span><span class="token operator">=</span><span class="token number">10</span>           <span class="token punctuation">;</span>日志文件保留备份数量默认10，设为0表示不备份
+<span class="token assign-left variable">loglevel</span><span class="token operator">=</span>info                <span class="token punctuation">;</span>日志级别，默认info，其它: debug,warn,trace
+<span class="token assign-left variable">pidfile</span><span class="token operator">=</span>/tmp/supervisord.pid <span class="token punctuation">;</span>pid 文件
+<span class="token assign-left variable">nodaemon</span><span class="token operator">=</span>false               <span class="token punctuation">;</span>是否在前台启动，默认是false，即以 daemon 的方式启动
+<span class="token assign-left variable">minfds</span><span class="token operator">=</span><span class="token number">1024</span>                  <span class="token punctuation">;</span>可以打开的文件描述符的最小值，默认 <span class="token number">1024</span>
+<span class="token assign-left variable">minprocs</span><span class="token operator">=</span><span class="token number">200</span>                 <span class="token punctuation">;</span>可以打开的进程数的最小值，默认 <span class="token number">200</span>
+
+<span class="token punctuation">[</span>supervisorctl<span class="token punctuation">]</span>
+<span class="token assign-left variable">serverurl</span><span class="token operator">=</span>unix:///tmp/supervisor.sock <span class="token punctuation">;</span>通过UNIX socket连接supervisord，路径与unix_http_server部分的file一致
+<span class="token punctuation">;</span><span class="token assign-left variable">serverurl</span><span class="token operator">=</span>http://127.0.0.1:9001 <span class="token punctuation">;</span> 通过HTTP的方式连接supervisord
+
+<span class="token punctuation">;</span> <span class="token punctuation">[</span>program:xx<span class="token punctuation">]</span>是被管理的进程配置参数，xx是进程的名称
+<span class="token punctuation">[</span>program:xx<span class="token punctuation">]</span>
+<span class="token assign-left variable">command</span><span class="token operator">=</span>/opt/apache-tomcat-8.0.35/bin/catalina.sh run  <span class="token punctuation">;</span> 程序启动命令
+<span class="token assign-left variable">autostart</span><span class="token operator">=</span>true       <span class="token punctuation">;</span> 在supervisord启动的时候也自动启动
+<span class="token assign-left variable">startsecs</span><span class="token operator">=</span><span class="token number">10</span>         <span class="token punctuation">;</span> 启动10秒后没有异常退出，就表示进程正常启动了，默认为1秒
+<span class="token assign-left variable">autorestart</span><span class="token operator">=</span>true     <span class="token punctuation">;</span> 程序退出后自动重启,可选值：<span class="token punctuation">[</span>unexpected,true,false<span class="token punctuation">]</span>，默认为unexpected，表示进程意外杀死后才重启
+<span class="token assign-left variable">startretries</span><span class="token operator">=</span><span class="token number">3</span>       <span class="token punctuation">;</span> 启动失败自动重试次数，默认是3
+<span class="token assign-left variable">user</span><span class="token operator">=</span>tomcat          <span class="token punctuation">;</span> 用哪个用户启动进程，默认是root
+<span class="token assign-left variable">priority</span><span class="token operator">=</span><span class="token number">999</span>         <span class="token punctuation">;</span> 进程启动优先级，默认999，值小的优先启动
+<span class="token assign-left variable">redirect_stderr</span><span class="token operator">=</span>true <span class="token punctuation">;</span> 把stderr重定向到stdout，默认false
+<span class="token assign-left variable">stdout_logfile_maxbytes</span><span class="token operator">=</span>20MB  <span class="token punctuation">;</span> stdout 日志文件大小，默认50MB
+stdout_logfile_backups <span class="token operator">=</span> <span class="token number">20</span>   <span class="token punctuation">;</span> stdout 日志文件备份数，默认是10
+<span class="token punctuation">;</span> stdout 日志文件，需要注意当指定目录不存在时无法正常启动，所以需要手动创建目录（supervisord 会自动创建日志文件）
+<span class="token assign-left variable">stdout_logfile</span><span class="token operator">=</span>/opt/apache-tomcat-8.0.35/logs/catalina.out
+<span class="token assign-left variable">stopasgroup</span><span class="token operator">=</span>false     <span class="token punctuation">;</span>默认为false,进程被杀死时，是否向这个进程组发送stop信号，包括子进程
+<span class="token assign-left variable">killasgroup</span><span class="token operator">=</span>false     <span class="token punctuation">;</span>默认为false，向进程组发送kill信号，包括子进程
+
+<span class="token punctuation">;</span>包含其它配置文件
+<span class="token punctuation">[</span>include<span class="token punctuation">]</span>
+files <span class="token operator">=</span> relative/directory/*.ini    <span class="token punctuation">;</span>可以指定一个或多个以.ini结束的配置文件
+include示例：
+
+<span class="token punctuation">[</span>include<span class="token punctuation">]</span>
+files <span class="token operator">=</span> /opt/absolute/filename.ini /opt/absolute/*.ini foo.conf config??.ini
+
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>子配置文件示例</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token punctuation">[</span>program:queue_MultiTask<span class="token punctuation">]</span> <span class="token punctuation">;</span>项目名称
+directory <span class="token operator">=</span> /www/wwwroot/www.site.net <span class="token punctuation">;</span> 程序的启动目录
+<span class="token builtin class-name">command</span> <span class="token operator">=</span> php think queue:listen <span class="token parameter variable">--queue</span> MultiTask <span class="token parameter variable">--tries</span> <span class="token number">3</span>  <span class="token punctuation">;</span> 启动命令
+<span class="token assign-left variable">process_name</span><span class="token operator">=</span>%<span class="token punctuation">(</span>program_name<span class="token punctuation">)</span>s_%<span class="token punctuation">(</span>process_num<span class="token punctuation">)</span>02d
+numprocs <span class="token operator">=</span> <span class="token number">3</span>           <span class="token punctuation">;</span> 开启的进程数量
+autostart <span class="token operator">=</span> <span class="token boolean">true</span>     <span class="token punctuation">;</span> 在 supervisord 启动的时候也自动启动
+startsecs <span class="token operator">=</span> <span class="token number">5</span>        <span class="token punctuation">;</span> 启动 <span class="token number">5</span> 秒后没有异常退出，就当作已经正常启动了
+autorestart <span class="token operator">=</span> <span class="token boolean">true</span>   <span class="token punctuation">;</span> 程序异常退出后自动重启
+startretries <span class="token operator">=</span> <span class="token number">3</span>     <span class="token punctuation">;</span> 启动失败自动重试次数，默认是 <span class="token number">3</span>
+user <span class="token operator">=</span> www          <span class="token punctuation">;</span> 用哪个用户启动
+redirect_stderr <span class="token operator">=</span> <span class="token boolean">true</span>  <span class="token punctuation">;</span> 把 stderr 重定向到 stdout，默认 <span class="token boolean">false</span>
+stdout_logfile_maxbytes <span class="token operator">=</span> 50MB  <span class="token punctuation">;</span> stdout 日志文件大小，默认 50MB
+stdout_logfile_backups <span class="token operator">=</span> <span class="token number">20</span>     <span class="token punctuation">;</span> stdout 日志文件备份数
+<span class="token punctuation">;</span> stdout 日志文件,需要手动创建目录（supervisord 会自动创建日志文件）
+stdout_logfile <span class="token operator">=</span> /www/wwwroot/www.site.net/queue_MultiTask.log
+<span class="token assign-left variable">loglevel</span><span class="token operator">=</span>info
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/doflam-z/doflam-z.github.io/edit/main/services/supervisor.md" rel="noopener noreferrer" target="_blank" aria-label="编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="edit icon"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></svg><!--]-->编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2022/8/26 06:14:34</span></div><!----></footer><nav class="page-nav"><a href="/services/redis.html" class="nav-link prev" aria-label="redis"><div class="hint"><span class="arrow left"></span>上一页</div><div class="link"><!---->redis</div></a><a href="/services/zabbix.html" class="nav-link next" aria-label="源码安装zabbix5.4（centos6）"><div class="hint">下一页<span class="arrow right"></span></div><div class="link">源码安装zabbix5.4（centos6）<!----></div></a></nav><!----><!----><!--]--></main><!--]--><!----><!--]--></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/assets/app.eb749dcb.js" defer></script>
+  </body>
+</html>

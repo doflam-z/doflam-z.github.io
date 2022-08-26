@@ -1,95 +1,858 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <atom:link href="https://newzone.top/rss.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://doflam-z.github.io/rss.xml" rel="self" type="application/rss+xml"/>
     <title>CodeNote</title>
-    <link>https://newzone.top/</link>
-    <description>开源工具、效率方法、心理学探索的自我提升笔记，记录并输出一切能让自己提升的知识。</description>
+    <link>https://doflam-z.github.io/</link>
+    <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 25 Aug 2022 16:22:45 GMT</pubDate>
-    <lastBuildDate>Thu, 25 Aug 2022 16:22:45 GMT</lastBuildDate>
+    <pubDate>Fri, 26 Aug 2022 06:16:15 GMT</pubDate>
+    <lastBuildDate>Fri, 26 Aug 2022 06:16:15 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
+      <title>Debian10  Lnmp环境搭建</title>
+      <link>https://doflam-z.github.io/linux/Debian10%20%20Lnmp%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html</link>
+      <guid>https://doflam-z.github.io/linux/Debian10%20%20Lnmp%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">Debian10  Lnmp环境搭建</source>
+      <pubDate>Fri, 26 Aug 2022 06:14:34 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="debian10-lnmp环境搭建" tabindex="-1"> Debian10  Lnmp环境搭建</h1>
+<h3 id="安装开发环境软件包" tabindex="-1"> 安装开发环境软件包</h3>
+<div><pre><code>sudo apt-get install -y build-essential libexpat1-dev libgeoip-dev libpng-dev libpcre3-dev libssl-dev libxml2-dev rcs zlib1g-dev libmcrypt-dev libjpeg-dev libpng-dev libwebp-dev pkg-config libbz2-dev libcurl4-openssl-dev autoconf libmemcached-dev libmemcached11
+
+sudo ln -s /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="下载软件源码包" tabindex="-1"> 下载软件源码包</h3>
+<div><pre><code>cd /usr/local/src
+sudo wget https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.20.tar.gz
+sudo wget https://openresty.org/download/openresty-1.9.7.4.tar.gz
+sudo wget https://www.php.net/distributions/php-5.6.20.tar.gz
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h3 id="创建用户nginx、mysql用户" tabindex="-1"> 创建用户nginx、mysql用户</h3>
+<div><pre><code>sudo groupadd mysql
+sudo useradd -g mysql -d /home/mysql -s /sbin/nologin mysql
+
+sudo groupadd nginx
+sudo useradd -g nginx -d /home/nginx -s /sbin/nologin nginx
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="安装nginx" tabindex="-1"> 安装nginx</h3>
+<h5 id="下载安装nginx需要的模块" tabindex="-1"> 下载安装nginx需要的模块</h5>
+<div><pre><code>cd /usr/local/src
+#zlib库
+sudo wget http://www.zlib.net/zlib-1.2.11.tar.gz
+sudo tar -zxvf zlib-1.2.11.tar.gz
+cd zlib-1.2.11
+sudo ./configure --prefix=/web/software/zlib
+sudo make
+sudo make install
+
+#PCRE库
+sudo wget https://ftp.pcre.org/pub/pcre/pcre-8.21.tar.gz
+sudo tar -zxvf pcre-8.21.tar.gz
+cd pcre-8.21
+sudo ./config --prefix=/web/software/pcre
+sudo make
+sudo make install
+
+#openSSL库
+#编译安装openssl报错：POD document had syntax errors at /usr/bin/pod2man line 69. make: *** [install_docs]
+#解决方法：
+rm -f /usr/bin/pod2man 
+
+sudo wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz
+sudo tar -zxvf openssl-1.0.1.tar.gz
+cd openssl-1.0.1
+sudo ./config shared --prefix=/usr/local/ssl
+sudo make
+sudo make install
+
+sudo mv -f /usr/bin/openssl /usr/bin/openssl.old
+sudo mv -f /usr/include/openssl /usr/include/openssl.old
+sudo ln -s /usr/local/ssl/bin/openssl /usr/bin/openssl
+sudo ln -s /usr/local/ssl/include/openssl /usr/include/openssl
+sudo ln -s /usr/local/ssl/include/openssl /usr/local/include/openssl
+
+#openSSL库
+rm -f /usr/bin/pod2man 
+sudo wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz
+sudo tar -zxvf openssl-1.0.1.tar.gz
+cd openssl-1.0.1
+sudo ./config shared --prefix=/web/software/openssl
+sudo make
+sudo make install
+
+#libunwind库
+sudo wget http://download.savannah.gnu.org/releases/libunwind/libunwind-1.1.tar.gz
+sudo tar -zxvf libunwind-1.1.tar.gz
+cd libunwind-1.1
+sudo CFLAGS=-fPIC ./configure
+sudo make CFLAGS=-fPIC
+sudo make CFLAGS=-fPIC install
+
+#google-perftools
+sudo wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.7/gperftools-2.7.tar.gz
+sudo tar -zxvf gperftools-2.7.tar.gz
+cd gperftools-2.7
+sudo ./configure  --enable-frame-pointers
+sudo make
+sudo make install
+#使google-perftools生效:
+sudo echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr_local_lib.conf
+sudo ldconfig
+
+#ngx_cache_purge-2.3
+sudo wget http://labs.frickle.com/files/ngx_cache_purge-2.3.tar.gz
+sudo tar -zxvf ngx_cache_purge-2.3.tar.gz
+
+#nginx编译参数（线上）
+--prefix=/web/software/openresty/nginx \
+--with-cc-opt=-O2 \
+--add-module=../ngx_devel_kit-0.3.0 \
+--add-module=../iconv-nginx-module-0.14 \
+--add-module=../echo-nginx-module-0.59 \
+--add-module=../xss-nginx-module-0.05 \
+--add-module=../ngx_coolkit-0.2rc3 \
+--add-module=../set-misc-nginx-module-0.30 \
+--add-module=../form-input-nginx-module-0.12 \
+--add-module=../encrypted-session-nginx-module-0.05 \
+--add-module=../ngx_postgres-1.0rc7 \
+--add-module=../srcache-nginx-module-0.31 \
+--add-module=../ngx_lua-0.10.5 \
+--add-module=../ngx_lua_upstream-0.05 \
+--add-module=../headers-more-nginx-module-0.30 \
+--add-module=../array-var-nginx-module-0.05 \
+--add-module=../memc-nginx-module-0.17 \
+--add-module=../redis-nginx-module-0.3.7 \
+--add-module=../rds-json-nginx-module-0.14 \
+--add-module=../rds-csv-nginx-module-0.07 \
+--with-ld-opt=-Wl,-rpath,/web/software/openresty/luajit/lib \
+--user=www \
+--group=www \
+--with-google_perftools_module \
+--with-pcre=/root/baicai-V6/web/nginx/pcre-8.36 \
+--with-pcre-jit \
+--with-zlib=/root/baicai-V6/web/nginx/zlib-1.2.8 \
+--add-module=/root/baicai-V6/web/nginx/openresty-1.9.15.1/../ngx_cache_purge-2.3 \
+--with-http_stub_status_module \
+--with-http_ssl_module
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="安装openresty-1-9-7-1-包含nginx-1-9-7和插件" tabindex="-1"> 安装openresty-1.9.7.1，包含nginx-1.9.7和插件</h3>
+<p>预编译</p>
+<div><pre><code>cd /usr/local/src/openresty-1.9.7.4
+sudo ./configure \
+--prefix=/web/software/openresty \
+--user=www \
+--group=www \
+--with-google_perftools_module \
+--with-pcre=../pcre-8.21 \
+--with-pcre-jit \
+--with-zlib=../zlib-1.2.11 \
+--with-openssl=../openssl-1.0.1 \
+--add-module=../ngx_cache_purge-2.3 \
+--with-http_stub_status_module \
+--with-http_ssl_module \
+--with-stream
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>编译安装</p>
+<div><pre><code>sudo make
+sudo make install
+#为了统一nginx与其他服务的同步，给nginx目录做软连接
+sudo ln -s  /web/software/openresty/nginx  /web/software/nginx
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h3 id="安装php5-6" tabindex="-1"> 安装php5.6</h3>
+<div><pre><code><span>#安装m</span>
+<span>#zlib</span>
+<span>sudo</span> ./configure
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+<span>export</span> <span>LDFLAGS</span><span>=</span><span>"-L/usr/local/zlib/lib"</span>
+<span>export</span> <span>CPPFLAGS</span><span>=</span><span>"-I/usr/local/zlib/include"</span>
+
+<span>#jpeg6</span>
+<span>#先创建目录，否则会报错</span>
+<span>cd</span> /usr/local/src/php/jpeg-6b
+<span>sudo</span> <span>mkdir</span> /web/software/jpeg6/
+<span>sudo</span> <span>mkdir</span> <span>{</span>/web/software/jpeg6/bin,/web/software/jpeg6/lib,/web/software/jpeg6/include<span>}</span>
+<span>sudo</span> <span>mkdir</span> <span>-p</span>  /web/software/jpeg6/man/man1
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/jpeg6
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+<span>#libpng2</span>
+<span>#安装libpng出现configure: error: ZLib not installed</span>
+<span>#1.进入zlib的源文件目录，执行命令 make clean,清除zlib；</span>
+<span>#2.重新配置 ./configure,后面不要接--prefix参数；</span>
+<span>#然后执行以下命令</span>
+<span>export</span> <span>LDFLAGS</span><span>=</span><span>"-L/usr/local/zlib/lib"</span>
+<span>export</span> <span>CPPFLAGS</span><span>=</span><span>"-I/usr/local/zlib/include"</span>
+
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/libpng2
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+<span>#freetype2</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/freetype2
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+<span>#libxml2</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/libxml2
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+<span>#curl</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/curl
+<span>sudo</span> <span>make</span>
+<span>sudo</span> <span>make</span> <span>install</span>
+
+
+<span>#php编译参数（线上）</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/php-5.6.40 <span>\</span>
+--with-config-file-path<span>=</span>/web/software/php-5.6.40/lib <span>\</span>
+--with-mysql<span>=</span>mysqlnd <span>\</span>
+--with-mysqli<span>=</span>mysqlnd <span>\</span>
+--with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
+--with-jpeg-dir<span>=</span>/web/software/jpeg6 <span>\</span>
+--with-png-dir<span>=</span>/web/software/libpng2 <span>\</span>
+--with-freetype-dir<span>=</span>/web/software/freetype2 <span>\</span>
+--with-libxml-dir<span>=</span>/web/software/libxml2 <span>\</span>
+--with-zlib-dir<span>=</span>/usr/local/zlib/ <span>\</span>
+--with-curl<span>=</span>/web/software/curl <span>\</span>
+--with-openssl<span>=</span>/usr/local/ssl <span>\</span>
+--disable-ipv6 <span>\</span>
+--enable-sockets <span>\</span>
+--disable-debug <span>\</span>
+--enable-xml <span>\</span>
+--disable-rpath <span>\</span>
+--enable-bcmath <span>\</span>
+--enable-shmop <span>\</span>
+--enable-sysvsem <span>\</span>
+--enable-inline-optimization <span>\</span>
+--with-curl <span>\</span>
+--enable-sysvmsg <span>\</span>
+--enable-sysvshm <span>\</span>
+--enable-mbregex <span>\</span>
+--enable-mbstring <span>\</span>
+--with-bz2<span>=</span>/usr <span>\</span>
+--enable-gd-native-ttf <span>\</span>
+--with-mhash <span>\</span>
+--with-xmlrpc <span>\</span>
+--enable-zip <span>\</span>
+--enable-soap <span>\</span>
+--without-pear <span>\</span>
+--enable-fpm <span>\</span>
+--with-libdir<span>=</span>lib64
+
+<span>#php编译参数（141）</span>
+<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/php-5.6.40 <span>\</span>
+--with-config-file-path<span>=</span>/web/software/php-5.6.40/lib <span>\</span>
+--with-mysql<span>=</span>mysqlnd <span>\</span>
+--with-mysqli<span>=</span>mysqlnd <span>\</span>
+--with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
+--with-jpeg-dir<span>=</span>/web/software/jpeg6 <span>\</span>
+--with-png-dir<span>=</span>/web/software/libpng2 <span>\</span>
+--with-freetype-dir<span>=</span>/web/software/freetype2 <span>\</span>
+--with-libxml-dir<span>=</span>/web/software/libxml2 <span>\</span>
+--with-zlib-dir<span>=</span>/usr/local/zlib/ <span>\</span>
+--with-curl<span>=</span>/web/software/curl <span>\</span>
+--with-openssl<span>=</span>/usr/local/ssl <span>\</span>
+--disable-ipv6 <span>\</span>
+--enable-sockets <span>\</span>
+--disable-debug <span>\</span>
+--enable-xml <span>\</span>
+--disable-rpath <span>\</span>
+--enable-bcmath <span>\</span>
+--enable-shmop <span>\</span>
+--enable-sysvsem <span>\</span>
+--enable-inline-optimization <span>\</span>
+--with-curl <span>\</span>
+--enable-sysvmsg <span>\</span>
+--enable-sysvshm <span>\</span>
+--enable-mbregex <span>\</span>
+--enable-mbstring <span>\</span>
+--with-bz2<span>=</span>/usr <span>\</span>
+--enable-gd-native-ttf <span>\</span>
+--with-mhash <span>\</span>
+--with-xmlrpc <span>\</span>
+--enable-zip <span>\</span>
+--enable-soap <span>\</span>
+--without-pear <span>\</span>
+--enable-fpm <span>\</span>
+--enable-pcntl
+
+<span>#编译php时，遇到“Please reinstall the libcurl distribution...”</span>
+<span>#sudo apt-get install libcurl4-gnutls-dev</span>
+<span>sudo</span> <span>ln</span> <span>-s</span> /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
+
+<span>#make: *** [Makefile:590：ext/openssl/openssl.lo] 错误 1 (php5.6不兼容openssl1.1.1)</span>
+<span>#openssl降级</span>
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="编译安装php7-4" tabindex="-1"> 编译安装php7.4</h3>
+<div><pre><code><span>##/bin/bash</span>
+
+<span>apt-get</span> <span>install</span> <span>-y</span> libsqlite3-dev libmemcached-dev libmagickwand-dev libmagickcore-dev <span>\</span>
+libdatrie-dev libmcrypt-dev procps libonig-dev libzip-dev
+
+<span>#apt-get install -y build-essential libexpat1-dev libgeoip-dev libpng-dev libpcre3-dev libssl-dev libxml2-dev rcs zlib1g-dev libmcrypt-dev libjpeg-dev libpng-dev libwebp-dev pkg-config libbz2-dev libcurl4-openssl-dev autoconf libmemcached-dev libmemcached11</span>
+
+<span>cd</span> /usr/local/src/package/php-7.4.24/ <span>&amp;&amp;</span> <span>\</span>
+	./configure <span>\</span>
+    <span>--prefix</span><span>=</span>/web/software/php-7.4.24 <span>\</span>
+    --with-config-file-path<span>=</span>/web/software/php-7.4.24/lib <span>\</span>
+    --with-mysqli<span>=</span>mysqlnd <span>\</span>
+    --with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
+    --with-zlib <span>\</span>
+    --disable-ipv6 <span>\</span>
+    --enable-sockets <span>\</span>
+    --disable-debug <span>\</span>
+    --enable-xml <span>\</span>
+    --disable-rpath <span>\</span>
+    --enable-bcmath <span>\</span>
+    --enable-shmop <span>\</span>
+    --enable-sysvsem <span>\</span>
+    --enable-inline-optimization <span>\</span>
+    --enable-sysvmsg <span>\</span>
+    --enable-sysvshm <span>\</span>
+    --enable-mbregex <span>\</span>
+    --enable-mbstring <span>\</span>
+    --with-bz2 <span>\</span>
+    --with-libxml <span>\</span>
+    --with-curl <span>\</span>
+    --with-openssl <span>\</span>
+    --with-mhash <span>\</span>
+    --with-xmlrpc <span>\</span>
+    --with-zip <span>\</span>
+    --enable-soap <span>\</span>
+    --without-pear <span>\</span>
+    --enable-fpm <span>&amp;&amp;</span> <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span>
+
+<span># apcu</span>
+    <span>cd</span> /usr/local/src/package/apcu-5.1.19 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># blitz</span>
+    <span>cd</span> /usr/local/src/package/blitz-0.10.4-PHP7/ <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># memcached</span>
+    <span>cd</span> /usr/local/src/package/memcached-3.1.5 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># memcache</span>
+    <span>cd</span> /usr/local/src/package/memcache-8.0 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># mongodb</span>
+    <span>cd</span> /usr/local/src/package/mongodb-1.10.0 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># igbinary</span>
+    <span>cd</span> /usr/local/src/package/igbinary-3.2.6 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># redis</span>
+    <span>cd</span> /usr/local/src/package/redis-4.3.0 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># imagick</span>
+    <span>cd</span> /usr/local/src/package/imagick-3.5.1 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># qqwry</span>
+	<span>cd</span> /usr/local/src/package <span>\</span>
+    <span>cd</span> /usr/local/src/package/qqwry-master/php/qqwry/ <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># xhprof</span>
+    <span>cd</span> /usr/local/src/package/xhprof-2.3.4/extension/ <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># php-ext-trie-filter</span>
+    <span>cd</span> /usr/local/src/package/php-ext-trie-filter-php7 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># scws</span>
+    <span>cd</span> /usr/local/src/package/scws-1.2.3/ <span>\</span>
+    ./configure <span>--prefix</span><span>=</span>/web/software/scws-1.2.3/ <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+    <span>cp</span> <span>-r</span> /usr/local/src/package/dict* /web/software/scws-1.2.3/etc/ <span>\</span>
+<span># scws-phpext</span>
+    <span>cd</span> /usr/local/src/package/scws-1.2.3/phpext <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure --with-scws<span>=</span>/web/software/scws-1.2.3 --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># mcrypt</span>
+    <span>cd</span> /usr/local/src/package/mcrypt-1.0.4 <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    aclocal <span>\</span>
+    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+<span># gd</span>
+    <span>cd</span> /usr/local/src/package/php-7.4.24/ext/gd <span>\</span>
+    /web/software/php-7.4.24/bin/phpize <span>\</span>
+    ./configure -with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config --enable-gd --with-jpeg --with-freetype <span>\</span>
+    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
+
+<span>cp</span> /usr/local/src/docker/php/php-fpm.conf /web/software/php-7.4.24/etc/php-fpm.conf
+
+<span>cp</span> /usr/local/src/docker/php/php-fpm /etc/init.d/php-fpm
+
+<span>chmod</span> <span>755</span> /etc/init.d/php-fpm
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>本地生成自签泛域名证书</title>
+      <link>https://doflam-z.github.io/linux/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6.html</link>
+      <guid>https://doflam-z.github.io/linux/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">本地生成自签泛域名证书</source>
+      <pubDate>Fri, 26 Aug 2022 06:14:34 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="本地生成自签泛域名证书" tabindex="-1"> 本地生成自签泛域名证书</h1>
+<p>密钥生成工具，生成后复制或者下载</p>
+<p>生成配置文件</p>
+<div><pre><code><span>cat</span> <span>&lt;&lt;</span> <span>EOF<span> <span>></span> ssl.cnf</span>
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = *.jobui.com
+EOF</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>生成证书</p>
+<div><pre><code>openssl x509 <span>-signkey</span> star.jobui.com_key.txt <span>-in</span> star.jobui.com_csr.txt <span>-extfile</span> ssl.cnf <span>-req</span> <span>-days</span> <span>730</span> <span>-out</span> *.jobui.com.crt
+</code></pre><div aria-hidden="true"><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>supervisor</title>
+      <link>https://doflam-z.github.io/services/supervisor.html</link>
+      <guid>https://doflam-z.github.io/services/supervisor.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">supervisor</source>
+      <pubDate>Fri, 26 Aug 2022 06:14:34 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="supervisor" tabindex="-1"> supervisor</h1>
+<h3 id="yum安装" tabindex="-1"> yum安装</h3>
+<div><pre><code>yum <span>install</span> epel-release
+yum <span>install</span> <span>-y</span> supervisor
+systemctl <span>enable</span> supervisord <span># 开机自启动</span>
+systemctl start supervisord <span># 启动supervisord服务</span>
+
+systemctl status supervisord <span># 查看supervisord服务状态</span>
+<span>ps</span> -ef<span>|</span><span>grep</span> supervisord <span># 查看是否存在supervisord进程</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="编译安装-需要python3支持" tabindex="-1"> 编译安装，需要python3支持</h3>
+<div><pre><code><span># 下载安装python3.6.8</span>
+<span>wget</span> https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tgz
+
+<span>tar</span> <span>-zxvf</span> Python-3.6.8.tgz
+
+./configure <span>--prefix</span><span>=</span>/usr/local/python3
+
+<span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span>
+
+<span>ln</span> <span>-s</span> /usr/local/python3/bin/python3.6 /usr/bin/python3.6
+<span>ln</span> <span>-s</span> /usr/local/python3/bin/pip3 /usr/bin/pip3
+
+<span># 安装依赖</span>
+yum <span>install</span> gcc zlib-devel bzip2-devel openssl openssl-devel ncurses-devel sqlite-devel <span>-y</span>
+
+<span>#源码安装supervisor</span>
+
+<span>cd</span> /usr/local/src
+<span>wget</span> <span>-c</span> https://files.pythonhosted.org/packages/11/35/eab03782aaf70d87303b21a67c345b953d3b59d4e3971a568c51e523f5c0/supervisor-4.2.1.tar.gz
+
+<span>tar</span> <span>-zxvf</span> supervisor-4.2.1.tar.gz
+<span>cd</span> supervisor-4.2.1
+
+Python3.6 setup.py <span>install</span>
+
+<span>#创建软连接：</span>
+
+<span>ln</span> <span>-s</span> /usr/local/python3/bin/supervisorctl /usr/bin/supervisorctl
+<span>ln</span> <span>-s</span> /usr/local/python3/bin/supervisord /usr/bin/supervisord
+<span>ln</span> <span>-s</span> /usr/local/python3/bin/echo_supervisord_conf /usr/bin/echo_supervisord_conf
+
+<span>mkdir</span> /etc/supervisord.d
+
+<span>#创建启动脚本</span>
+
+<span>vi</span> /etc/init.d/supervisord
+<span>#写入如下配置</span>
+
+<span>#!/bin/bash</span>
+<span>#</span>
+<span># supervisord   This scripts turns supervisord on</span>
+<span>#</span>
+<span># Author:       Mike McGrath &lt;mmcgrath@redhat.com> (based off yumupdatesd)</span>
+<span>#               Jason Koppe &lt;jkoppe@indeed.com> adjusted to read sysconfig,</span>
+<span>#                   use supervisord tools to start/stop, conditionally wait</span>
+<span>#                   for child processes to shutdown, and startup later</span>
+<span>#               Mikhail Mingalev &lt;mingalevme@gmail.com> Merged</span>
+<span>#                   redhat-init-jkoppe and redhat-sysconfig-jkoppe, and</span>
+<span>#                   made the script "simple customizable".</span>
+<span>#               Brendan Maguire &lt;maguire.brendan@gmail.com> Added OPTIONS to</span>
+<span>#                   SUPERVISORCTL status call</span>
+<span>#</span>
+<span># chkconfig:    345 83 04</span>
+<span>#</span>
+<span># description:  supervisor is a process control utility.  It has a web based</span>
+<span>#               xmlrpc interface as well as a few other nifty features.</span>
+<span>#               Script was originally written by Jason Koppe &lt;jkoppe@indeed.com>.</span>
+<span>#</span>
+
+<span># source function library</span>
+<span>.</span> /etc/rc.d/init.d/functions
+
+<span>set</span> <span>-a</span>
+
+<span>PREFIX</span><span>=</span>/usr
+
+<span>SUPERVISORD</span><span>=</span><span>$PREFIX</span>/bin/supervisord
+<span>SUPERVISORCTL</span><span>=</span><span>$PREFIX</span>/bin/supervisorctl
+
+<span>PIDFILE</span><span>=</span>/var/run/supervisord.pid
+<span>LOCKFILE</span><span>=</span>/var/lock/subsys/supervisord
+
+<span>OPTIONS</span><span>=</span><span>"-c /etc/supervisord.conf"</span>
+
+<span># unset this variable if you don't care to wait for child processes to shutdown before removing the $LOCKFILE-lock</span>
+<span>WAIT_FOR_SUBPROCESSES</span><span>=</span>yes
+
+<span># remove this if you manage number of open files in some other fashion</span>
+<span>ulimit</span> <span>-n</span> <span>96000</span>
+
+<span>RETVAL</span><span>=</span><span>0</span>
+
+
+<span>running_pid</span><span>(</span><span>)</span>
+<span>{</span>
+    <span># Check if a given process pid's cmdline matches a given name</span>
+    <span>pid</span><span>=</span><span>$1</span>
+    <span>name</span><span>=</span><span>$2</span>
+    <span>[</span> <span>-z</span> <span>"<span>$pid</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>return</span> <span>1</span>
+    <span>[</span> <span>!</span> <span>-d</span> /proc/<span>$pid</span> <span>]</span> <span>&amp;&amp;</span> <span>return</span> <span>1</span>
+    <span>(</span>cat /proc/<span>$pid</span>/cmdline <span>|</span> <span>tr</span> <span>"<span title="\000">\000</span>"</span> <span>"<span title="\n">\n</span>"</span><span>|</span><span>grep</span> <span>-q</span> <span>$name</span><span>)</span> <span>||</span> <span>return</span> <span>1</span>
+    <span>return</span> <span>0</span>
+<span>}</span>
+
+<span>running</span><span>(</span><span>)</span>
+<span>{</span>
+<span># Check if the process is running looking at /proc</span>
+<span># (works for all users)</span>
+
+    <span># No pidfile, probably no daemon present</span>
+    <span>[</span> <span>!</span> <span>-f</span> <span>"<span>$PIDFILE</span>"</span> <span>]</span> <span>&amp;&amp;</span> <span>return</span> <span>1</span>
+    <span># Obtain the pid and check it against the binary name</span>
+    <span>pid</span><span>=</span><span><span>`</span><span>cat</span> $PIDFILE<span>`</span></span>
+    running_pid <span>$pid</span> <span>$SUPERVISORD</span> <span>||</span> <span>return</span> <span>1</span>
+    <span>return</span> <span>0</span>
+<span>}</span>
+
+<span>start</span><span>(</span><span>)</span> <span>{</span>
+        <span>echo</span> <span>"Starting supervisord: "</span>
+	
+        <span>if</span> <span>[</span> <span>-e</span> <span>$PIDFILE</span> <span>]</span><span>;</span> <span>then</span> 
+		<span>echo</span> <span>"ALREADY STARTED"</span>
+		<span>return</span> <span>1</span>
+	<span>fi</span>
+
+	<span># start supervisord with options from sysconfig (stuff like -c)</span>
+        <span>$SUPERVISORD</span> <span>$OPTIONS</span>
+	
+	<span># show initial startup status</span>
+	<span>$SUPERVISORCTL</span> <span>$OPTIONS</span> status
+	
+	<span># only create the subsyslock if we created the PIDFILE</span>
+        <span>[</span> <span>-e</span> <span>$PIDFILE</span> <span>]</span> <span>&amp;&amp;</span> <span>touch</span> <span>$LOCKFILE</span>
+<span>}</span>
+
+<span>stop</span><span>(</span><span>)</span> <span>{</span>
+        <span>echo</span> <span>-n</span> <span>"Stopping supervisord: "</span>
+        <span>$SUPERVISORCTL</span> <span>$OPTIONS</span> <span>shutdown</span>
+	<span>if</span> <span>[</span> <span>-n</span> <span>"<span>$WAIT_FOR_SUBPROCESSES</span>"</span> <span>]</span><span>;</span> <span>then</span> 
+            <span>echo</span> <span>"Waiting roughly 60 seconds for <span>$PIDFILE</span> to be removed after child processes exit"</span>
+            <span>for</span> <span>sleep</span> <span>in</span>  <span>2</span> <span>2</span> <span>2</span> <span>2</span> <span>4</span> <span>4</span> <span>4</span> <span>4</span> <span>8</span> <span>8</span> <span>8</span> <span>8</span> last<span>;</span> <span>do</span>
+                <span>if</span> <span>[</span> <span>!</span> <span>-e</span> <span>$PIDFILE</span> <span>]</span> <span>;</span> <span>then</span>
+                    <span>echo</span> <span>"Supervisord exited as expected in under <span>$total_sleep</span> seconds"</span>
+                    <span>break</span>
+                <span>else</span>
+                    <span>if</span> <span>[</span><span>[</span> <span>$sleep</span> <span>-eq</span> <span>"last"</span> <span>]</span><span>]</span> <span>;</span> <span>then</span>
+                        <span>echo</span> <span>"Supervisord still working on shutting down. We've waited roughly 60 seconds, we'll let it do its thing from here"</span>
+                        <span>return</span> <span>1</span>
+                    <span>else</span>
+                        <span>sleep</span> <span>$sleep</span>
+                        <span>total_sleep</span><span>=</span><span><span>$((</span> $total_sleep <span>+</span> $sleep <span>))</span></span>
+                    <span>fi</span>
+
+                <span>fi</span>
+            <span>done</span>
+        <span>fi</span>
+
+        <span># always remove the subsys. We might have waited a while, but just remove it at this point.</span>
+        <span>rm</span> <span>-f</span> <span>$LOCKFILE</span>
+<span>}</span>
+
+<span>restart</span><span>(</span><span>)</span> <span>{</span>
+        stop
+        start
+<span>}</span>
+
+<span>case</span> <span>"<span>$1</span>"</span> <span>in</span>
+    start<span>)</span>
+        start
+        <span>RETVAL</span><span>=</span><span>$?</span>
+        <span>;</span><span>;</span>
+    stop<span>)</span>
+        stop
+        <span>RETVAL</span><span>=</span><span>$?</span>
+        <span>;</span><span>;</span>
+    restart<span>|</span>force-reload<span>)</span>
+        restart
+        <span>RETVAL</span><span>=</span><span>$?</span>
+        <span>;</span><span>;</span>
+    reload<span>)</span>
+        <span>$SUPERVISORCTL</span> <span>$OPTIONS</span> reload
+        <span>RETVAL</span><span>=</span><span>$?</span>
+        <span>;</span><span>;</span>
+    condrestart<span>)</span>
+        <span>[</span> <span>-f</span> <span>$LOCKFILE</span> <span>]</span> <span>&amp;&amp;</span> restart
+        <span>RETVAL</span><span>=</span><span>$?</span>
+        <span>;</span><span>;</span>
+    status<span>)</span>
+        <span>$SUPERVISORCTL</span> <span>$OPTIONS</span> status
+        <span>if</span> running <span>;</span> <span>then</span>
+            <span>RETVAL</span><span>=</span><span>0</span>
+        <span>else</span>
+            <span>RETVAL</span><span>=</span><span>1</span>
+        <span>fi</span>
+        <span>;</span><span>;</span>
+    *<span>)</span>
+        <span>echo</span> $<span>"Usage: <span>$0</span> {start|stop|status|restart|reload|force-reload|condrestart}"</span>
+        <span>exit</span> <span>1</span>
+<span>esac</span>
+
+<span>exit</span> <span>$RETVAL</span>
+
+<span># 加入服务</span>
+<span>chkconfig</span> <span>--add</span> supervisord
+
+<span># 设置权限</span>
+<span>chmod</span> <span>755</span> /etc/init.d/supervisord
+
+<span># 开机启动</span>
+<span>chkconfig</span> supervisord on
+
+<span># 生成配置文件</span>
+echo_supervisord_conf <span>></span> /etc/supervisord.conf
+<span>vim</span> /etc/supervisord.conf
+
+<span># 修改以下几处</span>
+
+<span>file</span><span>=</span>/var/run/supervisor.sock
+
+<span>logfile</span><span>=</span>/var/log/supervisord.log
+
+<span>pidfile</span><span>=</span>/var/run/supervisord.pid
+
+<span>serverurl</span><span>=</span>unix:///var/run/supervisor.sock
+
+<span>[</span>inet_http_server<span>]</span>         <span>;</span> inet <span>(</span>TCP<span>)</span> server disabled by default
+<span>port</span><span>=</span><span>0.0</span>.0.0:9100        <span>;</span> ip_address:port specifier, *:port <span>for</span> all iface
+<span>username</span><span>=</span>jobui              <span>;</span> default is no username <span>(</span>open server<span>)</span>
+<span>password</span><span>=</span>jobui123              <span>;</span> default is no password <span>(</span>open server<span>)</span>
+
+<span>[</span>include<span>]</span>
+files <span>=</span> supervisord.d/*.conf
+
+<span># 新建子文档：</span>
+<span>vi</span> /etc/supervisord.d/test.conf
+
+<span>[</span>program:test1<span>]</span>
+<span>command</span><span>=</span> php /root/download/test/test1.php
+<span>process_name</span><span>=</span>%<span>(</span>program_name<span>)</span>s_%<span>(</span>process_num<span>)</span>02d
+<span>autorestart</span><span>=</span>false
+<span>autostart</span><span>=</span>false
+<span>numprocs</span><span>=</span><span>1</span>
+<span>startsecs</span><span>=</span><span>1</span>
+<span>stderr_logfile</span><span>=</span>/var/log/test1.err.log
+<span>stdout_logfile</span><span>=</span>/var/log/test1.out.log
+
+<span>[</span>program:test2<span>]</span>
+<span>command</span><span>=</span> php /root/download/test/test2.php
+<span>process_name</span><span>=</span>%<span>(</span>program_name<span>)</span>s_%<span>(</span>process_num<span>)</span>02d
+<span>autorestart</span><span>=</span>false
+<span>autostart</span><span>=</span>false
+<span>numprocs</span><span>=</span><span>1</span>
+<span>startsecs</span><span>=</span><span>1</span>
+<span>stderr_logfile</span><span>=</span>/var/log/test2.err.log
+<span>stdout_logfile</span><span>=</span>/var/log/test2.out.log
+
+
+<span>[</span>program:test3<span>]</span>
+<span>command</span><span>=</span> php /root/download/test/test3.php
+<span>process_name</span><span>=</span>%<span>(</span>program_name<span>)</span>s_%<span>(</span>process_num<span>)</span>02d
+<span>autorestart</span><span>=</span>false
+<span>autostart</span><span>=</span>false
+<span>numprocs</span><span>=</span><span>1</span>
+<span>startsecs</span><span>=</span><span>1</span>
+<span>stderr_logfile</span><span>=</span>/var/log/test3.err.log
+<span>stdout_logfile</span><span>=</span>/var/log/test3.out.log
+
+<span># 启动</span>
+supervisord <span>-c</span> /etc/supervisord.conf
+
+<span># 查看进程</span>
+<span>ps</span> aux <span>|</span> <span>grep</span> supervisord
+
+
+
+<span># 查看子进程</span>
+supervisorctl status
+
+<span># 控制进程</span>
+<span>#supervisord 启动成功后，可以通过 supervisorctl 客户端控制进程，启动、停止、重启。运行 supervisorctl 命令，不加参数，会进入 supervisor 客户端的交互终端，并会列出当前所管理的所有进程。</span>
+<span>#输入help可以查看可以执行的命令列表，如果想看某个命令的作用，运行 help 命令名称，如：help stop</span>
+
+stop tomcat <span># 表示停止tomcat进程</span>
+stop all <span># 表示停止所有进程</span>
+bash终端
+supervisorctl status
+supervisorctl stop name
+supervisorctl start name
+supervisorctl restart name
+supervisorctl reload
+supervisorctl update
+
+<span>#配置参数说明</span>
+<span>[</span>unix_http_server<span>]</span>
+<span>file</span><span>=</span>/tmp/supervisor.sock   <span>;</span>UNIX socket 文件，supervisorctl 会使用
+<span>;</span><span>chmod</span><span>=</span>0700                 <span>;</span>socket文件的mode，默认是0700
+<span>;</span><span>chown</span><span>=</span>nobody:nogroup       <span>;</span>socket文件的owner，格式：uid:gid
+
+<span>;</span><span>[</span>inet_http_server<span>]</span>         <span>;</span>HTTP服务器，提供web管理界面
+<span>;</span><span>port</span><span>=</span><span>127.0</span>.0.1:9001        <span>;</span>Web管理后台运行的IP和端口，如果开放到公网，需要注意安全性
+<span>;</span><span>username</span><span>=</span>user              <span>;</span>登录管理后台的用户名
+<span>;</span><span>password</span><span>=</span><span>123</span>               <span>;</span>登录管理后台的密码
+
+<span>[</span>supervisord<span>]</span>
+<span>logfile</span><span>=</span>/tmp/supervisord.log <span>;</span>日志文件，默认是 <span>$CWD</span>/supervisord.log
+<span>logfile_maxbytes</span><span>=</span>50MB        <span>;</span>日志文件大小，超出会rotate，默认 50MB，如果设成0，表示不限制大小
+<span>logfile_backups</span><span>=</span><span>10</span>           <span>;</span>日志文件保留备份数量默认10，设为0表示不备份
+<span>loglevel</span><span>=</span>info                <span>;</span>日志级别，默认info，其它: debug,warn,trace
+<span>pidfile</span><span>=</span>/tmp/supervisord.pid <span>;</span>pid 文件
+<span>nodaemon</span><span>=</span>false               <span>;</span>是否在前台启动，默认是false，即以 daemon 的方式启动
+<span>minfds</span><span>=</span><span>1024</span>                  <span>;</span>可以打开的文件描述符的最小值，默认 <span>1024</span>
+<span>minprocs</span><span>=</span><span>200</span>                 <span>;</span>可以打开的进程数的最小值，默认 <span>200</span>
+
+<span>[</span>supervisorctl<span>]</span>
+<span>serverurl</span><span>=</span>unix:///tmp/supervisor.sock <span>;</span>通过UNIX socket连接supervisord，路径与unix_http_server部分的file一致
+<span>;</span><span>serverurl</span><span>=</span>http://127.0.0.1:9001 <span>;</span> 通过HTTP的方式连接supervisord
+
+<span>;</span> <span>[</span>program:xx<span>]</span>是被管理的进程配置参数，xx是进程的名称
+<span>[</span>program:xx<span>]</span>
+<span>command</span><span>=</span>/opt/apache-tomcat-8.0.35/bin/catalina.sh run  <span>;</span> 程序启动命令
+<span>autostart</span><span>=</span>true       <span>;</span> 在supervisord启动的时候也自动启动
+<span>startsecs</span><span>=</span><span>10</span>         <span>;</span> 启动10秒后没有异常退出，就表示进程正常启动了，默认为1秒
+<span>autorestart</span><span>=</span>true     <span>;</span> 程序退出后自动重启,可选值：<span>[</span>unexpected,true,false<span>]</span>，默认为unexpected，表示进程意外杀死后才重启
+<span>startretries</span><span>=</span><span>3</span>       <span>;</span> 启动失败自动重试次数，默认是3
+<span>user</span><span>=</span>tomcat          <span>;</span> 用哪个用户启动进程，默认是root
+<span>priority</span><span>=</span><span>999</span>         <span>;</span> 进程启动优先级，默认999，值小的优先启动
+<span>redirect_stderr</span><span>=</span>true <span>;</span> 把stderr重定向到stdout，默认false
+<span>stdout_logfile_maxbytes</span><span>=</span>20MB  <span>;</span> stdout 日志文件大小，默认50MB
+stdout_logfile_backups <span>=</span> <span>20</span>   <span>;</span> stdout 日志文件备份数，默认是10
+<span>;</span> stdout 日志文件，需要注意当指定目录不存在时无法正常启动，所以需要手动创建目录（supervisord 会自动创建日志文件）
+<span>stdout_logfile</span><span>=</span>/opt/apache-tomcat-8.0.35/logs/catalina.out
+<span>stopasgroup</span><span>=</span>false     <span>;</span>默认为false,进程被杀死时，是否向这个进程组发送stop信号，包括子进程
+<span>killasgroup</span><span>=</span>false     <span>;</span>默认为false，向进程组发送kill信号，包括子进程
+
+<span>;</span>包含其它配置文件
+<span>[</span>include<span>]</span>
+files <span>=</span> relative/directory/*.ini    <span>;</span>可以指定一个或多个以.ini结束的配置文件
+include示例：
+
+<span>[</span>include<span>]</span>
+files <span>=</span> /opt/absolute/filename.ini /opt/absolute/*.ini foo.conf config??.ini
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>子配置文件示例</p>
+<div><pre><code><span>[</span>program:queue_MultiTask<span>]</span> <span>;</span>项目名称
+directory <span>=</span> /www/wwwroot/www.site.net <span>;</span> 程序的启动目录
+<span>command</span> <span>=</span> php think queue:listen <span>--queue</span> MultiTask <span>--tries</span> <span>3</span>  <span>;</span> 启动命令
+<span>process_name</span><span>=</span>%<span>(</span>program_name<span>)</span>s_%<span>(</span>process_num<span>)</span>02d
+numprocs <span>=</span> <span>3</span>           <span>;</span> 开启的进程数量
+autostart <span>=</span> <span>true</span>     <span>;</span> 在 supervisord 启动的时候也自动启动
+startsecs <span>=</span> <span>5</span>        <span>;</span> 启动 <span>5</span> 秒后没有异常退出，就当作已经正常启动了
+autorestart <span>=</span> <span>true</span>   <span>;</span> 程序异常退出后自动重启
+startretries <span>=</span> <span>3</span>     <span>;</span> 启动失败自动重试次数，默认是 <span>3</span>
+user <span>=</span> www          <span>;</span> 用哪个用户启动
+redirect_stderr <span>=</span> <span>true</span>  <span>;</span> 把 stderr 重定向到 stdout，默认 <span>false</span>
+stdout_logfile_maxbytes <span>=</span> 50MB  <span>;</span> stdout 日志文件大小，默认 50MB
+stdout_logfile_backups <span>=</span> <span>20</span>     <span>;</span> stdout 日志文件备份数
+<span>;</span> stdout 日志文件,需要手动创建目录（supervisord 会自动创建日志文件）
+stdout_logfile <span>=</span> /www/wwwroot/www.site.net/queue_MultiTask.log
+<span>loglevel</span><span>=</span>info
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
       <title>Linux基础命令</title>
-      <link>https://newzone.top/linux/linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4.html</link>
-      <guid>https://newzone.top/linux/linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4.html</guid>
-      <source url="https://newzone.top/rss.xml">Linux基础命令</source>
+      <link>https://doflam-z.github.io/linux/linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4.html</link>
+      <guid>https://doflam-z.github.io/linux/linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">Linux基础命令</source>
       <pubDate>Thu, 25 Aug 2022 09:55:40 GMT</pubDate>
       <content:encoded><![CDATA[<h1 id="linux基础命令" tabindex="-1"> Linux基础命令</h1>
 <h3 id="shell命令" tabindex="-1"> shell命令</h3>
-<div><pre><code><span>#查看一级目录文件夹大小</span>
-<span>sudo</span> <span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span>
-
-<span>#查看已删除文件进程</span>
-<span>lsof</span> <span>|</span> <span>grep</span> deleted 
-
-<span>#查看发行版</span>
-lsb_release <span>-a</span> 
-
-<span>#查看cpu核心数</span>
-nproc
-
-<span>#查看cpu型号 “| head -1”是只返回第一个</span>
-<span>cat</span> /proc/cpuinfo <span>|</span><span>grep</span> <span>"model name"</span> <span>|</span> <span>head</span> <span>-1</span>
-
-<span>#循环执行一条命令</span>
-<span>while</span> <span>true</span><span>;</span> <span>do</span> <span>date</span><span>;</span> <span>sleep</span> <span>1</span><span>;</span> <span>done</span>
+<p>查看一级目录文件夹大小</p>
+<div><pre><code><span>sudo</span> <span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查看已删除文件进程</p>
+<div><pre><code><span>lsof</span> <span>|</span> <span>grep</span> deleted 
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查看发行版</p>
+<div><pre><code>lsb_release <span>-a</span> 
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查看cpu核心数</p>
+<div><pre><code>nproc
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查看cpu型号 “| head -1”是只返回第一个</p>
+<div><pre><code><span>cat</span> /proc/cpuinfo <span>|</span><span>grep</span> <span>"model name"</span> <span>|</span> <span>head</span> <span>-1</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>循环执行一条命令</p>
+<div><pre><code><span>while</span> <span>true</span><span>;</span> <span>do</span> <span>date</span><span>;</span> <span>sleep</span> <span>1</span><span>;</span> <span>done</span>
 <span>watch</span> <span>-n</span> <span>1</span> <span>-d</span> <span>netstat</span> <span>-ant</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>统计文本中出现关键字的次数</p>
+<div><pre><code>grep -o objStr  filename|wc -l
+</code></pre><div aria-hidden="true"><div></div></div></div><p>kill掉所有符合关键字的进程</p>
+<div><pre><code>ps -ef | grep jobTypeRankDailyData| grep -v grep | cut -c 9-15 | xargs kill
 
-<span># 统计文本中出现关键字的次数</span>
-<span>grep</span> <span>-o</span> objStr  filename<span>|</span><span>wc</span> <span>-l</span>
-
-<span>#kill掉所有符合关键字的进程</span>
-<span>ps</span> <span>-ef</span> <span>|</span> <span>grep</span> jobTypeRankDailyData<span>|</span> <span>grep</span> <span>-v</span> <span>grep</span> <span>|</span> <span>cut</span> <span>-c</span> <span>9</span>-15 <span>|</span> <span>xargs</span> <span>kill</span>
-
-<span>ps</span> <span>-ef</span> <span>|</span> <span>grep</span> rabbitmq<span>|</span> <span>grep</span> <span>-v</span> <span>grep</span> <span>|</span> <span>cut</span> <span>-c</span> <span>9</span>-15 <span>|</span> <span>xargs</span> <span>kill</span>
-
-<span>#根据进程id查端口</span>
-<span>netstat</span> <span>-nap</span> <span>|</span> <span>grep</span> 进程pid
-
-<span>#根据监听端口查看进程</span>
-<span>netstat</span> <span>-ntpl</span> <span>|</span> <span>grep</span> <span>":8755"</span>
-
-<span>#切换用户只执行一条命令的可以用: </span>
-<span>su</span> - user <span>-c</span> <span>command</span>
-<span>#切换用户执行一个shell文件可以用: </span>
-<span>su</span> - user <span>-s</span> /bin/bash shell.sh
-
-<span>#设置环境变量（临时）</span>
-<span>export</span> <span>LIBZIP_LIBS</span><span>=</span><span>"/web/software/libzip-1.3.2/lib"</span>
-<span>#设置环境变量（永久）(尽量直接编辑，不要echo，容易不小心覆盖文件)</span>
-<span>echo</span> <span>"export ONIG_CFLAGS=/usr/bin/onig-config"</span> <span>>></span> /etc/profile
-<span>#立即生效</span>
+ps -ef | grep rabbitmq| grep -v grep | cut -c 9-15 | xargs kill
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><p>根据进程id查端口</p>
+<div><pre><code><span>netstat</span> <span>-nap</span> <span>|</span> <span>grep</span> 进程pid
+</code></pre><div aria-hidden="true"><div></div></div></div><p>根据监听端口查看进程</p>
+<div><pre><code><span>netstat</span> <span>-ntpl</span> <span>|</span> <span>grep</span> <span>":8755"</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>切换用户只执行一条命令的可以用:</p>
+<div><pre><code><span>su</span> - user <span>-c</span> <span>command</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>切换用户执行一个shell文件可以用:</p>
+<div><pre><code><span>su</span> - user <span>-s</span> /bin/bash shell.sh
+</code></pre><div aria-hidden="true"><div></div></div></div><p>设置环境变量（临时）</p>
+<div><pre><code><span>export</span> <span>LIBZIP_LIBS</span><span>=</span><span>"/web/software/libzip-1.3.2/lib"</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>设置环境变量（永久）(尽量直接编辑，不要echo，容易不小心覆盖文件)</p>
+<div><pre><code><span>echo</span> <span>"export ONIG_CFLAGS=/usr/bin/onig-config"</span> <span>>></span> /etc/profile
 <span>source</span> /etc/profile
-
-<span>#rpm查找包</span>
-<span>rpm</span> <span>-q</span> libcurl
-<span>#rpm安装包</span>
-<span>rpm</span> <span>-ivh</span> libcurl
-<span>#rpm卸载包 （ --nodeps忽略依赖）</span>
-<span>rpm</span> <span>-e</span> <span>--nodeps</span> libcurl
-   
-<span>#搜索替换文件内容</span>
-<span>sudo</span> <span>sed</span> <span>-i</span> <span>'s/track_errors = On/track_errors = Off/g'</span> /web/software/php-7.4.23/lib/php.ini
-
-<span>#统计文件夹大小（包含文件）</span>
-<span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span> /mysql
-
-<span>#统计当前目录文件按大小排序</span>
-<span>du</span> <span>-s</span> * <span>|</span> <span>sort</span> <span>-nr</span>
-
-<span>#批量解压zip文件到指定文件夹</span>
-<span>ls</span> *.zip <span>|</span> <span>xargs</span> <span>-n1</span> <span>unzip</span> <span>-o</span> <span>-d</span> unzip/
-
-<span>#批量解压tar压缩文件</span>
-<span>ls</span> *.tar.gz <span>|</span> <span>xargs</span> <span>-n1</span> <span>tar</span> <span>-zxvf</span>
-
-<span>#xargs是给命令传递参数的一个过滤器，可以将前一个命令产生的输出作为后一个命令的参数</span>
-<span>find</span> test2/ <span>-name</span> <span>'*.tes'</span> <span>|</span><span>xargs</span> <span>rm</span> <span>-rf</span>
-<span>#命令即将find产生的输出（test2目录下的所有tes文件），作为rm的参数，从而完全删除</span>
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="shell判断" tabindex="-1"> shell判断</h3>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>rpm查找包</p>
+<div><pre><code><span>rpm</span> <span>-q</span> libcurl
+</code></pre><div aria-hidden="true"><div></div></div></div><p>rpm安装包</p>
+<div><pre><code><span>rpm</span> <span>-ivh</span> libcurl
+</code></pre><div aria-hidden="true"><div></div></div></div><p>rpm卸载包 （ --nodeps忽略依赖）</p>
+<div><pre><code>rpm -e --nodeps libcurl
+</code></pre><div aria-hidden="true"><div></div></div></div><p>搜索替换文件内容</p>
+<div><pre><code><span>sudo</span> <span>sed</span> <span>-i</span> <span>'s/track_errors = On/track_errors = Off/g'</span> /web/software/php-7.4.23/lib/php.ini
+</code></pre><div aria-hidden="true"><div></div></div></div><p>统计文件夹大小（包含文件）</p>
+<div><pre><code><span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span> /mysql
+</code></pre><div aria-hidden="true"><div></div></div></div><p>统计当前目录文件按大小排序</p>
+<div><pre><code><span>du</span> <span>-s</span> * <span>|</span> <span>sort</span> <span>-nr</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>批量解压zip文件到指定文件夹</p>
+<div><pre><code><span>ls</span> *.zip <span>|</span> <span>xargs</span> <span>-n1</span> <span>unzip</span> <span>-o</span> <span>-d</span> unzip/
+</code></pre><div aria-hidden="true"><div></div></div></div><p>批量解压tar压缩文件</p>
+<div><pre><code><span>ls</span> *.tar.gz <span>|</span> <span>xargs</span> <span>-n1</span> <span>tar</span> <span>-zxvf</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>xargs是给命令传递参数的一个过滤器，可以将前一个命令产生的输出作为后一个命令的参数</p>
+<p>命令即将find产生的输出（test2目录下的所有tes文件），作为rm的参数，从而完全删除</p>
+<div><pre><code><span>find</span> test2/ <span>-name</span> <span>'*.tes'</span> <span>|</span><span>xargs</span> <span>rm</span> <span>-rf</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="shell判断" tabindex="-1"> shell判断</h3>
 <div><pre><code><span>if</span> list <span>then</span>
 	<span>do</span> something here
 <span>elif</span> list <span>then</span>
@@ -159,6 +922,7 @@ $- 显示shell使用的当前选项，与set命令功能相同
 </code></pre><div aria-hidden="true"><div></div></div></div><p>查看某目录下文件夹(目录)的个数（包括子目录）</p>
 <div><pre><code><span>ls</span> <span>-lR</span> <span>|</span> <span>grep</span> <span>"^d"</span> <span>|</span> <span>wc</span> <span>-l</span>
 </code></pre><div aria-hidden="true"><div></div></div></div><h3 id="vim" tabindex="-1"> vim</h3>
+<blockquote>
 <p>Vim中如何全选并复制？（区分大小写！！！）</p>
 <ol>
 <li>全部删除：按esc键后，先按gg（到达顶部），然后dG</li>
@@ -174,6 +938,7 @@ $- 显示shell使用的当前选项，与set命令功能相同
 <p>3.最后按两次esc</p>
 <p>vim批量取消注释</p>
 <p>1.按ctrl+v，上下键选中后注释符号后按d</p>
+</blockquote>
 <h3 id="ssh" tabindex="-1"> ssh</h3>
 <div><pre><code><span>#生成本机密钥</span>
 ssh-keygen <span>-t</span> rsa <span>-C</span> <span>"zax"</span>
@@ -362,9 +1127,9 @@ e2fsck <span>-f</span> <span>-y</span> /dev/mapper/VolGroup00-LogVol00
     </item>
     <item>
       <title>tp6笔记</title>
-      <link>https://newzone.top/code/tp6.html</link>
-      <guid>https://newzone.top/code/tp6.html</guid>
-      <source url="https://newzone.top/rss.xml">tp6笔记</source>
+      <link>https://doflam-z.github.io/code/tp6.html</link>
+      <guid>https://doflam-z.github.io/code/tp6.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">tp6笔记</source>
       <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
       <content:encoded><![CDATA[<h1 id="tp6笔记" tabindex="-1"> tp6笔记</h1>
 <h3 id="安装" tabindex="-1"> 安装</h3>
@@ -403,24 +1168,12 @@ php think build adimn
 </code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>队列</title>
-      <link>https://newzone.top/code/%E9%98%9F%E5%88%97.html</link>
-      <guid>https://newzone.top/code/%E9%98%9F%E5%88%97.html</guid>
-      <source url="https://newzone.top/rss.xml">队列</source>
+      <title>Debian10常用命令</title>
+      <link>https://doflam-z.github.io/linux/debian10.html</link>
+      <guid>https://doflam-z.github.io/linux/debian10.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">Debian10常用命令</source>
       <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="队列" tabindex="-1"> 队列</h1>
-<p>curl &quot;http://192.168.2.137:1818/?name=positionCooperationClick&amp;opt=get&quot;  //获取一个队列数据</p>
-<p>curl &quot;http://192.168.2.136:1818/?name=test&amp;opt=put&amp;data=test&quot;//存一个队列</p>
-<p><img src="@source/images/麻了.jpg" alt="" loading="lazy"></p>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>debian10</title>
-      <link>https://newzone.top/linux/debian10.html</link>
-      <guid>https://newzone.top/linux/debian10.html</guid>
-      <source url="https://newzone.top/rss.xml">debian10</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="debian10" tabindex="-1"> debian10</h1>
+      <content:encoded><![CDATA[<h1 id="debian10常用命令" tabindex="-1"> Debian10常用命令</h1>
 <h3 id="系统相关命令" tabindex="-1"> 系统相关命令</h3>
 <p>编辑网卡配置新增配置</p>
 <p>vim /etc/network/interfaces</p>
@@ -529,47 +1282,7 @@ EOF</span>
 <span>source</span> ~/.bashrce
 </code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="修改时区为上海" tabindex="-1"> 修改时区为上海</h3>
 <div><pre><code><span>cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="" tabindex="-1"> </h3>
-<h3 id="安装iptables-persistent来使用iptables命令" tabindex="-1"> 安装iptables-persistent来使用iptables命令</h3>
-<div><pre><code><span>sudo</span> <span>apt</span> <span>install</span> iptables-persistent <span>-y</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="或者安装使用-ufw-来设置防火墙" tabindex="-1"> 或者安装使用 UFW 来设置防火墙</h3>
-<p>安装</p>
-<div><pre><code><span>sudo</span> <span>apt</span> update
-<span>sudo</span> <span>apt</span> <span>install</span> ufw
-
-<span>#检查状态，默认是关闭</span>
-<span>sudo</span> ufw status verbose
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>UFW默认策略是关闭所有进来的连接，开启所有出去的连接，文件路径在：</p>
-<blockquote>
-<p>/etc/default/ufw</p>
-</blockquote>
-<p>允许一个端口</p>
-<div><pre><code><span>sudo</span> ufw allow <span>7722</span>/tcp
-</code></pre><div aria-hidden="true"><div></div></div></div><p>打开一段端口</p>
-<div><pre><code><span>sudo</span> ufw allow <span>7100</span>:7200/tcp
-<span>sudo</span> ufw allow <span>7100</span>:7200/udp
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>允许指定ip访问所有端口</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>10.10</span>.10.10
-</code></pre><div aria-hidden="true"><div></div></div></div><p>允许指定ip访问指定端口</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>64.63</span>.62.61 to any port <span>22</span>
-
-<span>sudo</span> ufw allow from <span>120.232</span>.65.223 to any port <span>5574,8080</span>,80,9080,443
-<span>sudo</span> ufw allow from <span>157.148</span>.45.20 to any port <span>5574,8080</span>,80,9080,443
-<span>sudo</span> ufw allow from <span>183.2</span>.143.163 to any port <span>5574,8080</span>,80,9080,443/tcp
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>允许整个网段</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>192.168</span>.1.0/24 to any port <span>3306</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><p>禁止连接</p>
-<div><pre><code><span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>80</span>
-<span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>443</span>
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>查看规则</p>
-<div><pre><code><span>sudo</span> ufw status numbered
-</code></pre><div aria-hidden="true"><div></div></div></div><p>删除规则</p>
-<div><pre><code><span>sudo</span> ufw delete <span>3</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><p>启动、关闭、重置</p>
-<div><pre><code><span>sudo</span> ufw <span>enable</span>
-<span>sudo</span> ufw disable
-<span>sudo</span> ufw reset
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="安装zabbix" tabindex="-1"> 安装zabbix</h3>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="安装zabbix" tabindex="-1"> 安装zabbix</h3>
 <div><pre><code><span>sudo</span> <span>wget</span> https://repo.mysql.com//mysql-apt-config_0.8.17-1_all.deb
 <span>sudo</span> dpkg <span>-i</span> mysql-apt-config_0.8.17-1_all.deb
 <span>sudo</span> <span>apt</span> update
@@ -598,274 +1311,7 @@ mysql -uroot -p123456 zabbix &lt; data.sql
 <span>#下载图标</span>
 <span>sudo</span> <span>wget</span>  https://github.com/vinceliuice/Tela-icon-theme/archive/refs/heads/master.zip
 
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h2 id="lnmp环境搭建" tabindex="-1"> lnmp环境搭建</h2>
-<h4 id="安装开发环境软件包" tabindex="-1"> 安装开发环境软件包</h4>
-<div><pre><code>sudo apt-get install -y build-essential libexpat1-dev libgeoip-dev libpng-dev libpcre3-dev libssl-dev libxml2-dev rcs zlib1g-dev libmcrypt-dev libjpeg-dev libpng-dev libwebp-dev pkg-config libbz2-dev libcurl4-openssl-dev autoconf libmemcached-dev libmemcached11
-
-sudo ln -s /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h5 id="下载软件源码包" tabindex="-1"> 下载软件源码包</h5>
-<div><pre><code>cd /usr/local/src
-sudo wget https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.20.tar.gz
-sudo wget https://openresty.org/download/openresty-1.9.7.4.tar.gz
-sudo wget https://www.php.net/distributions/php-5.6.20.tar.gz
-
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h5 id="创建用户nginx、mysql用户" tabindex="-1"> 创建用户nginx、mysql用户</h5>
-<div><pre><code>sudo groupadd mysql
-sudo useradd -g mysql -d /home/mysql -s /sbin/nologin mysql
-
-sudo groupadd nginx
-sudo useradd -g nginx -d /home/nginx -s /sbin/nologin nginx
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="安装nginx" tabindex="-1"> 安装nginx</h4>
-<h5 id="下载安装nginx需要的模块" tabindex="-1"> 下载安装nginx需要的模块</h5>
-<div><pre><code>cd /usr/local/src
-#zlib库
-sudo wget http://www.zlib.net/zlib-1.2.11.tar.gz
-sudo tar -zxvf zlib-1.2.11.tar.gz
-cd zlib-1.2.11
-sudo ./configure --prefix=/web/software/zlib
-sudo make
-sudo make install
-
-#PCRE库
-sudo wget https://ftp.pcre.org/pub/pcre/pcre-8.21.tar.gz
-sudo tar -zxvf pcre-8.21.tar.gz
-cd pcre-8.21
-sudo ./config --prefix=/web/software/pcre
-sudo make
-sudo make install
-
-#openSSL库
-#编译安装openssl报错：POD document had syntax errors at /usr/bin/pod2man line 69. make: *** [install_docs]
-#解决方法：
-rm -f /usr/bin/pod2man 
-
-sudo wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz
-sudo tar -zxvf openssl-1.0.1.tar.gz
-cd openssl-1.0.1
-sudo ./config shared --prefix=/usr/local/ssl
-sudo make
-sudo make install
-
-sudo mv -f /usr/bin/openssl /usr/bin/openssl.old
-sudo mv -f /usr/include/openssl /usr/include/openssl.old
-sudo ln -s /usr/local/ssl/bin/openssl /usr/bin/openssl
-sudo ln -s /usr/local/ssl/include/openssl /usr/include/openssl
-sudo ln -s /usr/local/ssl/include/openssl /usr/local/include/openssl
-
-#openSSL库
-rm -f /usr/bin/pod2man 
-sudo wget https://www.openssl.org/source/old/1.0.1/openssl-1.0.1.tar.gz
-sudo tar -zxvf openssl-1.0.1.tar.gz
-cd openssl-1.0.1
-sudo ./config shared --prefix=/web/software/openssl
-sudo make
-sudo make install
-
-#libunwind库
-sudo wget http://download.savannah.gnu.org/releases/libunwind/libunwind-1.1.tar.gz
-sudo tar -zxvf libunwind-1.1.tar.gz
-cd libunwind-1.1
-sudo CFLAGS=-fPIC ./configure
-sudo make CFLAGS=-fPIC
-sudo make CFLAGS=-fPIC install
-
-#google-perftools
-sudo wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.7/gperftools-2.7.tar.gz
-sudo tar -zxvf gperftools-2.7.tar.gz
-cd gperftools-2.7
-sudo ./configure  --enable-frame-pointers
-sudo make
-sudo make install
-#使google-perftools生效:
-sudo echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr_local_lib.conf
-sudo ldconfig
-
-#ngx_cache_purge-2.3
-sudo wget http://labs.frickle.com/files/ngx_cache_purge-2.3.tar.gz
-sudo tar -zxvf ngx_cache_purge-2.3.tar.gz
-
-#nginx编译参数（线上）
---prefix=/web/software/openresty/nginx \
---with-cc-opt=-O2 \
---add-module=../ngx_devel_kit-0.3.0 \
---add-module=../iconv-nginx-module-0.14 \
---add-module=../echo-nginx-module-0.59 \
---add-module=../xss-nginx-module-0.05 \
---add-module=../ngx_coolkit-0.2rc3 \
---add-module=../set-misc-nginx-module-0.30 \
---add-module=../form-input-nginx-module-0.12 \
---add-module=../encrypted-session-nginx-module-0.05 \
---add-module=../ngx_postgres-1.0rc7 \
---add-module=../srcache-nginx-module-0.31 \
---add-module=../ngx_lua-0.10.5 \
---add-module=../ngx_lua_upstream-0.05 \
---add-module=../headers-more-nginx-module-0.30 \
---add-module=../array-var-nginx-module-0.05 \
---add-module=../memc-nginx-module-0.17 \
---add-module=../redis-nginx-module-0.3.7 \
---add-module=../rds-json-nginx-module-0.14 \
---add-module=../rds-csv-nginx-module-0.07 \
---with-ld-opt=-Wl,-rpath,/web/software/openresty/luajit/lib \
---user=www \
---group=www \
---with-google_perftools_module \
---with-pcre=/root/baicai-V6/web/nginx/pcre-8.36 \
---with-pcre-jit \
---with-zlib=/root/baicai-V6/web/nginx/zlib-1.2.8 \
---add-module=/root/baicai-V6/web/nginx/openresty-1.9.15.1/../ngx_cache_purge-2.3 \
---with-http_stub_status_module \
---with-http_ssl_module
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h5 id="安装openresty-1-9-7-1-包含nginx-1-9-7和插件" tabindex="-1"> 安装openresty-1.9.7.1，包含nginx-1.9.7和插件</h5>
-<p>预编译</p>
-<div><pre><code>cd /usr/local/src/openresty-1.9.7.4
-sudo ./configure \
---prefix=/web/software/openresty \
---user=www \
---group=www \
---with-google_perftools_module \
---with-pcre=../pcre-8.21 \
---with-pcre-jit \
---with-zlib=../zlib-1.2.11 \
---with-openssl=../openssl-1.0.1 \
---add-module=../ngx_cache_purge-2.3 \
---with-http_stub_status_module \
---with-http_ssl_module \
---with-stream
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>编译安装</p>
-<div><pre><code>sudo make
-sudo make install
-#为了统一nginx与其他服务的同步，给nginx目录做软连接
-sudo ln -s  /web/software/openresty/nginx  /web/software/nginx
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h4 id="安装php" tabindex="-1"> 安装php</h4>
-<div><pre><code><span>#安装m</span>
-<span>#zlib</span>
-<span>sudo</span> ./configure
-<span>sudo</span> <span>make</span>
-<span>sudo</span> <span>make</span> <span>install</span>
-<span>export</span> <span>LDFLAGS</span><span>=</span><span>"-L/usr/local/zlib/lib"</span>
-<span>export</span> <span>CPPFLAGS</span><span>=</span><span>"-I/usr/local/zlib/include"</span>
-
-<span>#jpeg6</span>
-<span>#先创建目录，否则会报错</span>
-<span>cd</span> /usr/local/src/php/jpeg-6b
-<span>sudo</span> <span>mkdir</span> /web/software/jpeg6/
-<span>sudo</span> <span>mkdir</span> <span>{</span>/web/software/jpeg6/bin,/web/software/jpeg6/lib,/web/software/jpeg6/include<span>}</span>
-<span>sudo</span> <span>mkdir</span> <span>-p</span>  /web/software/jpeg6/man/man1
-<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/jpeg6
-<span>sudo</span> <span>make</span>
-<span>sudo</span> <span>make</span> <span>install</span>
-
-<span>#libpng2</span>
-<span>#安装libpng出现configure: error: ZLib not installed</span>
-<span>#1.进入zlib的源文件目录，执行命令 make clean,清除zlib；</span>
-<span>#2.重新配置 ./configure,后面不要接--prefix参数；</span>
-<span>#然后执行以下命令</span>
-<span>export</span> <span>LDFLAGS</span><span>=</span><span>"-L/usr/local/zlib/lib"</span>
-<span>export</span> <span>CPPFLAGS</span><span>=</span><span>"-I/usr/local/zlib/include"</span>
-
-<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/libpng2
-<span>sudo</span> <span>make</span>
-<span>sudo</span> <span>make</span> <span>install</span>
-
-<span>#freetype2</span>
-<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/freetype2
-<span>sudo</span> <span>make</span>
-<span>sudo</span> <span>make</span> <span>install</span>
-
-<span>#libxml2</span>
-<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/libxml2
-<span>sudo</span> <span>make</span>
-<span>sudo</span> <span>make</span> <span>install</span>
-
-<span>#curl</span>
-<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/curl
-<span>sudo</span> <span>make</span>
-<span>sudo</span> <span>make</span> <span>install</span>
-
-
-<span>#php编译参数（线上）</span>
-<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/php-5.6.40 <span>\</span>
---with-config-file-path<span>=</span>/web/software/php-5.6.40/lib <span>\</span>
---with-mysql<span>=</span>mysqlnd <span>\</span>
---with-mysqli<span>=</span>mysqlnd <span>\</span>
---with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
---with-jpeg-dir<span>=</span>/web/software/jpeg6 <span>\</span>
---with-png-dir<span>=</span>/web/software/libpng2 <span>\</span>
---with-freetype-dir<span>=</span>/web/software/freetype2 <span>\</span>
---with-libxml-dir<span>=</span>/web/software/libxml2 <span>\</span>
---with-zlib-dir<span>=</span>/usr/local/zlib/ <span>\</span>
---with-curl<span>=</span>/web/software/curl <span>\</span>
---with-openssl<span>=</span>/usr/local/ssl <span>\</span>
---disable-ipv6 <span>\</span>
---enable-sockets <span>\</span>
---disable-debug <span>\</span>
---enable-xml <span>\</span>
---disable-rpath <span>\</span>
---enable-bcmath <span>\</span>
---enable-shmop <span>\</span>
---enable-sysvsem <span>\</span>
---enable-inline-optimization <span>\</span>
---with-curl <span>\</span>
---enable-sysvmsg <span>\</span>
---enable-sysvshm <span>\</span>
---enable-mbregex <span>\</span>
---enable-mbstring <span>\</span>
---with-bz2<span>=</span>/usr <span>\</span>
---enable-gd-native-ttf <span>\</span>
---with-mhash <span>\</span>
---with-xmlrpc <span>\</span>
---enable-zip <span>\</span>
---enable-soap <span>\</span>
---without-pear <span>\</span>
---enable-fpm <span>\</span>
---with-libdir<span>=</span>lib64
-
-<span>#php编译参数（141）</span>
-<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/php-5.6.40 <span>\</span>
---with-config-file-path<span>=</span>/web/software/php-5.6.40/lib <span>\</span>
---with-mysql<span>=</span>mysqlnd <span>\</span>
---with-mysqli<span>=</span>mysqlnd <span>\</span>
---with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
---with-jpeg-dir<span>=</span>/web/software/jpeg6 <span>\</span>
---with-png-dir<span>=</span>/web/software/libpng2 <span>\</span>
---with-freetype-dir<span>=</span>/web/software/freetype2 <span>\</span>
---with-libxml-dir<span>=</span>/web/software/libxml2 <span>\</span>
---with-zlib-dir<span>=</span>/usr/local/zlib/ <span>\</span>
---with-curl<span>=</span>/web/software/curl <span>\</span>
---with-openssl<span>=</span>/usr/local/ssl <span>\</span>
---disable-ipv6 <span>\</span>
---enable-sockets <span>\</span>
---disable-debug <span>\</span>
---enable-xml <span>\</span>
---disable-rpath <span>\</span>
---enable-bcmath <span>\</span>
---enable-shmop <span>\</span>
---enable-sysvsem <span>\</span>
---enable-inline-optimization <span>\</span>
---with-curl <span>\</span>
---enable-sysvmsg <span>\</span>
---enable-sysvshm <span>\</span>
---enable-mbregex <span>\</span>
---enable-mbstring <span>\</span>
---with-bz2<span>=</span>/usr <span>\</span>
---enable-gd-native-ttf <span>\</span>
---with-mhash <span>\</span>
---with-xmlrpc <span>\</span>
---enable-zip <span>\</span>
---enable-soap <span>\</span>
---without-pear <span>\</span>
---enable-fpm <span>\</span>
---enable-pcntl
-
-<span>#编译php时，遇到“Please reinstall the libcurl distribution...”</span>
-<span>#sudo apt-get install libcurl4-gnutls-dev</span>
-<span>sudo</span> <span>ln</span> <span>-s</span> /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
-
-<span>#make: *** [Makefile:590：ext/openssl/openssl.lo] 错误 1 (php5.6不兼容openssl1.1.1)</span>
-<span>#openssl降级</span>
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="安装deepin版微信" tabindex="-1"> 安装deepin版微信</h3>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="安装deepin版微信" tabindex="-1"> 安装deepin版微信</h3>
 <div><pre><code><span>#!/bin/bash</span>
 <span>mkdir</span> ./deepintemp
 <span>cd</span> ./deepintemp
@@ -903,144 +1349,60 @@ dpkg <span>-i</span> deepin.com.wechat_2.6.8.65deepin0_i386.deb
 </code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div>]]></content:encoded>
     </item>
     <item>
-      <title>debian10编译安装php7.4</title>
-      <link>https://newzone.top/linux/debian10%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85php7.4.html</link>
-      <guid>https://newzone.top/linux/debian10%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85php7.4.html</guid>
-      <source url="https://newzone.top/rss.xml">debian10编译安装php7.4</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="debian10编译安装php7-4" tabindex="-1"> debian10编译安装php7.4</h1>
-<div><pre><code><span>##/bin/bash</span>
-
-<span>apt-get</span> <span>install</span> <span>-y</span> libsqlite3-dev libmemcached-dev libmagickwand-dev libmagickcore-dev <span>\</span>
-libdatrie-dev libmcrypt-dev procps libonig-dev libzip-dev
-
-<span>#apt-get install -y build-essential libexpat1-dev libgeoip-dev libpng-dev libpcre3-dev libssl-dev libxml2-dev rcs zlib1g-dev libmcrypt-dev libjpeg-dev libpng-dev libwebp-dev pkg-config libbz2-dev libcurl4-openssl-dev autoconf libmemcached-dev libmemcached11</span>
-
-<span>cd</span> /usr/local/src/package/php-7.4.24/ <span>&amp;&amp;</span> <span>\</span>
-	./configure <span>\</span>
-    <span>--prefix</span><span>=</span>/web/software/php-7.4.24 <span>\</span>
-    --with-config-file-path<span>=</span>/web/software/php-7.4.24/lib <span>\</span>
-    --with-mysqli<span>=</span>mysqlnd <span>\</span>
-    --with-pdo-mysql<span>=</span>mysqlnd <span>\</span>
-    --with-zlib <span>\</span>
-    --disable-ipv6 <span>\</span>
-    --enable-sockets <span>\</span>
-    --disable-debug <span>\</span>
-    --enable-xml <span>\</span>
-    --disable-rpath <span>\</span>
-    --enable-bcmath <span>\</span>
-    --enable-shmop <span>\</span>
-    --enable-sysvsem <span>\</span>
-    --enable-inline-optimization <span>\</span>
-    --enable-sysvmsg <span>\</span>
-    --enable-sysvshm <span>\</span>
-    --enable-mbregex <span>\</span>
-    --enable-mbstring <span>\</span>
-    --with-bz2 <span>\</span>
-    --with-libxml <span>\</span>
-    --with-curl <span>\</span>
-    --with-openssl <span>\</span>
-    --with-mhash <span>\</span>
-    --with-xmlrpc <span>\</span>
-    --with-zip <span>\</span>
-    --enable-soap <span>\</span>
-    --without-pear <span>\</span>
-    --enable-fpm <span>&amp;&amp;</span> <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span>
-
-<span># apcu</span>
-    <span>cd</span> /usr/local/src/package/apcu-5.1.19 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># blitz</span>
-    <span>cd</span> /usr/local/src/package/blitz-0.10.4-PHP7/ <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># memcached</span>
-    <span>cd</span> /usr/local/src/package/memcached-3.1.5 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># memcache</span>
-    <span>cd</span> /usr/local/src/package/memcache-8.0 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># mongodb</span>
-    <span>cd</span> /usr/local/src/package/mongodb-1.10.0 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># igbinary</span>
-    <span>cd</span> /usr/local/src/package/igbinary-3.2.6 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># redis</span>
-    <span>cd</span> /usr/local/src/package/redis-4.3.0 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># imagick</span>
-    <span>cd</span> /usr/local/src/package/imagick-3.5.1 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># qqwry</span>
-	<span>cd</span> /usr/local/src/package <span>\</span>
-    <span>cd</span> /usr/local/src/package/qqwry-master/php/qqwry/ <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># xhprof</span>
-    <span>cd</span> /usr/local/src/package/xhprof-2.3.4/extension/ <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># php-ext-trie-filter</span>
-    <span>cd</span> /usr/local/src/package/php-ext-trie-filter-php7 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># scws</span>
-    <span>cd</span> /usr/local/src/package/scws-1.2.3/ <span>\</span>
-    ./configure <span>--prefix</span><span>=</span>/web/software/scws-1.2.3/ <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-    <span>cp</span> <span>-r</span> /usr/local/src/package/dict* /web/software/scws-1.2.3/etc/ <span>\</span>
-<span># scws-phpext</span>
-    <span>cd</span> /usr/local/src/package/scws-1.2.3/phpext <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure --with-scws<span>=</span>/web/software/scws-1.2.3 --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># mcrypt</span>
-    <span>cd</span> /usr/local/src/package/mcrypt-1.0.4 <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    aclocal <span>\</span>
-    ./configure --with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-<span># gd</span>
-    <span>cd</span> /usr/local/src/package/php-7.4.24/ext/gd <span>\</span>
-    /web/software/php-7.4.24/bin/phpize <span>\</span>
-    ./configure -with-php-config<span>=</span>/web/software/php-7.4.24/bin/php-config --enable-gd --with-jpeg --with-freetype <span>\</span>
-    <span>make</span> <span>&amp;&amp;</span> <span>make</span> <span>install</span> <span>\</span>
-
-<span>cp</span> /usr/local/src/docker/php/php-fpm.conf /web/software/php-7.4.24/etc/php-fpm.conf
-
-<span>cp</span> /usr/local/src/docker/php/php-fpm /etc/init.d/php-fpm
-
-<span>chmod</span> <span>755</span> /etc/init.d/php-fpm
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
-    </item>
-    <item>
       <title>iptables</title>
-      <link>https://newzone.top/linux/iptables.html</link>
-      <guid>https://newzone.top/linux/iptables.html</guid>
-      <source url="https://newzone.top/rss.xml">iptables</source>
+      <link>https://doflam-z.github.io/linux/iptables.html</link>
+      <guid>https://doflam-z.github.io/linux/iptables.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">iptables</source>
       <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
       <content:encoded><![CDATA[<h1 id="iptables" tabindex="-1"> iptables</h1>
+<blockquote>
+<p>debian管理iptables需要用到iptables-persistent ，或者ufw</p>
+<p>通过iptables-persistent生成的规则默认将被存储在以下文件中</p>
+<p>/etc/iptables/rules.v4    /etc/iptables/rules.v6</p>
+</blockquote>
+<h3 id="安装iptables-persistent来使用iptables命令" tabindex="-1"> 安装iptables-persistent来使用iptables命令</h3>
+<div><pre><code><span>sudo</span> <span>apt</span> <span>install</span> iptables-persistent <span>-y</span>
+<span># 保存重载</span>
+<span>sudo</span> netfilter-persistent save
+<span>sudo</span> netfilter-persistent reload
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h3 id="或者安装使用-ufw-来设置防火墙" tabindex="-1"> 或者安装使用 UFW 来设置防火墙</h3>
+<p>安装</p>
+<div><pre><code><span>sudo</span> <span>apt</span> update
+<span>sudo</span> <span>apt</span> <span>install</span> ufw
+
+<span>#检查状态，默认是关闭</span>
+<span>sudo</span> ufw status verbose
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>UFW默认策略是关闭所有进来的连接，开启所有出去的连接，文件路径在：</p>
+<blockquote>
+<p>/etc/default/ufw</p>
+</blockquote>
+<p>允许一个端口</p>
+<div><pre><code><span>sudo</span> ufw allow <span>7722</span>/tcp
+</code></pre><div aria-hidden="true"><div></div></div></div><p>打开一段端口</p>
+<div><pre><code><span>sudo</span> ufw allow <span>7100</span>:7200/tcp
+<span>sudo</span> ufw allow <span>7100</span>:7200/udp
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>允许指定ip访问所有端口</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>10.10</span>.10.10
+</code></pre><div aria-hidden="true"><div></div></div></div><p>允许指定ip访问指定端口</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>64.63</span>.62.61 to any port <span>22</span>
+
+<span>sudo</span> ufw allow from <span>120.232</span>.65.223 to any port <span>5574,8080</span>,80,9080,443
+<span>sudo</span> ufw allow from <span>157.148</span>.45.20 to any port <span>5574,8080</span>,80,9080,443
+<span>sudo</span> ufw allow from <span>183.2</span>.143.163 to any port <span>5574,8080</span>,80,9080,443/tcp
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>允许整个网段</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>192.168</span>.1.0/24 to any port <span>3306</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>禁止连接</p>
+<div><pre><code><span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>80</span>
+<span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>443</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>查看规则</p>
+<div><pre><code><span>sudo</span> ufw status numbered
+</code></pre><div aria-hidden="true"><div></div></div></div><p>删除规则</p>
+<div><pre><code><span>sudo</span> ufw delete <span>3</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>启动、关闭、重置</p>
+<div><pre><code><span>sudo</span> ufw <span>enable</span>
+<span>sudo</span> ufw disable
+<span>sudo</span> ufw reset
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="更换默认ssh端口" tabindex="-1"> 更换默认ssh端口</h3>
 <div><pre><code><span>#1.开启一个ssh端口</span>
 
 <span>vi</span> /etc/ssh/sshd_config
@@ -1070,7 +1432,8 @@ iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x <span>-p</span> tcp <span
 
 <span>#重启</span>
 <span>service</span> iptables restart
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code>#!/bin/sh
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables配置脚本" tabindex="-1"> iptables配置脚本</h3>
+<div><pre><code>#!/bin/sh
 
 # 先备份iptables规则
 mkdir /web/shell/iptables_bak
@@ -1079,12 +1442,12 @@ cp /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
 # 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题
 service iptables stop
 
-# 禁止所有ip访问60011端口
-iptables -I INPUT -p tcp --dport 60011 -j DROP
+# 禁止所有ip访问22端口
+iptables -I INPUT -p tcp --dport 22 -j DROP
 
-# 开放指定ip可以连接60011端口
-iptables -A INPUT -i 127.0.0.1 -p tcp --dport 60011 -j ACCEPT
-iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
+# 开放指定ip可以连接22端口
+iptables -A INPUT -i 127.0.0.1 -p tcp --dport 22 -j ACCEPT
+iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 22 -j ACCEPT
 
 # 允许部分出去的网络  			
 iptables -A OUTPUT -d 192.168.2.0/24,x.x.x.x,121.201.88.88,114.114.114.114 -j ACCEPT    
@@ -1110,7 +1473,8 @@ service iptables save
 service iptables restart 
 
 
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code><span># 查看所有规则列表并打印编号</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables操作" tabindex="-1"> iptables操作</h3>
+<div><pre><code><span># 查看所有规则列表并打印编号</span>
 iptables <span>-L</span> <span>-n</span> --line-numbers
 
 <span># 删除一条规则</span>
@@ -1123,52 +1487,35 @@ iptables <span>-D</span> OUTPUT <span>7</span>
 
 <span>#允许所有入口访问</span>
 <span>sudo</span> iptables <span>-A</span> INPUT <span>-j</span> ACCEPT
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code><span>#!/bin/sh</span>
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="更换ssh端口脚本" tabindex="-1"> 更换ssh端口脚本</h3>
+<div><pre><code><span>#!/bin/sh</span>
 
 <span># 先备份iptables规则</span>
 <span>mkdir</span> /web/shell/iptables_bak
 <span>cp</span> /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
 
-<span>sed</span> <span>-i</span> <span>"s|#Port 22|Port 60011|g"</span> /etc/ssh/sshd_config
+<span>sed</span> <span>-i</span> <span>"s|#Port 22|Port 22|g"</span> /etc/ssh/sshd_config
 
 <span># 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题</span>
 <span>#service iptables stop</span>
 
-<span># 禁止所有ip访问60011端口</span>
-iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> DROP
+<span># 禁止所有ip访问22端口</span>
+iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
 
-<span># 开放指定ip可以连接60011端口</span>
-iptables <span>-A</span> INPUT <span>-i</span> <span>127.0</span>.0.1 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
-iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x,192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
+<span># 开放指定ip可以连接22端口</span>
+iptables <span>-A</span> INPUT <span>-i</span> <span>127.0</span>.0.1 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
+iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x,192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
 
 <span>service</span> iptables save
 <span>service</span> sshd restart
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><blockquote>
-<p>debian管理iptables需要用到iptables-persistent</p>
-<p>通过iptables-persistent生成的规则默认将被存储在以下文件中</p>
-<p>/etc/iptables/rules.v4    /etc/iptables/rules.v6</p>
-</blockquote>
-<div><pre><code><span>apt</span> <span>install</span> iptables-persistent <span>-y</span>
-
-<span># 保存重载</span>
- <span>sudo</span> netfilter-persistent save
- <span>sudo</span> netfilter-persistent reload
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>iptables -A INPUT -i x.x.x.x -p tcp --dport 80 -j ACCEPT</p>
-<p>iptables -A INPUT -i x.x.x.x -p tcp --dport 443 -j ACCEPT</p>
-<h3 id="服务器处理" tabindex="-1"> 服务器处理</h3>
-<ol>
-<li>限制登陆ip只有x.x.x.x才能登陆</li>
-<li>防火墙限制访问外网ip</li>
-<li>修改默认ssh端口为60011</li>
-<li>修改全部账号密码，root、jobui及个人账号，删除可疑账号</li>
-</ol>
-]]></content:encoded>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
     </item>
     <item>
       <title>ElasticSearch</title>
-      <link>https://newzone.top/services/ElasticSearch.html</link>
-      <guid>https://newzone.top/services/ElasticSearch.html</guid>
-      <source url="https://newzone.top/rss.xml">ElasticSearch</source>
+      <link>https://doflam-z.github.io/services/ElasticSearch.html</link>
+      <guid>https://doflam-z.github.io/services/ElasticSearch.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">ElasticSearch</source>
       <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
       <content:encoded><![CDATA[<h1 id="elasticsearch" tabindex="-1"> ElasticSearch</h1>
 <p>搜索</p>
@@ -1362,900 +1709,6 @@ sha1sum kibana-5.6.16-linux-x86_64.tar.gz
 ./bin/kibana <span>>></span> /mysql/elasticsearch/kibana.stdout <span><span>2</span>>></span> /mysql/elasticsearch/kibana.stderr <span>&amp;</span>
 
 </code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>Docker环境启动</title>
-      <link>https://newzone.top/services/jobui_docker%E7%8E%AF%E5%A2%83.html</link>
-      <guid>https://newzone.top/services/jobui_docker%E7%8E%AF%E5%A2%83.html</guid>
-      <source url="https://newzone.top/rss.xml">Docker环境启动</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="docker环境启动" tabindex="-1"> Docker环境启动</h1>
-<p>安装docker for windows</p>
-<p>将docker-compose.yml文件跟docker文件夹解压到项目根目录下</p>
-<p>拉取镜像</p>
-<div><pre><code><span>docker</span> pull doflamingozzz/nginx-1.15.8.3:1.0
-<span>docker</span> pull doflamingozzz/php7.4:1.0
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>启动环境</p>
-<div><pre><code><span>docker-compose</span> up <span>-d</span>
-</code></pre><div aria-hidden="true"><div></div></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>mongo</title>
-      <link>https://newzone.top/services/mongo.html</link>
-      <guid>https://newzone.top/services/mongo.html</guid>
-      <source url="https://newzone.top/rss.xml">mongo</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="mongo" tabindex="-1"> mongo</h1>
-<h3 id="服务配置" tabindex="-1"> 服务配置</h3>
-<h4 id="配置复制集" tabindex="-1"> 配置复制集</h4>
-<div><pre><code><span># 连接</span>
-mongo <span>192.168</span>.2.134:12000
-<span># 初始化（第一次配置）</span>
-<span>></span>rs.initiate<span>(</span><span>)</span>
-<span>></span>rs.add<span>(</span><span>"hostname:120000"</span><span>)</span>
-
-<span># 查看状态</span>
-<span>></span>rs.status<span>(</span><span>)</span>
-
-<span>></span>rs.add<span>(</span><span>{</span>host:<span>'hostname:12000'</span><span>}</span><span>)</span><span>(</span>添加一个复制集<span>)</span>
-<span>></span>rs.addArb<span>(</span><span>"hostnamet:30000"</span><span>)</span><span>(</span>添加一个投票节点<span>)</span>
-<span>></span>rs.remove<span>(</span><span>"hostname:30000"</span><span>)</span><span>(</span>删除节点<span>)</span>
-
-
-/web/software/mongodb-3.0.7/bin/mongod <span>-f</span> /web/bcshell/mongodb/mongodbWT12000.conf <span>--rest</span> <span>--logpath</span><span>=</span>/tmp/mongod.log<span>(</span>输出日志<span>)</span>
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="修改优先级" tabindex="-1"> 修改优先级</h4>
-<p>通过改动priority的值来实现（默认的优先级是1（0-100）。priority的值设的越大，就优先成为主）</p>
-<div><pre><code>PRIMARY<span>></span> <span>config</span><span>=</span>rs.conf<span>(</span><span>)</span>
-PRIMARY<span>></span> config.members<span>[</span><span>0</span><span>]</span>.priority <span>=</span> <span>2</span>       这里要注意：0表示第一个节点，1表示第二个节点，以此类推
-PRIMARY<span>></span> rs.reconfig<span>(</span>config<span>)</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h4 id="启动命令" tabindex="-1"> 启动命令</h4>
-<div><pre><code>/web/software/mongodb-3.0.7/bin/mongod <span>-f</span> /web/bcshell/mongodb/mongodbWT12002.conf <span>--rest</span> <span>--logpath</span><span>=</span>/tmp/mongod2.log
-/web/software/mongodb-3.0.7/bin/mongod <span>-f</span> /web/bcshell/mongodb/mongodbWT12000.conf <span>--rest</span> <span>--logpath</span><span>=</span>/tmp/mongod.log
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="关闭命令" tabindex="-1"> 关闭命令</h3>
-<div><pre><code>db.shutdownServer<span>(</span><span>)</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><h4 id="创建用户" tabindex="-1"> 创建用户</h4>
-<div><pre><code><span>#进去mongo后切换到admin库</span>
-use admin
-<span>#创建管理员用户</span>
-db.createUser<span>(</span><span>{</span>user:<span>"root"</span>,pwd:<span>"root123"</span>,roles:<span>[</span><span>"root"</span><span>]</span><span>}</span><span>)</span>
-db.createUser<span>(</span><span>{</span>user:<span>"zax"</span>,pwd:<span>"root123"</span>,roles:<span>[</span><span>"root"</span><span>]</span><span>}</span><span>)</span>
-<span>#查看用户</span>
-show <span>users</span>
-<span>#删除用户</span>
-db.dropUser<span>(</span><span>"zax"</span><span>)</span>
-<span>#修改密码</span>
-db.updateUser<span>(</span><span>"zax"</span>,<span>{</span>pwd:<span>"123"</span><span>}</span><span>)</span>
-
-<span>#创建普通用户，并指定权限</span>
-db.createUser<span>(</span><span>{</span>
-	user:<span>"jobui"</span>,pwd:<span>"jobui123"</span>,
-	roles:<span>[</span>
-		<span>{</span>role:<span>"readWrite"</span>,db:<span>"tmp"</span><span>}</span>,
-		<span>{</span>role:<span>"read"</span>,db:<span>"tmp2"</span><span>}</span>
-	<span>]</span>
-	<span>}</span><span>)</span>
-<span>#创建一个有所有库权限的用户</span>
-db.createUser<span>(</span><span>{</span>
-	user:<span>"jobui_w"</span>,pwd:<span>"jobui123"</span>,
-	roles:<span>[</span>
-		<span>{</span>role:<span>"readWriteAnyDatabase"</span>,db:<span>"admin"</span><span>}</span>
-	<span>]</span>
-<span>}</span><span>)</span>
-<span>#修改权限</span>
-db.grantRolesToUser<span>(</span><span>"jobui_w"</span>, <span>[</span><span>{</span>role:<span>"clusterAdmin"</span>, db:<span>"admin"</span><span>}</span>,<span>]</span><span>)</span>
-
-db.createUser<span>(</span> <span>{</span> 
-    user: <span>"cluster"</span>, 
-    pwd: <span>"cluster"</span>, 
-    roles: <span>[</span> <span>{</span> role: <span>"clusterAdmin"</span>, db: <span>"admin"</span> <span>}</span> <span>]</span> 
-<span>}</span><span>)</span><span>;</span> 
-
-<span>#生成密钥</span>
-openssl rand <span>-base64</span> <span>100</span> <span>></span>/web/shell/mongodb/mongo-keyfile
-<span>chmod</span> <span>400</span> mongo-keyfile
-
-mongod <span>-f</span> /web/shell/mongodb/mongodbWT12002.conf <span>--keyFile</span><span>=</span>/web/shell/mongodb/mongo-keyfile
-mongod <span>-f</span> /web/shell/mongodb/mongodbWT12003.conf <span>--keyFile</span><span>=</span>/web/shell/mongodb/mongo-keyfile
-mongod <span>-f</span> /web/shell/mongodb/mongodbWT12004.conf <span>--keyFile</span><span>=</span>/web/shell/mongodb/mongo-keyfile
-
-mongod <span>-f</span> /web/shell/mongodb/mongodbWT12002.conf
-mongod <span>-f</span> /web/shell/mongodb/mongodbWT12003.conf
-mongod <span>-f</span> /web/shell/mongodb/mongodbWT12004.conf
-
-Read：允许用户读取指定数据库
-readWrite：允许用户读写指定数据库
-dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile
-userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户
-clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。
-readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限
-readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限
-userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限
-dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。
-root：只在admin数据库中可用。超级账号，超级权限
-
-<span># 验证密码</span>
-<span>></span>use admin<span>;</span>
-<span>></span>db.auth<span>(</span><span>"username"</span>, <span>"passwd"</span><span>)</span>
-
-<span># 登录直接验证密码</span>
-mongo <span>192.168</span>.1.36:27017 <span>-u</span> <span>"jobui_w"</span> <span>-p</span> <span>"j"</span> <span>--authenticationDatabase</span> <span>"admin"</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code>db.createCollection<span>(</span><span>"JobProfessionID"</span><span>)</span>
-show tables
-
-<span>#创建数据库</span>
-<span><span>`</span>use DATABASE_NAME<span>`</span></span>
-
-<span>#切换到数据库</span>
-<span><span>`</span>use <span>test</span><span>`</span></span>
-
-<span>#创建集合</span>
-<span><span>`</span>db.createCollection<span>(</span><span>"runoob"</span><span>)</span><span>`</span></span>
-
-<span>#查看集合</span>
-<span><span>`</span>show collections<span>`</span></span>
-
-<span>#删除集合</span>
-<span><span>`</span>db.集合名称.drop<span>(</span><span>)</span><span>`</span></span>
-
-<span>#查看集合条数</span>
-db.getCollection<span>(</span><span>'userTmp'</span><span>)</span>.find<span>(</span><span>{</span><span>}</span><span>)</span>.count<span>(</span><span>)</span>
-
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div><pre><code>db.createCollection<span>(</span><span>"userTmp_202110"</span><span>)</span>
-db.getCollection<span>(</span><span>'companyTmp_202110'</span><span>)</span>.createIndex<span>(</span><span>{</span><span>'c'</span><span>:</span> <span>1</span>, <span>'d'</span><span>:</span> -1<span>}</span>, <span>{</span>unique: true<span>}</span><span>)</span>
-db.getCollection<span>(</span><span>'userTmp_202110'</span><span>)</span>.createIndex<span>(</span><span>{</span><span>'u'</span><span>:</span> <span>1</span>, <span>'d'</span><span>:</span> -1<span>}</span>, <span>{</span>unique: true<span>}</span><span>)</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="导出数据库" tabindex="-1"> 导出数据库</h3>
-<div><pre><code>mongodump <span>-h</span> <span>192.168</span>.1.35:12000 <span>-d</span> jobui_tmp <span>-o</span> /ssd_data/mongobackups/
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="导入数据" tabindex="-1"> 导入数据</h3>
-<div><pre><code>
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="创建索引" tabindex="-1"> 创建索引</h3>
-<div><pre><code><span>#语法中 Key 值为你要创建的索引字段，1 为指定按升序创建索引，如果你想按降序来创建索引指定为 -1 即可。</span>
-<span>></span>db.collection.createIndex<span>(</span>keys, options<span>)</span>
-
-<span>#在后台创建复合索引</span>
-db.values.createIndex<span>(</span><span>{</span>open: <span>1</span>, close: <span>1</span><span>}</span>, <span>{</span>background: true<span>}</span><span>)</span>
-db.col.createIndex<span>(</span><span>{</span><span>'c'</span><span>:</span> <span>1</span>, <span>'d'</span><span>:</span> -1<span>}</span>, <span>{</span>unique: true<span>}</span><span>)</span>
-
-<span>#创建单条索引</span>
-db.getCollection<span>(</span><span>'userTmp_202109'</span><span>)</span>.createIndex<span>(</span><span>{</span><span>'lut'</span>:-1<span>}</span><span>)</span>
-
-<span>#1、查看集合索引</span>
-db.getCollection<span>(</span><span>'userFollowCompany'</span><span>)</span>.getIndexes<span>(</span><span>)</span>
-
-<span>#2、查看集合索引大小</span>
-db.getCollection<span>(</span><span>'userFollowCompany'</span><span>)</span>.totalIndexSize<span>(</span><span>)</span>
-
-<span>#3、删除集合所有索引</span>
-db.col.dropIndexes<span>(</span><span>)</span>
-
-<span>#4、删除集合指定索引</span>
-db.col.dropIndex<span>(</span><span>"索引名称"</span><span>)</span>
-
-<span>#查看索引建立状态</span>
-db.currentOp<span>(</span><span>)</span>
-
-<span>#终止索引的创建</span>
-db.killOp<span>(</span><span>)</span>
-
-<span>#高级聚类</span>
-db.getCollection<span>(</span><span>'userFollowCompany'</span><span>)</span>.aggregate<span>(</span><span>[</span>
-	<span>{</span><span>$match</span>:<span>{</span>cid:<span>{</span><span>$in</span><span>:</span> <span>[</span><span>788679</span><span>]</span><span>}</span><span>}</span><span>}</span>,
-	<span>{</span><span>$unwind</span><span>:</span><span>"<span>$cid</span>"</span><span>}</span>,
-	<span>{</span><span>$match</span>:<span>{</span>cid:<span>{</span><span>$ne</span>:788679<span>}</span><span>}</span><span>}</span>,
-	<span>{</span><span>$group</span>:<span>{</span>_id:<span>"<span>$cid</span>"</span>,num:<span>{</span><span>$sum</span>:1<span>}</span><span>}</span><span>}</span>,
-	<span>{</span><span>$sort</span>:<span>{</span>num:-1<span>}</span><span>}</span>,
-	<span>{</span><span>$limit</span>:100<span>}</span>
-<span>]</span><span>)</span>
-
-db.getCollection<span>(</span><span>'userFollowCompany'</span><span>)</span>.aggregate<span>(</span><span>[</span>
-    <span>{</span><span>$match</span>:<span>{</span><span>'mint'</span><span>:</span> <span>{</span><span>$gt</span>:20220401<span>}</span>, cid:<span>{</span><span>$in</span><span>:</span> <span>[</span><span>15110</span><span>]</span><span>}</span><span>}</span><span>}</span>,
-    <span>{</span><span>$unwind</span><span>:</span><span>"<span>$cid</span>"</span><span>}</span>,
-    <span>{</span><span>$group</span>:<span>{</span>_id:<span>"<span>$cid</span>"</span>,num:<span>{</span><span>$sum</span>:1<span>}</span><span>}</span><span>}</span>,
-    <span>{</span><span>$sort</span>:<span>{</span>num:-1<span>}</span><span>}</span>,
-    <span>{</span><span>$limit</span>:100<span>}</span>
-<span>]</span><span>)</span>
-
-db.getCollection<span>(</span><span>'company_profile'</span><span>)</span>.aggregate<span>(</span><span>[</span>
-	<span>{</span><span>$group</span>:<span>{</span>_id:<span>"<span>$domain</span>"</span>,num:<span>{</span><span>$sum</span>:1<span>}</span><span>}</span><span>}</span>,
-	<span>{</span><span>$sort</span>:<span>{</span>num:-1<span>}</span><span>}</span>,
-	<span>{</span><span>$limit</span>:100<span>}</span>
-<span>]</span><span>)</span>
-
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h5 id="createindex-接收可选参数-可选参数列表如下" tabindex="-1"> createIndex() 接收可选参数，可选参数列表如下：</h5>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Parameter</th>
-<th style="text-align:left">Type</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">background</td>
-<td style="text-align:left">Boolean</td>
-<td style="text-align:left">建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 &quot;background&quot; 可选参数。 &quot;background&quot; 默认值为<strong>false</strong>。</td>
-</tr>
-<tr>
-<td style="text-align:left">unique</td>
-<td style="text-align:left">Boolean</td>
-<td style="text-align:left">建立的索引是否唯一。指定为true创建唯一索引。默认值为<strong>false</strong>.</td>
-</tr>
-<tr>
-<td style="text-align:left">name</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left">索引的名称。如果未指定，MongoDB的通过连接索引的字段名和排序顺序生成一个索引名称。</td>
-</tr>
-<tr>
-<td style="text-align:left">dropDups</td>
-<td style="text-align:left">Boolean</td>
-<td style="text-align:left">**3.0+版本已废弃。**在建立唯一索引时是否删除重复记录,指定 true 创建唯一索引。默认值为 <strong>false</strong>.</td>
-</tr>
-<tr>
-<td style="text-align:left">sparse</td>
-<td style="text-align:left">Boolean</td>
-<td style="text-align:left">对文档中不存在的字段数据不启用索引；这个参数需要特别注意，如果设置为true的话，在索引字段中不会查询出不包含对应字段的文档.。默认值为 <strong>false</strong>.</td>
-</tr>
-<tr>
-<td style="text-align:left">expireAfterSeconds</td>
-<td style="text-align:left">integer</td>
-<td style="text-align:left">指定一个以秒为单位的数值，完成 TTL设定，设定集合的生存时间。</td>
-</tr>
-<tr>
-<td style="text-align:left">v</td>
-<td style="text-align:left">index version</td>
-<td style="text-align:left">索引的版本号。默认的索引版本取决于mongod创建索引时运行的版本。</td>
-</tr>
-<tr>
-<td style="text-align:left">weights</td>
-<td style="text-align:left">document</td>
-<td style="text-align:left">索引权重值，数值在 1 到 99,999 之间，表示该索引相对于其他索引字段的得分权重。</td>
-</tr>
-<tr>
-<td style="text-align:left">default_language</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left">对于文本索引，该参数决定了停用词及词干和词器的规则的列表。 默认为英语</td>
-</tr>
-<tr>
-<td style="text-align:left">language_override</td>
-<td style="text-align:left">string</td>
-<td style="text-align:left">对于文本索引，该参数指定了包含在文档中的字段名，语言覆盖默认的language，默认值为 language.</td>
-</tr>
-</tbody>
-</table>
-<h5 id="通过explian-分析执行情况" tabindex="-1"> 通过<a href="https://docs.mongodb.com/manual/reference/method/cursor.explain/" target="_blank" rel="noopener noreferrer">explian()</a>分析执行情况</h5>
-<p>db.getCollection('companyTmp').find({c:14298217,d:&quot;20210829&quot;}).explain()</p>
-<div><pre><code><span>{</span>
-    <span>"queryPlanner"</span> <span>:</span> <span>{</span>
-        <span>"plannerVersion"</span> <span>:</span> <span>1</span>,
-        <span>"namespace"</span> <span>:</span> <span>"jobui_tmp.companyTmp"</span>,
-        <span>"indexFilterSet"</span> <span>:</span> false,
-        <span>"parsedQuery"</span> <span>:</span> <span>{</span>
-            <span>"<span>$and</span>"</span> <span>:</span> <span>[</span> 
-                <span>{</span>
-                    <span>"c"</span> <span>:</span> <span>{</span>
-                        <span>"<span>$eq</span>"</span> <span>:</span> <span>14298217.0</span>
-                    <span>}</span>
-                <span>}</span>, 
-                <span>{</span>
-                    <span>"d"</span> <span>:</span> <span>{</span>
-                        <span>"<span>$eq</span>"</span> <span>:</span> <span>"20210829"</span>
-                    <span>}</span>
-                <span>}</span>
-            <span>]</span>
-        <span>}</span>,
-        <span>"winningPlan"</span> <span>:</span> <span>{</span>
-            <span>"stage"</span> <span>:</span> <span>"FETCH"</span>,
-            <span>"inputStage"</span> <span>:</span> <span>{</span>
-                <span>"stage"</span> <span>:</span> <span>"IXSCAN"</span>,
-                <span>"keyPattern"</span> <span>:</span> <span>{</span>
-                    <span>"c"</span> <span>:</span> <span>1.0</span>,
-                    <span>"d"</span> <span>:</span> <span>-1.0</span>
-                <span>}</span>,
-                <span>"indexName"</span> <span>:</span> <span>"c_1_d_-1"</span>,
-                <span>"isMultiKey"</span> <span>:</span> false,
-                <span>"direction"</span> <span>:</span> <span>"forward"</span>,
-                <span>"indexBounds"</span> <span>:</span> <span>{</span>
-                    <span>"c"</span> <span>:</span> <span>[</span> 
-                        <span>"[14298217.0, 14298217.0]"</span>
-                    <span>]</span>,
-                    <span>"d"</span> <span>:</span> <span>[</span> 
-                        <span>"[<span title="\&quot;">\"</span>20210829<span title="\&quot;">\"</span>, <span title="\&quot;">\"</span>20210829<span title="\&quot;">\"</span>]"</span>
-                    <span>]</span>
-                <span>}</span>
-            <span>}</span>
-        <span>}</span>,
-        <span>"rejectedPlans"</span> <span>:</span> <span>[</span><span>]</span>
-    <span>}</span>,
-    <span>"serverInfo"</span> <span>:</span> <span>{</span>
-        <span>"host"</span> <span>:</span> <span>"localhost.localdomain"</span>,
-        <span>"port"</span> <span>:</span> <span>12000</span>,
-        <span>"version"</span> <span>:</span> <span>"3.0.7"</span>,
-        <span>"gitVersion"</span> <span>:</span> <span>"6ce7cbe8c6b899552dadd907604559806aa2e9bd"</span>
-    <span>}</span>,
-    <span>"ok"</span> <span>:</span> <span>1.0</span>
-<span>}</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="php7操作mongodb类" tabindex="-1"> php7操作mongodb类</h3>
-<div><pre><code><span><span>&lt;?php</span>
-<span>/**
- * desc
- * version    1.0
- * author    Zax
- * date    2021/12/22
- */</span>
-
-
-<span>$manager</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>Manager</span><span>(</span><span>"mongodb://192.168.1.35:12000"</span><span>)</span><span>;</span>
-
-<span>//插入数据</span>
-<span>$bulk</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>BulkWrite</span><span>;</span>
-<span>$bulk</span><span>-></span><span>insert</span><span>(</span><span>[</span><span>'x'</span> <span>=></span> <span>1</span><span>,</span> <span>'name'</span><span>=></span><span>'菜鸟教程'</span><span>,</span> <span>'url'</span> <span>=></span> <span>'http://www.runoob.com'</span><span>]</span><span>)</span><span>;</span>
-<span>$bulk</span><span>-></span><span>insert</span><span>(</span><span>[</span><span>'x'</span> <span>=></span> <span>2</span><span>,</span> <span>'name'</span><span>=></span><span>'Google'</span><span>,</span> <span>'url'</span> <span>=></span> <span>'http://www.google.com'</span><span>]</span><span>)</span><span>;</span>
-<span>$bulk</span><span>-></span><span>insert</span><span>(</span><span>[</span><span>'x'</span> <span>=></span> <span>3</span><span>,</span> <span>'name'</span><span>=></span><span>'taobao'</span><span>,</span> <span>'url'</span> <span>=></span> <span>'http://www.taobao.com'</span><span>]</span><span>)</span><span>;</span>
-<span>$manager</span><span>-></span><span>executeBulkWrite</span><span>(</span><span>'test.sites'</span><span>,</span> <span>$bulk</span><span>)</span><span>;</span>
-
-<span>$filter</span> <span>=</span> <span>[</span><span>'x'</span> <span>=></span> <span>[</span><span>'$gt'</span> <span>=></span> <span>1</span><span>]</span><span>]</span><span>;</span>
-<span>$options</span> <span>=</span> <span>[</span>
-	<span>'projection'</span> <span>=></span> <span>[</span><span>'_id'</span> <span>=></span> <span>0</span><span>]</span><span>,</span>
-	<span>'sort'</span> <span>=></span> <span>[</span><span>'x'</span> <span>=></span> <span>-</span><span>1</span><span>]</span><span>,</span>
-<span>]</span><span>;</span>
-
-<span>// 查询数据</span>
-<span>$query</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>Query</span><span>(</span><span>$filter</span><span>,</span> <span>$options</span><span>)</span><span>;</span>
-<span>$cursor</span> <span>=</span> <span>$manager</span><span>-></span><span>executeQuery</span><span>(</span><span>'test.sites'</span><span>,</span> <span>$query</span><span>)</span><span>;</span>
-
-<span>foreach</span> <span>(</span><span>$cursor</span> <span>as</span> <span>$document</span><span>)</span> <span>{</span>
-	<span>print_r</span><span>(</span><span>$document</span><span>)</span><span>;</span>
-<span>}</span>
-
-
-<span>//更新数据</span>
-<span>$bulk</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>BulkWrite</span><span>;</span>
-<span>$bulk</span><span>-></span><span>update</span><span>(</span>
-	<span>[</span><span>'x'</span> <span>=></span> <span>2</span><span>]</span><span>,</span>
-	<span>[</span><span>'$set'</span> <span>=></span> <span>[</span><span>'name'</span> <span>=></span> <span>'菜鸟工具'</span><span>,</span> <span>'url'</span> <span>=></span> <span>'tool.runoob.com'</span><span>]</span><span>]</span><span>,</span>
-	<span>[</span><span>'multi'</span> <span>=></span> <span>false</span><span>,</span> <span>'upsert'</span> <span>=></span> <span>false</span><span>]</span>
-<span>)</span><span>;</span>
-
-<span>$writeConcern</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>WriteConcern</span><span>(</span><span>MongoDB<span>\</span>Driver<span>\</span>WriteConcern</span><span>::</span><span>MAJORITY</span><span>,</span> <span>1000</span><span>)</span><span>;</span>
-<span>$result</span> <span>=</span> <span>$manager</span><span>-></span><span>executeBulkWrite</span><span>(</span><span>'test.sites'</span><span>,</span> <span>$bulk</span><span>,</span> <span>$writeConcern</span><span>)</span><span>;</span>
-
-
-<span>//删除数据</span>
-<span>$bulk</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>BulkWrite</span><span>;</span>
-<span>$bulk</span><span>-></span><span>delete</span><span>(</span><span>[</span><span>'likes'</span> <span>=></span><span>[</span><span>'$gt'</span> <span>=></span> <span>30</span><span>]</span><span>]</span><span>,</span> <span>[</span><span>'limit'</span> <span>=></span> <span>0</span><span>]</span><span>)</span><span>;</span>   <span>// limit 为 1 时，删除第一条匹配数据</span>
-<span>//$bulk->delete(['x' => 2], ['limit' => 0]);   // limit 为 0 时，删除所有匹配数据</span>
-
-<span>$writeConcern</span> <span>=</span> <span>new</span> <span>MongoDB<span>\</span>Driver<span>\</span>WriteConcern</span><span>(</span><span>MongoDB<span>\</span>Driver<span>\</span>WriteConcern</span><span>::</span><span>MAJORITY</span><span>,</span> <span>1000</span><span>)</span><span>;</span>
-<span>$result</span> <span>=</span> <span>$manager</span><span>-></span><span>executeBulkWrite</span><span>(</span><span>'jobui_tmp.autoRunRecord'</span><span>,</span> <span>$bulk</span><span>,</span> <span>$writeConcern</span><span>)</span><span>;</span>
-
-<span>exit</span><span>(</span><span>)</span><span>;</span>
-
-
-<span>//php5</span>
-
-<span>$m</span> <span>=</span> <span>new</span> <span>MongoClient</span><span>(</span><span>'mongodb://192.168.1.24:27017'</span><span>)</span><span>;</span> <span>// 连接默认主机和端口为：mongodb://localhost:27017</span>
-<span>$db</span> <span>=</span> <span>$m</span><span>-></span><span>count</span><span>;</span> <span>// 选择一个数据库</span>
-<span>$collection</span> <span>=</span> <span>$db</span><span>-></span><span>BlackList</span><span>;</span> <span>// 选择集合</span>
-
-<span>//插入</span>
-<span>//$db = $m->test; // 获取名称为 "test" 的数据库</span>
-<span>//$collection = $db->createCollection("runoob");</span>
-<span>//echo "集合创建成功";</span>
-<span>//$collection = $db->runoob; // 选择集合</span>
-<span>//$document = array(</span>
-<span>//	"title" => "MongoDB",</span>
-<span>//	"description" => "database",</span>
-<span>//	"likes" => 100,</span>
-<span>//	"url" => "http://www.runoob.com/mongodb/",</span>
-<span>//	"by", "菜鸟教程"</span>
-<span>//);</span>
-<span>//$collection->insert($document);</span>
-<span>//echo "数据插入成功";</span>
-
-
-<span>//$collection = $db->runoob; // 选择集合</span>
-
-<span>$cursor</span> <span>=</span> <span>$collection</span><span>-></span><span>find</span><span>(</span><span>[</span><span>'f'</span> <span>=></span> <span>'true'</span><span>]</span><span>)</span><span>;</span>
-<span>echo</span> <span>'&lt;pre>'</span><span>;</span>
-<span>while</span><span>(</span><span>$doc</span> <span>=</span> <span>$cursor</span><span>-></span><span>getNext</span><span>(</span><span>)</span><span>)</span> <span>{</span><span>//循环读取每个匹配的文档</span>
-	<span>print_r</span><span>(</span><span>$doc</span><span>)</span><span>;</span>
-<span>}</span>
-
-<span>echo</span> <span>'&lt;pre>'</span><span>;</span>
-<span>print_r</span><span>(</span><span>$cursor</span><span>)</span><span>;</span>
-<span>exit</span><span>(</span><span>)</span><span>;</span>
-
-</span></code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="mongo的aggregate聚合操作" tabindex="-1"> mongo的aggregate聚合操作</h3>
-<h4 id="mongodb中聚合-aggregate-的具体使用结合php" tabindex="-1"> mongoDB中聚合(aggregate)的具体使用结合PHP</h4>
-<p>最近在学习mongoDB的使用，本文来介绍一下其中aggregate的具体使用</p>
-<p>先来看一个分组的例子，本例中<code>$group</code>是一个管道操作符，获得的结果可以接着输出到下一个管道，而内部的<code>$sum</code>是一个表达式操作符。</p>
-<h4 id="用-group-举个例子" tabindex="-1"> 用<code>$group</code> 举个例子</h4>
-<div><pre><code>将document分组，用作统计结果
-
-    db.Ubisoft.aggregate([ // aggregate方法接收的是一个数组
-        {
-            $group: {
-                _id: '$time', 
-                num: {$sum: 1}
-            }
-        }
-    ])
-    // 这里的_id字段表示你要基于哪个字段来进行分组(即制定字段值相同的为一组)，这里的$time就表示要基于time字段来进行分组
-
-    // 下面的num字段的值$sum: 1表示的是获取满足time字段相同的这一组的数量乘以后面给定的值(本例为1，那么就是同组的数量)。
-12345678910111213
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>那么看完这个例子之后，mongoDB中还有其他的一些管道操作符和表达式操作符：</p>
-<h4 id="管道操作符" tabindex="-1"> 管道操作符</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">常用管道</th>
-<th style="text-align:left">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">$group</td>
-<td style="text-align:left">将collection中的document分组，可用于统计结果</td>
-</tr>
-<tr>
-<td style="text-align:left">$match</td>
-<td style="text-align:left">过滤数据，只输出符合结果的文档</td>
-</tr>
-<tr>
-<td style="text-align:left">$project</td>
-<td style="text-align:left">修改输入文档的结构(例如重命名，增加、删除字段，创建结算结果等)</td>
-</tr>
-<tr>
-<td style="text-align:left">$sort</td>
-<td style="text-align:left">将结果进行排序后输出</td>
-</tr>
-<tr>
-<td style="text-align:left">$limit</td>
-<td style="text-align:left">限制管道输出的结果个数</td>
-</tr>
-<tr>
-<td style="text-align:left">$skip</td>
-<td style="text-align:left">跳过制定数量的结果，并且返回剩下的结果</td>
-</tr>
-<tr>
-<td style="text-align:left">$unwind</td>
-<td style="text-align:left">将数组类型的字段进行拆分</td>
-</tr>
-</tbody>
-</table>
-<h4 id="表达式操作符" tabindex="-1"> 表达式操作符</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">常用表达式</th>
-<th style="text-align:left">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">$sum</td>
-<td style="text-align:left">计算总和，{KaTeX parse error: Expected 'EOF', got '}' at position 7: sum: 1}̲表示返回总和×1的值(即总和的…sum: ‘$制定字段’}也能直接获取制定字段的值的总和</td>
-</tr>
-<tr>
-<td style="text-align:left">$avg</td>
-<td style="text-align:left">平均值</td>
-</tr>
-<tr>
-<td style="text-align:left">$min</td>
-<td style="text-align:left">min</td>
-</tr>
-<tr>
-<td style="text-align:left">$max</td>
-<td style="text-align:left">max</td>
-</tr>
-<tr>
-<td style="text-align:left">$push</td>
-<td style="text-align:left">将结果文档中插入值到一个数组中</td>
-</tr>
-<tr>
-<td style="text-align:left">$first</td>
-<td style="text-align:left">根据文档的排序获取第一个文档数据</td>
-</tr>
-<tr>
-<td style="text-align:left">$last</td>
-<td style="text-align:left">同理，获取最后一个数据</td>
-</tr>
-</tbody>
-</table>
-<p>了解完这些操作符之后，继续拿<code>$group</code>来试试看：
-我们现在有一个名为Ubisoft的一个collection，内部的文档为：</p>
-<div><pre><code>/* 1 */
-{
-    "_id" : ObjectId("5b0cf67270e4fa02d31de42e"),
-    "name" : "rainbowSix Siege",
-    "time" : 400.0
-}
-
-/* 2 */
-{
-    "_id" : ObjectId("5b0cf69270e4fa02d31de42f"),
-    "name" : "Assassin's creed",
-    "time" : 20.0
-}
-
-/* 3 */
-{
-    "_id" : ObjectId("5b0cf6ad70e4fa02d31de430"),
-    "name" : "ghost Recon",
-    "time" : 0.0
-}
-
-/* 4 */
-{
-    "_id" : ObjectId("5b0d14c870e4fa02d31de436"),
-    "name" : "farCry",
-    "time" : 0.0
-}
-123456789101112131415161718192021222324252627
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>我们现在来试试其他的表达式操作符：</p>
-<div><pre><code>  db.Ubisoft.aggregate([
-       {
-           $group: {
-               _id: '$time',
-               gameName: {$push: '$name'}
-           }
-       }
-   ]) 
-12345678
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>返回结果为：</p>
-<div><pre><code>/* 1 */
-{
-    "_id" : 20.0,
-    "gameName" : [ 
-        "Assassin's creed"
-    ]
-}
-
-/* 2 */
-{
-    "_id" : 0.0,
-    "gameName" : [ 
-        "ghost Recon", 
-        "farCry"
-    ]
-}
-
-/* 3 */
-{
-    "_id" : 400.0,
-    "gameName" : [ 
-        "rainbowSix Siege"
-    ]
-}
-123456789101112131415161718192021222324
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到time字段相同的document被分为了一组，而且使用$push表达式，将我们制定的document的name字段的值也放到了一个数组中作为我们在mongoDB语句中制定的gameName的值。</p>
-<p>另外<code>$group</code>中可以制定<code>_id:null</code>, 即可以把所有的document分为一组，可以用于计算平均值之类的操作</p>
-<p>我们可以用<code>$</code>指定字段来表示选定的document的field,另外可以使用<code>$$ROOT</code>来表示选定的document的所有内容（例如:<code>chosenDocument: {$push: '$$ROOT'}</code>）</p>
-<p>上述例子基本介绍了表达式操作符的用法。</p>
-<p>接着来看<code>$match</code></p>
-<h4 id="match" tabindex="-1"> $match</h4>
-<div><pre><code> db.Ubisoft.aggregate([
-        {
-            $match: {
-                time: {$gte: 20} //选取time字段 >=20的document
-            }
-        }
-    ])
-1234567
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>这就拿到了所有time&gt;=20的document,然后可以通过再接个管道来进行其他操作，比如说我们再接一个<code>$group</code>来进行分组，显示筛选出来的所有time&gt;=20的document的个数。</p>
-<div><pre><code> db.Ubisoft.aggregate([
-        {
-            $match: {
-                time: {$gte: 20}
-            }
-        },
-        {
-            $group: {
-                _id: null, // _id: null表示全选
-                totalNum: {$sum: 1}
-            }
-        }
-    ])
-12345678910111213
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>输出结果为：</p>
-<div><pre><code>/* 1 */
-{
-    "_id" : null,
-    "totalNum" : 2.0
-}
-12345
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到time&gt;=20的document的个数为2</p>
-<h4 id="project投影" tabindex="-1"> project投影</h4>
-<p>修改输入文档的结构(例如重命名，增加、删除字段，创建结算结果等)</p>
-<p><code>$project</code>和直接使用<code>find()</code>的写法一样：</p>
-<div><pre><code>db.Ubisoft.aggregate([
-    {
-        $project: {
-            _id: 0,  //不显示_id字段
-        }
-    }
-])
-1234567
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>和我们直接写<code>db.Ubisoft.find({},{'_id': 0})</code>写法一样
-输出结果为：</p>
-<div><pre><code>/* 1 */
-{
-    "name" : "rainbowSix Siege",
-    "time" : 400.0
-}
-
-/* 2 */
-{
-    "name" : "Assassin's creed",
-    "time" : 20.0
-}
-
-/* 3 */
-{
-    "name" : "ghost Recon",
-    "time" : 0.0
-}
-
-/* 4 */
-{
-    "name" : "farCry",
-    "time" : 0.0
-}
-1234567891011121314151617181920212223
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到没有<code>_id</code>字段了。</p>
-<p>那么我们现在如果想拿到所有time&gt;=20的document的name字段的话，可以把管道搭配起来用：</p>
-<div><pre><code>db.Ubisoft.aggregate([
-    {
-        $match: {
-            time: {$gte: 20}
-        }
-    },
-    {
-        $project: {
-            _id: 0, // _id不显示
-            name: 1 // name是要显示的
-        }
-    },
-    {
-        $group: {
-            _id: null,
-            name: {$push: '$name'}
-        }
-    }
-])
-12345678910111213141516171819
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>输出结果为：</p>
-<div><pre><code>/* 1 */
-{
-    "_id" : null,
-    "name" : [ 
-        "rainbowSix Siege", 
-        "Assassin's creed"
-    ]
-}
-12345678
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="sort" tabindex="-1"> $sort</h4>
-<p><code>$sort</code>和我们find()中排序的写法也是一样的。</p>
-<p>现在我们想将所有的document按照time降序来排列的话：</p>
-<p>和<code>db.Ubisoft.find().sort({time: -1})</code>写法是一样的:</p>
-<div><pre><code>db.Ubisoft.aggregate([
-    {
-        $sort: {
-            time: -1
-        }
-    }
-])
-1234567
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>同理，<code>$sort</code>也可以和其他管道搭配使用</p>
-<h4 id="limit-skip" tabindex="-1"> $limit $skip</h4>
-<p>和<code>limit()</code>以及<code>skip()</code>的写法也是一样的。</p>
-<div><pre><code>db.Ubisoft.find().skip(1).limit(2)
-1
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>使用聚合可以写成：</p>
-<div><pre><code>db.Ubisoft.aggregate([
-    {
-        $skip: 1
-    },
-    {
-        $limit: 2
-    }
-])
-12345678
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>limit和skip搭配使用可以达到分页的效果。</p>
-<p>注意先写skip在写limit</p>
-<h4 id="unwind" tabindex="-1"> $unwind</h4>
-<p><code>$unwind</code>管道可以document中的数组类型的字段进行拆分，每条包含数组中的一个值。</p>
-<ul>
-<li>基本使用
-在Ubisoft这个集合里新增如下一条document:</li>
-</ul>
-<div><pre><code>/* 5 */
-{
-    "_id" : ObjectId("5b0e242ed85f6f9cc56da7cc"),
-    "name" : "gameList",
-    "list" : [ 
-        "dota2", 
-        "csgo", 
-        "ow"
-    ]
-}
-12345678910
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>我们针对这个document中的list字段来进行<code>$unwind</code></p>
-<div><pre><code>db.Ubisoft.aggregate([
-    {
-        $unwind: '$list' // 指定list字段
-    }
-])
-12345
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>输出结果为：</p>
-<div><pre><code>/* 1 */
-{
-    "_id" : ObjectId("5b0e242ed85f6f9cc56da7cc"),
-    "name" : "gameList",
-    "list" : "dota2"
-}
-
-/* 2 */
-{
-    "_id" : ObjectId("5b0e242ed85f6f9cc56da7cc"),
-    "name" : "gameList",
-    "list" : "csgo"
-}
-
-/* 3 */
-{
-    "_id" : ObjectId("5b0e242ed85f6f9cc56da7cc"),
-    "name" : "gameList",
-    "list" : "ow"
-}
-1234567891011121314151617181920
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到unwind是将文档中的数组字段进行拆分，如果有其他文档的list字段也是数组，也会一并拆分。</p>
-<ul>
-<li>特殊情况下的unwind(空数组，null,非数组，无指定字段)</li>
-</ul>
-<p>针对特殊情况，新建一个colletion,内容为：</p>
-<div><pre><code>/* 1 */
-{
-    "_id" : ObjectId("5b0e27fdd85f6f9cc56da7ce"),
-    "list" : null
-}
-
-/* 2 */
-{
-    "_id" : ObjectId("5b0e2827d85f6f9cc56da7cf"),
-    "list" : []
-}
-
-/* 3 */
-{
-    "_id" : ObjectId("5b0e2834d85f6f9cc56da7d0"),
-    "list" : "notArray"
-}
-
-/* 4 */
-{
-    "_id" : ObjectId("5b0e2844d85f6f9cc56da7d1")
-}
-12345678910111213141516171819202122
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>来进行<code>$unwind</code>，</p>
-<div><pre><code>db.unwind.aggregate([
-    {
-        $unwind: '$list'
-    }
-])
-12345
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>输出结果为：</p>
-<div><pre><code>/* 1 */
-{
-    "_id" : ObjectId("5b0e2834d85f6f9cc56da7d0"),
-    "list" : "notArray"
-}
-12345
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>可以看到<code>[]</code>,<code>null</code>,以及无指定字段的数据都丢失了，
-为了不丢失数据，我们可以写成：</p>
-<div><pre><code>db.unwind.aggregate([
-    {
-        $unwind: {
-            path: '$list', // path是指定字段
-            preserveNullAndEmptyArrays: true //该属性为true即保留
-        }
-    }
-])
-12345678
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>这次输出结果就保留了null以及空数组，值得关注的就是<code>preserveNullAndEmptyArrays</code>这个属性，为true的时候就保留。</p>
-<p>下面结合PHP 代码</p>
-<div><pre><code>//$server 根据自己的服务器来
-$mongo =  new \MongoClient($server, array('connect'=>true));// 立即连接
-
-$db = $mongo->colName;//选择数据库
-$collection = $db->file_log;//选择文档集合
-
-$filter["status"] = array("\$in" => array(0, 2, 5)); 
-$filter["a_id"] = array("\$eq" => $a_id);
-$group = array("_id" => array(
-                "md5" => "\$md5",
-                "path" => "\$path",
-                "a_id"=>"\$a_id"
-            ),
-                "time" => array("\$last" => "\$found_time"),
-                "l_id" => array("\$last" => "\$_id"),
-                "v_name" => array("\$last" => "\$v_name"),
-                "c_iso_key" => array("\$last" => "\$c_iso_key"),
-                "status" => array("\$last" => "\$status"),
-                "h_msg" => array("\$last" => "\$h_msg"),
-                "r_level" => array("\$last" => "\$r_level"),
-            );
-$sort = array("time" => 1); //根据时间排序
-$limit = 5;
-//即以md5、path、a_id分组获取字段为found_time、_id、v_name 最后一个数据、时间倒叙、取出5条
-$res = $collection->aggregate(array('$match' => $filter),array('$group' => $group),array('$sort' => $sort),array('$limit'=>(int)$limit));
-12345678910111213141516171819202122232425
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><table>
-<thead>
-<tr>
-<th>字段名</th>
-<th>值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>_id:</td>
-<td>15110</td>
-</tr>
-<tr>
-<td>cid</td>
-<td>1236</td>
-</tr>
-<tr>
-<td>n</td>
-<td>10</td>
-</tr>
-<tr>
-<td>d</td>
-<td>20220304</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>字段名</th>
-<th>值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>_id:</td>
-<td>15110</td>
-</tr>
-<tr>
-<td>cid</td>
-<td>[1236,1239,78234]</td>
-</tr>
-<tr>
-<td>d</td>
-<td>20220304</td>
-</tr>
-</tbody>
-</table>
-]]></content:encoded>
-    </item>
-    <item>
-      <title>mysql</title>
-      <link>https://newzone.top/services/mysql.html</link>
-      <guid>https://newzone.top/services/mysql.html</guid>
-      <source url="https://newzone.top/rss.xml">mysql</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="mysql" tabindex="-1"> mysql</h1>
-<h3 id="连接" tabindex="-1"> 连接</h3>
-<div><pre><code>mysql
-</code></pre><div aria-hidden="true"><div></div></div></div><p>导入数据</p>
-<div><pre><code>/web/software/mysql/bin/mysql <span>-u</span> baicai_w <span>-p</span> zabbix <span>&lt;</span> zabbix.sql
-</code></pre><div aria-hidden="true"><div></div></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>
