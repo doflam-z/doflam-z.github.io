@@ -28,9 +28,9 @@ export default navbar([
     icon: "app",
     prefix: "/",
     children: [
-      "service/redis",
-      "service/mysql",
-      "service/mongo"
+      "services/redis",
+      "services/mysql",
+      "services/mongo"
     ],
   },
   {
