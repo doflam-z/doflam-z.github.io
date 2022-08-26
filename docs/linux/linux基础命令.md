@@ -2,79 +2,151 @@
 
 ### shell命令
 
+查看一级目录文件夹大小
+
 ```shell
-#查看一级目录文件夹大小
 sudo du -h --max-depth=1
+```
 
-#查看已删除文件进程
+查看已删除文件进程
+
+```shell
 lsof | grep deleted 
+```
 
-#查看发行版
+查看发行版
+
+```shell
 lsb_release -a 
+```
 
-#查看cpu核心数
+查看cpu核心数
+
+```sehll
 nproc
+```
 
-#查看cpu型号 “| head -1”是只返回第一个
+查看cpu型号 “| head -1”是只返回第一个
+
+```shell
 cat /proc/cpuinfo |grep "model name" | head -1
+```
 
-#循环执行一条命令
+循环执行一条命令
+
+```shell
 while true; do date; sleep 1; done
 watch -n 1 -d netstat -ant
+```
 
-# 统计文本中出现关键字的次数
+统计文本中出现关键字的次数
+
+```sehll
 grep -o objStr  filename|wc -l
+```
 
-#kill掉所有符合关键字的进程
+kill掉所有符合关键字的进程
+
+```sehll
 ps -ef | grep jobTypeRankDailyData| grep -v grep | cut -c 9-15 | xargs kill
 
 ps -ef | grep rabbitmq| grep -v grep | cut -c 9-15 | xargs kill
-
-#根据进程id查端口
-netstat -nap | grep 进程pid
-
-#根据监听端口查看进程
-netstat -ntpl | grep ":8755"
-
-#切换用户只执行一条命令的可以用: 
-su - user -c command
-#切换用户执行一个shell文件可以用: 
-su - user -s /bin/bash shell.sh
-
-#设置环境变量（临时）
-export LIBZIP_LIBS="/web/software/libzip-1.3.2/lib"
-#设置环境变量（永久）(尽量直接编辑，不要echo，容易不小心覆盖文件)
-echo "export ONIG_CFLAGS=/usr/bin/onig-config" >> /etc/profile
-#立即生效
-source /etc/profile
-
-#rpm查找包
-rpm -q libcurl
-#rpm安装包
-rpm -ivh libcurl
-#rpm卸载包 （ --nodeps忽略依赖）
-rpm -e --nodeps libcurl
-   
-#搜索替换文件内容
-sudo sed -i 's/track_errors = On/track_errors = Off/g' /web/software/php-7.4.23/lib/php.ini
-
-#统计文件夹大小（包含文件）
-du -h --max-depth=1 /mysql
-
-#统计当前目录文件按大小排序
-du -s * | sort -nr
-
-#批量解压zip文件到指定文件夹
-ls *.zip | xargs -n1 unzip -o -d unzip/
-
-#批量解压tar压缩文件
-ls *.tar.gz | xargs -n1 tar -zxvf
-
-#xargs是给命令传递参数的一个过滤器，可以将前一个命令产生的输出作为后一个命令的参数
-find test2/ -name '*.tes' |xargs rm -rf
-#命令即将find产生的输出（test2目录下的所有tes文件），作为rm的参数，从而完全删除
-
 ```
+
+根据进程id查端口
+
+```shell
+netstat -nap | grep 进程pid
+```
+
+根据监听端口查看进程
+
+```shell
+netstat -ntpl | grep ":8755"
+```
+
+切换用户只执行一条命令的可以用: 
+
+```shell
+su - user -c command
+```
+
+切换用户执行一个shell文件可以用: 
+
+```shell
+su - user -s /bin/bash shell.sh
+```
+
+设置环境变量（临时）
+
+```shell
+export LIBZIP_LIBS="/web/software/libzip-1.3.2/lib"
+```
+
+设置环境变量（永久）(尽量直接编辑，不要echo，容易不小心覆盖文件)
+
+```shell
+echo "export ONIG_CFLAGS=/usr/bin/onig-config" >> /etc/profile
+source /etc/profile
+```
+
+rpm查找包
+
+```shell
+rpm -q libcurl
+```
+
+rpm安装包
+
+```shell
+rpm -ivh libcurl
+```
+
+rpm卸载包 （ --nodeps忽略依赖）
+
+```sehll
+rpm -e --nodeps libcurl
+```
+
+搜索替换文件内容
+
+```shell
+sudo sed -i 's/track_errors = On/track_errors = Off/g' /web/software/php-7.4.23/lib/php.ini
+```
+
+统计文件夹大小（包含文件）
+
+```shell
+du -h --max-depth=1 /mysql
+```
+
+统计当前目录文件按大小排序
+
+```shell
+du -s * | sort -nr
+```
+
+批量解压zip文件到指定文件夹
+
+```shell
+ls *.zip | xargs -n1 unzip -o -d unzip/
+```
+
+批量解压tar压缩文件
+
+```shell
+ls *.tar.gz | xargs -n1 tar -zxvf
+```
+
+xargs是给命令传递参数的一个过滤器，可以将前一个命令产生的输出作为后一个命令的参数
+
+命令即将find产生的输出（test2目录下的所有tes文件），作为rm的参数，从而完全删除
+
+```shell
+find test2/ -name '*.tes' |xargs rm -rf
+```
+
+
 
 ### shell判断
 
@@ -186,30 +258,28 @@ ls -lR | grep "^d" | wc -l
 
 ### vim
 
-Vim中如何全选并复制？（区分大小写！！！）
-
-1. 全部删除：按esc键后，先按gg（到达顶部），然后dG
-2. 全部复制：按esc键后，先按gg，然后ggyG
-3. 全选高亮显示：按esc键后，先按gg，然后ggvG或者ggVG
-4. 单行复制：按esc键后，然后yy
-5. 单行删除：按esc键后，然后dd
-6. 粘贴：按esc键后，然后p
-
-vim批量注释
-
-1.按下v然后上下键选中内容
-
-2.按下ctrl+v进入列模式，再按下大写I进入插入模式，输入注释符
-
-3.最后按两次esc
-
-
-
-vim批量取消注释
-
-1.按ctrl+v，上下键选中后注释符号后按d
-
-
+> Vim中如何全选并复制？（区分大小写！！！）
+>
+> 1. 全部删除：按esc键后，先按gg（到达顶部），然后dG
+> 2. 全部复制：按esc键后，先按gg，然后ggyG
+> 3. 全选高亮显示：按esc键后，先按gg，然后ggvG或者ggVG
+> 4. 单行复制：按esc键后，然后yy
+> 5. 单行删除：按esc键后，然后dd
+> 6. 粘贴：按esc键后，然后p
+>
+> vim批量注释
+>
+> 1.按下v然后上下键选中内容
+>
+> 2.按下ctrl+v进入列模式，再按下大写I进入插入模式，输入注释符
+>
+> 3.最后按两次esc
+>
+> 
+>
+> vim批量取消注释
+>
+> 1.按ctrl+v，上下键选中后注释符号后按d
 
 ### ssh
 

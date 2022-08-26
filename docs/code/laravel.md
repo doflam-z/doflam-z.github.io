@@ -1,25 +1,28 @@
 # Laravel
 
-一、使用composer方式部署laravel项目
+### 使用composer方式部署laravel项目
 
 切换国内镜像[地址](https://pkg.phpcomposer.com/)
 
-命令：`composer config -g repo.packagist composer h [laravel.md](laravel.md) ttps://packagist.phpcomposer.com`
+```shell
+composer config -g repo.packagist composer h [laravel.md](laravel.md) ttps://packagist.phpcomposer.com
+```
 
-删除镜像（恢复官方源）：`composer config -g --unset repos.packagist`
+删除镜像（恢复官方源）
 
-二、使用composer部署laravel项目
+```shell
+composer config -g --unset repos.packagist
+```
 
-1. composer create-project laravel/laravel --prefer-dist ./project_2020-3-16
-   在当前目录的/project_2020-3-16下创建一个名为laravel的laravel项目，默认使用最新版本laravel，以压缩包形式从git上下载
+使用composer部署laravel项目
 
-2. composer create-project laravel/laravel=5.8.* --prefer-dist ./project_2020-3-16
+```shell
+# 在当前目录的/project_2020-3-16下创建一个名为laravel的laravel项目，默认使用最新版本laravel，以压缩包形式从git上下载
+composer create-project laravel/laravel --prefer-dist ./project_2020-3-16
 
-   指定laravel版本
-
-创建一个名为laravel的laravel项目
-
-`composer create-project laravel/laravel --prefer-dist ./`
+# 也可指定laravel版本
+composer create-project laravel/laravel=5.8.* --prefer-dist ./project_2020-3-16
+```
 
 **命令解释：**
 

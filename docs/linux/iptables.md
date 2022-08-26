@@ -1,5 +1,104 @@
 # iptables
 
+
+
+> debian管理iptables需要用到iptables-persistent ，或者ufw
+>
+> 通过iptables-persistent生成的规则默认将被存储在以下文件中
+>
+> /etc/iptables/rules.v4    /etc/iptables/rules.v6
+
+### 安装iptables-persistent来使用iptables命令
+
+```shell
+sudo apt install iptables-persistent -y
+# 保存重载
+sudo netfilter-persistent save
+sudo netfilter-persistent reload
+```
+
+### 或者安装使用 UFW 来设置防火墙
+
+安装
+
+```shell
+sudo apt update
+sudo apt install ufw
+
+#检查状态，默认是关闭
+sudo ufw status verbose
+```
+
+UFW默认策略是关闭所有进来的连接，开启所有出去的连接，文件路径在：
+
+> /etc/default/ufw
+
+允许一个端口
+
+```shell
+sudo ufw allow 7722/tcp
+```
+
+打开一段端口
+
+```shell
+sudo ufw allow 7100:7200/tcp
+sudo ufw allow 7100:7200/udp
+```
+
+允许指定ip访问所有端口
+
+```shell
+sudo ufw allow from 10.10.10.10
+```
+
+允许指定ip访问指定端口
+
+```shell
+sudo ufw allow from 64.63.62.61 to any port 22
+
+sudo ufw allow from 120.232.65.223 to any port 5574,8080,80,9080,443
+sudo ufw allow from 157.148.45.20 to any port 5574,8080,80,9080,443
+sudo ufw allow from 183.2.143.163 to any port 5574,8080,80,9080,443/tcp
+```
+
+允许整个网段
+
+```shell
+sudo ufw allow from 192.168.1.0/24 to any port 3306
+```
+
+禁止连接
+
+```shell
+sudo ufw deny from 23.24.25.0/24 to any port 80
+sudo ufw deny from 23.24.25.0/24 to any port 443
+```
+
+查看规则
+
+```shell
+sudo ufw status numbered
+```
+
+删除规则
+
+```shell
+sudo ufw delete 3
+```
+
+启动、关闭、重置
+
+```shell
+sudo ufw enable
+sudo ufw disable
+sudo ufw reset
+```
+
+
+
+### 更换默认ssh端口
+
 ```shell
 #1.开启一个ssh端口
 
@@ -34,6 +133,8 @@ service iptables restart
 
 
 
+### iptables配置脚本
+
 ```SHELL
 #!/bin/sh
 
@@ -44,12 +145,12 @@ cp /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
 # 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题
 service iptables stop
 
-# 禁止所有ip访问60011端口
-iptables -I INPUT -p tcp --dport 60011 -j DROP
+# 禁止所有ip访问22端口
+iptables -I INPUT -p tcp --dport 22 -j DROP
 
-# 开放指定ip可以连接60011端口
-iptables -A INPUT -i 127.0.0.1 -p tcp --dport 60011 -j ACCEPT
-iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
+# 开放指定ip可以连接22端口
+iptables -A INPUT -i 127.0.0.1 -p tcp --dport 22 -j ACCEPT
+iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 22 -j ACCEPT
 
 # 允许部分出去的网络  			
 iptables -A OUTPUT -d 192.168.2.0/24,x.x.x.x,121.201.88.88,114.114.114.114 -j ACCEPT    
@@ -77,6 +178,10 @@ service iptables restart
 
 ```
 
+
+
+### iptables操作
+
 ```bash
 # 查看所有规则列表并打印编号
 iptables -L -n --line-numbers
@@ -91,7 +196,12 @@ sudo iptables -A OUTPUT -j ACCEPT
 
 #允许所有入口访问
 sudo iptables -A INPUT -j ACCEPT
+
 ```
+
+
+
+### 更换ssh端口脚本
 
 ```shell
 #!/bin/sh
@@ -100,47 +210,18 @@ sudo iptables -A INPUT -j ACCEPT
 mkdir /web/shell/iptables_bak
 cp /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
 
-sed -i "s|#Port 22|Port 60011|g" /etc/ssh/sshd_config
+sed -i "s|#Port 22|Port 22|g" /etc/ssh/sshd_config
 
 # 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题
 #service iptables stop
 
-# 禁止所有ip访问60011端口
-iptables -I INPUT -p tcp --dport 60011 -j DROP
+# 禁止所有ip访问22端口
+iptables -I INPUT -p tcp --dport 22 -j DROP
 
-# 开放指定ip可以连接60011端口
-iptables -A INPUT -i 127.0.0.1 -p tcp --dport 60011 -j ACCEPT
-iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 60011 -j ACCEPT
+# 开放指定ip可以连接22端口
+iptables -A INPUT -i 127.0.0.1 -p tcp --dport 22 -j ACCEPT
+iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 22 -j ACCEPT
 
 service iptables save
 service sshd restart
 ```
-
-
-
-> debian管理iptables需要用到iptables-persistent 
->
-> 通过iptables-persistent生成的规则默认将被存储在以下文件中
->
-> /etc/iptables/rules.v4    /etc/iptables/rules.v6
-
-```shell
-apt install iptables-persistent -y
-
-# 保存重载
- sudo netfilter-persistent save
- sudo netfilter-persistent reload
-```
-
-iptables -A INPUT -i x.x.x.x -p tcp --dport 80 -j ACCEPT
-
-iptables -A INPUT -i x.x.x.x -p tcp --dport 443 -j ACCEPT
-
-
-
-### 服务器处理
-
-1. 限制登陆ip只有x.x.x.x才能登陆
-2. 防火墙限制访问外网ip
-3. 修改默认ssh端口为60011
-4. 修改全部账号密码，root、jobui及个人账号，删除可疑账号

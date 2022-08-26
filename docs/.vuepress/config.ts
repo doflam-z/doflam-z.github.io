@@ -15,7 +15,7 @@ export default defineUserConfig({
   //网站标题
   title: "CodeNote",
   //网站描述
-  description: "开源工具、效率方法、心理学探索的自我提升笔记，记录并输出一切能让自己提升的知识。",
+  description: "笔记网站。",
 
   //网站路径，默认为 /，如果非主域名，需改为
   base: "/",
@@ -40,11 +40,11 @@ export default defineUserConfig({
     }),
     //谷歌分析 ID
     googleAnalyticsPlugin({
-      id: "G-RWKZTY2P9R",
+      //id: "G-RWKZTY2P9R",
     }),
     //rss 订阅描述
     feedPlugin({
-      hostname: "https://newzone.top",
+      hostname: "https://doflam-z.github.io/",
       rss: true,
       count: 10,
     }),

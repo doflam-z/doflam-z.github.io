@@ -53,13 +53,13 @@ db.shutdownServer()
 use admin
 #创建管理员用户
 db.createUser({user:"root",pwd:"root123",roles:["root"]})
-db.createUser({user:"zax",pwd:"root123",roles:["root"]})
+db.createUser({user:"user",pwd:"root123",roles:["root"]})
 #查看用户
 show users
 #删除用户
-db.dropUser("zax")
+db.dropUser("user")
 #修改密码
-db.updateUser("zax",{pwd:"123"})
+db.updateUser("user",{pwd:"123"})
 
 #创建普通用户，并指定权限
 db.createUser({
@@ -92,10 +92,6 @@ chmod 400 mongo-keyfile
 mongod -f /web/shell/mongodb/mongodbWT12002.conf --keyFile=/web/shell/mongodb/mongo-keyfile
 mongod -f /web/shell/mongodb/mongodbWT12003.conf --keyFile=/web/shell/mongodb/mongo-keyfile
 mongod -f /web/shell/mongodb/mongodbWT12004.conf --keyFile=/web/shell/mongodb/mongo-keyfile
-
-mongod -f /web/shell/mongodb/mongodbWT12002.conf
-mongod -f /web/shell/mongodb/mongodbWT12003.conf
-mongod -f /web/shell/mongodb/mongodbWT12004.conf
 
 Read：允许用户读取指定数据库
 readWrite：允许用户读写指定数据库
@@ -300,7 +296,7 @@ db.getCollection('companyTmp').find({c:14298217,d:"20210829"}).explain()
 /**
  * desc
  * version    1.0
- * author    Zax
+ * author    user
  * date    2021/12/22
  */
 
@@ -871,17 +867,3 @@ $limit = 5;
 $res = $collection->aggregate(array('$match' => $filter),array('$group' => $group),array('$sort' => $sort),array('$limit'=>(int)$limit));
 12345678910111213141516171819202122232425
 ```
-
-| 字段名 | 值       |
-| ------ | -------- |
-| _id:   | 15110    |
-| cid    | 1236     |
-| n      | 10       |
-| d      | 20220304 |
-
-| 字段名 | 值                |
-| ------ | ----------------- |
-| _id:   | 15110             |
-| cid    | [1236,1239,78234] |
-| d      | 20220304          |
-

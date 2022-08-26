@@ -1,12 +1,16 @@
 # redis
 
+### 编译redis
 
+```shell
+make PREFIX=/web/software/redis-5.0.14 install
+```
 
 ### 启动redis-server
 
 ```shell
-# 配置后台启动，且端口是 1123
-redis-server ./redis.conf --daemonize yes --port 1123
+# 配置后台启动，且端口是 6381
+redis-server ./redis.conf --daemonize yes --port 6381
 ```
 
 ### 连接redis
@@ -142,8 +146,6 @@ evicted_keys:0 #因为最大内存容量限制而被驱逐（evict）的键数�
 keyspace_hits:0 #查找数据库键成功的次数
 keyspace_misses:0 #查找数据库键失败的次数
 ```
-
-
 
 ## redis集群
 
@@ -301,23 +303,17 @@ redis-cli --cluster add-node 192.168.2.134:6851 192.168.2.145:6850 --cluster-sla
 
 
 
-
-
 ### redis压力测试
 
-redis-benchmark
-redis基准信息，redis服务器性能检测
-redis-benchmark -h localhost -p 6379 -c 100 -n 100000
-100个并发连接，100000个请求，检测host为localhost 端口为6379的redis服务器性能
+**redis-benchmark**
 
-
+> redis基准信息，redis服务器性能检测
+>
+> 100个并发连接，100000个请求，检测host为localhost 端口为6379的redis服务器性能
 
 ```shell
-f3fcf506ecc274c48400e84e1bc477316915a3ba 192.168.2.145:6851@16851 slave 3a70fe2649fe7a58574582b92a9e11b4904b9585 0 1641892745000 9 connected
-3a70fe2649fe7a58574582b92a9e11b4904b9585 192.168.2.137:6850@16850 myself,master - 0 1641892746000 9 connected 10923-16383
-b8c3bc12879b22a3ab598c402eb30fb332d25b67 192.168.2.136:6851@16851 master - 0 1641892744480 10 connected 0-5460
-406b33b2b7e588ab04d11a72b20c697b37b761e3 192.168.2.137:6851@16851 master - 0 1641892745483 6 connected 5461-10922
-c06d455b7d9873235e996edcb23354e3d8045576 192.168.2.136:6850@16850 slave 406b33b2b7e588ab04d11a72b20c697b37b761e3 0 1641892746484 6 connected
-63598fd0cdfe4395b014ec039f597649a2af1fb3 192.168.2.145:6850@16850 slave b8c3bc12879b22a3ab598c402eb30fb332d25b67 0 1641892746000 10 connected
+redis-benchmark -h localhost -p 6379 -c 100 -n 100000
 ```
+
+
 

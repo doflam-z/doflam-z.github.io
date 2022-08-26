@@ -11,8 +11,6 @@ array_filter( array $input[, callable $callback = ""] )
 
 explode //用一个字符串分割另一个字符串
 range //建立一个指定范围的数组
-    
-    
 ```
 
 ### fpm

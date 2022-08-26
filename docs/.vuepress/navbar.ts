@@ -8,49 +8,29 @@ export default navbar([
     icon: "code",
     prefix: "/",
     children: [
-      "code/Markdown",
-      "code/AutoHotKey",
-      "code/Electron",
+      "code/PHP",
+      "code/tp6笔记",
+      "code/Python笔记",
       {
-        text: "页面开发",
-        icon: "vue",
+        text: "Linux",
+        icon: "",
         prefix: "",
         children: [
-          "web/VuePress",
-          "web/docsify",
-          "deploy/VPS",
+          "linux/iptables",
+          "linux/Linux基础命令",
+          "linux/Debian10常用命令"
         ],
       },
     ],
   },
   {
-    text: "应用",
+    text: "service",
     icon: "app",
     prefix: "/",
     children: [
-      "apps/Applist",
-      "apps/AppNotes",
-      "apps/Chrome",
-      {
-        text: "服务/系统",
-        icon: "any",
-        prefix: "",
-        children: [
-          "services/NAS",
-          "windows/faq",
-        ],
-      },
+      "service/redis",
+      "service/Mysql常用命令",
+      "service/mongo"
     ],
-  },
-  {
-    text: "生活",
-    icon: "emmet",
-    prefix: "/family/",
-    children: [
-      "Diet",
-      "Shoppinglist",
-      "Coupon",
-    ],
-  },
-  { text: "工具收藏", icon: "tool", link: "" },
+  }
 ]);
