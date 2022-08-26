@@ -1,0 +1,15 @@
+import{_ as s}from"./plugin-vue_export-helper.21dcd24c.js";import{o as a,c as n,b as e}from"./app.6968a99d.js";const l={},p=e(`<h1 id="shell\u811A\u672C" tabindex="-1"><a class="header-anchor" href="#shell\u811A\u672C" aria-hidden="true">#</a> shell\u811A\u672C</h1><h3 id="\u76D1\u63A7\u8FDB\u7A0B\u811A\u672C" tabindex="-1"><a class="header-anchor" href="#\u76D1\u63A7\u8FDB\u7A0B\u811A\u672C" aria-hidden="true">#</a> \u76D1\u63A7\u8FDB\u7A0B\u811A\u672C</h3><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token shebang important">#!/bin/bash</span>
+<span class="token assign-left variable">proc_name</span><span class="token operator">=</span><span class="token string">&quot;webLogKeyWordImport&quot;</span>
+<span class="token function-name function">proc_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token assign-left variable">num</span><span class="token operator">=</span><span class="token variable"><span class="token variable">\`</span><span class="token function">ps</span> <span class="token parameter variable">-ef</span> <span class="token operator">|</span> <span class="token function">grep</span> $proc_name <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-v</span> <span class="token function">grep</span> <span class="token operator">|</span> <span class="token function">wc</span> <span class="token parameter variable">-l</span><span class="token variable">\`</span></span>
+        <span class="token builtin class-name">return</span> <span class="token variable">$num</span>
+<span class="token punctuation">}</span>
+proc_num
+<span class="token assign-left variable">number</span><span class="token operator">=</span><span class="token variable">$?</span>
+<span class="token builtin class-name">echo</span> <span class="token variable">$number</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$number</span> <span class="token parameter variable">-eq</span> <span class="token number">0</span> <span class="token punctuation">]</span>
+<span class="token keyword">then</span>
+<span class="token builtin class-name">.</span> /web/java/JobuiBatch/s_jobTop.sh
+<span class="token keyword">fi</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,3),t=[p];function i(o,c){return a(),n("div",null,t)}var d=s(l,[["render",i],["__file","sehll\u811A\u672C.html.vue"]]);export{d as default};

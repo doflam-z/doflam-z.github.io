@@ -6,17 +6,17 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Fri, 26 Aug 2022 06:40:34 GMT</pubDate>
-    <lastBuildDate>Fri, 26 Aug 2022 06:40:34 GMT</lastBuildDate>
+    <pubDate>Fri, 26 Aug 2022 06:59:24 GMT</pubDate>
+    <lastBuildDate>Fri, 26 Aug 2022 06:59:24 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
-      <title>Debian10  Lnmp环境搭建</title>
+      <title>Lnmp环境搭建</title>
       <link>https://doflam-z.github.io/linux/Debian10%20%20Lnmp%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html</link>
       <guid>https://doflam-z.github.io/linux/Debian10%20%20Lnmp%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html</guid>
-      <source url="https://doflam-z.github.io/rss.xml">Debian10  Lnmp环境搭建</source>
+      <source url="https://doflam-z.github.io/rss.xml">Lnmp环境搭建</source>
       <pubDate>Fri, 26 Aug 2022 06:14:34 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="debian10-lnmp环境搭建" tabindex="-1"> Debian10  Lnmp环境搭建</h1>
+      <content:encoded><![CDATA[<h1 id="lnmp环境搭建" tabindex="-1"> Lnmp环境搭建</h1>
 <h3 id="安装开发环境软件包" tabindex="-1"> 安装开发环境软件包</h3>
 <div><pre><code>sudo apt-get install -y build-essential libexpat1-dev libgeoip-dev libpng-dev libpcre3-dev libssl-dev libxml2-dev rcs zlib1g-dev libmcrypt-dev libjpeg-dev libpng-dev libwebp-dev pkg-config libbz2-dev libcurl4-openssl-dev autoconf libmemcached-dev libmemcached11
 
@@ -406,6 +406,30 @@ libdatrie-dev libmcrypt-dev procps libonig-dev libzip-dev
 <span>chmod</span> <span>755</span> /etc/init.d/php-fpm
 
 </code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>shell脚本</title>
+      <link>https://doflam-z.github.io/linux/sehll%E8%84%9A%E6%9C%AC.html</link>
+      <guid>https://doflam-z.github.io/linux/sehll%E8%84%9A%E6%9C%AC.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">shell脚本</source>
+      <pubDate>Fri, 26 Aug 2022 06:14:34 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="shell脚本" tabindex="-1"> shell脚本</h1>
+<h3 id="监控进程脚本" tabindex="-1"> 监控进程脚本</h3>
+<div><pre><code><span>#!/bin/bash</span>
+<span>proc_name</span><span>=</span><span>"webLogKeyWordImport"</span>
+<span>proc_num</span><span>(</span><span>)</span>
+<span>{</span>
+        <span>num</span><span>=</span><span><span>`</span><span>ps</span> <span>-ef</span> <span>|</span> <span>grep</span> $proc_name <span>|</span> <span>grep</span> <span>-v</span> <span>grep</span> <span>|</span> <span>wc</span> <span>-l</span><span>`</span></span>
+        <span>return</span> <span>$num</span>
+<span>}</span>
+proc_num
+<span>number</span><span>=</span><span>$?</span>
+<span>echo</span> <span>$number</span>
+<span>if</span> <span>[</span> <span>$number</span> <span>-eq</span> <span>0</span> <span>]</span>
+<span>then</span>
+<span>.</span> /web/java/JobuiBatch/s_jobTop.sh
+<span>fi</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
     </item>
     <item>
       <title>本地生成自签泛域名证书</title>
