@@ -17,20 +17,29 @@ export default navbar([
         prefix: "",
         children: [
           "linux/iptables",
-          "linux/Linux",
+          "linux/linux基础命令",
           "linux/Debian10"
         ],
       },
     ],
   },
   {
-    text: "service",
+    text: "服务",
     icon: "app",
     prefix: "/",
     children: [
       "service/redis",
-      "service/Mysql常用命令",
+      "service/mysql",
       "service/mongo"
+    ],
+  },
+  {
+    text: "工具",
+    icon: "tool",
+    prefix: "/",
+    children: [
+      "tool/Git",
+      "tool/mac"
     ],
   }
 ]);

@@ -1,4 +1,4 @@
-# Debian10  Lnmp环境搭建
+# Lnmp环境搭建
 
 
 
