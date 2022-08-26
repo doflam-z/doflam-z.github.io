@@ -9,16 +9,16 @@ export default navbar([
     prefix: "/",
     children: [
       "code/PHP",
-      "code/tp6笔记",
-      "code/Python笔记",
+      "code/tp6",
+      "code/Python",
       {
         text: "Linux",
         icon: "",
         prefix: "",
         children: [
           "linux/iptables",
-          "linux/Linux基础命令",
-          "linux/Debian10常用命令"
+          "linux/Linux",
+          "linux/Debian10"
         ],
       },
     ],
