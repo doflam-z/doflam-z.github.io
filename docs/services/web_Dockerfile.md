@@ -35,16 +35,19 @@ FROM debian_base:1.1
 
 LABEL maintainer="PHP-7.4.24 base image <3088037209@qq.com>"
 
-RUN apt-get update && \
-	apt-get install --no-install-recommends -y libsqlite3-dev libmemcached-dev libmagickwand-dev libmagickcore-dev \
-	libdatrie-dev libmcrypt-dev procps nfs-common && rm -rf /var/lib/apt/lists/*
+WORKDIR /web/php/projectPHP/
+
+RUN apt-get update -y && \
+   apt-get install --no-install-recommends -y libsqlite3-dev libmemcached-dev libmagickwand-dev libmagickcore-dev \
+   libdatrie-dev libmcrypt-dev procps nfs-common && apt-get clean; \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 ADD package.tar.gz /usr/local/src/docker/php/
 
 ADD php7/php-7.4.24.tar.gz /usr/local/src/docker/php/
 
 RUN cd /usr/local/src/docker/php/php-7.4.24/ && \
-	./configure \
+   ./configure \
     --prefix=/web/software/php-7.4.24 \
     --with-config-file-path=/web/software/php-7.4.24/lib \
     --with-mysqli=mysqlnd \
@@ -71,12 +74,12 @@ RUN cd /usr/local/src/docker/php/php-7.4.24/ && \
     --with-xmlrpc \
     --with-zip \
     --enable-soap \
-    --enable-maintainer-zts \ 
+    --enable-maintainer-zts \
     --without-pear \
     --enable-fpm && \
     make && make install \
 # apcu
-    && cd /usr/local/src/docker/php/package/apcu-5.1.19 \
+    && cd /usr/local/src/docker/php/package/apcu-5.1.21 \
     && /web/software/php-7.4.24/bin/phpize \
     && ./configure --with-php-config=/web/software/php-7.4.24/bin/php-config \
     && make && make install \
@@ -86,12 +89,12 @@ RUN cd /usr/local/src/docker/php/php-7.4.24/ && \
     && ./configure --with-php-config=/web/software/php-7.4.24/bin/php-config \
     && make && make install \
 # memcached
-    && cd /usr/local/src/docker/php/package/memcached-3.1.5 \
+    && cd /usr/local/src/docker/php/package/memcached-3.2.0 \
     && /web/software/php-7.4.24/bin/phpize \
     && ./configure --with-php-config=/web/software/php-7.4.24/bin/php-config \
     && make && make install \
 # memcache
-    && cd /usr/local/src/docker/php/package/memcache-8.0 \
+    && cd /usr/local/src/docker/php/package/memcache-4.0.5.2 \
     && /web/software/php-7.4.24/bin/phpize \
     && ./configure --with-php-config=/web/software/php-7.4.24/bin/php-config \
     && make && make install \
@@ -116,7 +119,7 @@ RUN cd /usr/local/src/docker/php/php-7.4.24/ && \
     && ./configure --with-php-config=/web/software/php-7.4.24/bin/php-config \
     && make && make install \
 # qqwry
-	&& cd /usr/local/src/docker/php/package \
+   && cd /usr/local/src/docker/php/package \
     && cd /usr/local/src/docker/php/package/qqwry-master/php/qqwry/ \
     && /web/software/php-7.4.24/bin/phpize \
     && ./configure --with-php-config=/web/software/php-7.4.24/bin/php-config \
@@ -152,6 +155,11 @@ RUN cd /usr/local/src/docker/php/php-7.4.24/ && \
     && /web/software/php-7.4.24/bin/phpize \
     && ./configure --with-php-config=/web/software/php-7.4.24/bin/php-config \
     && make && make install \
+# parallel
+    && cd /usr/local/src/docker/php/package/parallel-1.1.4 \
+    && /web/software/php-7.4.24/bin/phpize \
+    && ./configure --with-php-config=/web/software/php-7.4.24/bin/php-config \
+    && make && make install \
 # gd
     && cd /usr/local/src/docker/php/php-7.4.24/ext/gd \
     && /web/software/php-7.4.24/bin/phpize \
@@ -159,11 +167,11 @@ RUN cd /usr/local/src/docker/php/php-7.4.24/ && \
     && make && make install \
     && rm -rf /usr/local/src/docker/php/*
 
-COPY conf/php-fpm.conf /web/software/php-7.4.24/etc/php-fpm.conf
+COPY php7/conf/php-fpm.conf /web/software/php-7.4.24/etc/php-fpm.conf
 
-COPY conf/php.ini /web/software/php-7.4.24/lib/php.ini
+COPY php7/conf/php.ini /web/software/php-7.4.24/lib/php.ini
 
-COPY conf/php-fpm /etc/init.d/php-fpm
+COPY php7/conf/php-fpm /etc/init.d/php-fpm
 
 RUN chmod 755 /etc/init.d/php-fpm && ln -s /web/software/php-7.4.24/bin/* /usr/bin/
 
@@ -171,7 +179,7 @@ RUN chmod 755 /etc/init.d/php-fpm && ln -s /web/software/php-7.4.24/bin/* /usr/b
 COPY php7/start.sh /root/start.sh
 RUN chmod +x /root/start.sh
 # 设置启动目录以及启动脚本
-ENTRYPOINT cd /root; ./php7/start.sh
+ENTRYPOINT cd /root; ./start.sh
 ```
 
 ```shell
@@ -335,10 +343,6 @@ ENTRYPOINT cd /root; ./start.sh
 docker build -t php8.0.16 -f php8/Dockerfile .
 ```
 
-
-
-
-
 ### openresty版本nginx镜像
 
 ```dockerfile
@@ -389,20 +393,21 @@ docker run --name nginx_test -d -p 80:80 --rm -v /home/zax/code/workspace/vagran
 version: "3"
 services:
   fpm:
-   image: php7:1.0
+   image: php7.4:1.2
    container_name: fpm
+   privileged: true
    volumes:
       - .:/web/php/projectHTML
       - .:/web/php/projectPHP
       - ./docker/php:/web/php
-      - ./docker/php/php-fpm.conf:/web/software/php-7.4.24/etc/php-fpm.conf
-      - ./docker/php/php.ini:/web/software/php-7.4.24/lib/php.ini
+      - ./docker/php/php7/conf/php-fpm.conf:/web/software/php-7.4.24/etc/php-fpm.conf
+      - ./docker/php/php7/conf/php.ini:/web/software/php-7.4.24/lib/php.ini
    networks:
       web:
        ipv4_address: 192.168.10.2
 
   nginx:
-   image: nginx:1.0
+   image: nginx:1.2
    container_name: nginx
    ports:
       - 80:80
@@ -416,12 +421,22 @@ services:
       web:
        ipv4_address: 192.168.10.3
 
+#  redis:
+#   image: redis:5.0.14
+#   container_name: redis
+#   ports:
+#     - 6379:6379
+#   networks:
+#      web:
+#       ipv4_address: 192.168.10.4
+
 networks:
   web:
      driver: bridge
      ipam:
        config: 
          - subnet: 192.168.10.0/24
+
 ```
 
 挂载远程文件夹
