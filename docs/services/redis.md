@@ -317,3 +317,13 @@ redis-benchmark -h localhost -p 6379 -c 100 -n 100000
 
 
 
+### docker启动redis
+
+```shell
+docker run --name redis-6811 \
+-p 192.168.2.138:6811:6811 \
+-v /data/docker/redis/conf/redis6-6811.conf:/etc/redis/redis.conf \
+-v /data/docker/redis/log/:/var/log/redis/ \
+-d redis:5.0.14 redis-server /etc/redis/redis.conf
+```
+

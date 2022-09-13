@@ -11,7 +11,10 @@ mongo 192.168.2.134:12000
 >rs.initiate()
 >rs.add("hostname:120000")
 
-# 查看状态
+# 查看本机状态
+db.serverStatus()
+
+# 查看集群状态
 >rs.status()
 
 >rs.add({host:'hostname:12000'})(添加一个复制集)
