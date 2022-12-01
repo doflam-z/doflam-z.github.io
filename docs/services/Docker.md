@@ -4,6 +4,8 @@
 
 > 注意！安装docker需要有创建用户的权限，既/etc/gshadow跟/etc/group不能+i
 
+### Debian10
+
 卸载旧版本
 
 ```shell
@@ -43,7 +45,43 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 ```
 
-更换阿里云镜像加速
+### Centos7
+
+卸载旧版本
+
+```shell
+yum remove docker  docker-common docker-selinux docker-engine
+```
+
+安装依赖+yum源
+
+```shell
+yum install -y yum-utils device-mapper-persistent-data lvm2
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+```
+
+查看可用docker版本
+
+```shell
+yum list docker-ce --showduplicates | sort -r
+```
+
+安装最新版本docker
+
+```shell
+yum -y install docker-ce
+```
+
+启动并设置开机启动
+
+```shell
+systemctl start docker
+systemctl enable docker
+```
+
+
+
+### 更换阿里云镜像加速
 
 ```shell
 mkdir -p /etc/docker
@@ -344,3 +382,7 @@ docker run --name mysql-5.5.57 -d -p 3306:3306 -v /mysql/docker/mysql-5.5.57/con
 > -e MYSQL_ROOT_PASSWORD=123456       #设置mysql的root用户的密码是：·123456
 
 > docker 18.03 加入了一个 feature，在容器中可以通过 host.docker.internal 来访问主机
+
+
+### 删除缓存 
+docker system prune -a --force

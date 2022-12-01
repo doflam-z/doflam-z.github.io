@@ -160,6 +160,34 @@ mongodump -h 192.168.1.35:12000 -d jobui_tmp -o /ssd_data/mongobackups/
 
 ```
 
+### 新增子文档
+
+```shell
+db.mapping.update(
+    {
+        "_id": "jobui_company"
+    },
+    {
+        "$set": {
+            "collect.company.ch": {
+                "tb_company_honor": {
+                    _key: "CH_CompanyID",
+                    a: "CH_ID",
+                    b: "CH_Honor",
+                    lt: "CH_LastUpdateTime"
+                }
+            }
+        }
+    }
+);
+
+```
+
+### 删除子文档
+
+```shell
+```
+
 
 
 ### 创建索引
