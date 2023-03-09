@@ -6,8 +6,8 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 01 Dec 2022 08:41:14 GMT</pubDate>
-    <lastBuildDate>Thu, 01 Dec 2022 08:41:14 GMT</lastBuildDate>
+    <pubDate>Thu, 09 Mar 2023 03:36:49 GMT</pubDate>
+    <lastBuildDate>Thu, 09 Mar 2023 03:36:49 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -1286,7 +1286,10 @@ im-config <span>-c</span>
 
 <span>#挂载失败问题（ bad option; for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.&lt;type> helper program.）</span>
 <span>sudo</span> <span>apt</span> <span>install</span> nfs-common
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>配置apt软件源,更新sources.list</p>
+
+<span># vim不能复制</span>
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>配置apt软件源,更新sources.list</p>
 <div><pre><code><span>mv</span> /etc/apt/sources.list /etc/apt/sources.list.bak
 <span>cat</span> <span>></span> /etc/apt/sources.list <span>&lt;&lt;</span> <span>EOF
 deb http://mirrors.cloud.tencent.com/debian/ buster main non-free contrib
