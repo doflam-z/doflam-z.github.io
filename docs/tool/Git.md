@@ -14,7 +14,7 @@ ssh-keygen -t rsa -C "zax"
 
 > 按三次回车，密码为空，在当前用户家目录下会出现id_rsa和id_rsa.pub复制公钥id_rsa.pub到github上，点击setting-SSH and GPG keys 添加。
 
-### 安装-设置git账户信息
+### 设置git账户信息
 
 ```shell
 git config --global user.name "doflam-z"
@@ -24,13 +24,13 @@ git config --global user.name "zax"
 git config --global user.email "zax@jobui.com"
 ```
 
-#### 设置编码
+### 设置编码
 
 ```shell
 git config --global gui.encoding utf-8
 ```
 
-#### 查看配置
+### 查看配置
 
 ```shell
 gti config # 配置指令
@@ -42,7 +42,7 @@ gti config --global --list # 查看当前用户全局配置
 gti config --local --list # 查看当前仓库配置
 ```
 
-#### 配置远程仓库地址
+### 配置远程仓库地址
 
 ```shell
 git remote add origin git@e.coding.net:jobui-01/workspace.git # 添加远程仓库，设置别名为origin
@@ -59,9 +59,7 @@ git remote remove origin
 git pull git@e.coding.net/jobui-01/workspace.git # 拉取远程仓库
 ```
 
-### 常用命令：
-
-#### 提交操作
+### 提交操作
 
 ```shell
 git add .  # 添加到暂存区
@@ -73,13 +71,13 @@ git push -u origin master # 上传到github
 git status # 查看当前状态
 ```
 
-#### 压缩commit
+### 压缩commit
 
 ```shell
 git rebase -i HEAD~2 # 压缩最近两个提交，在第二个commit前面讲pick改成squash，然后:wq 退出，将第二个commit删除，:wq退出
 ```
 
-#### 暂存修改
+### 暂存修改
 
 ```shell
 git add .
@@ -95,7 +93,7 @@ git stash pop --index #	恢复最新的进度到工作区和暂存区。（尝�
 git stash pop stash@{1}	# 恢复指定的进度到工作区。stash_id是通过git stash list命令得到的，通过git stash pop命令恢复进度后，会删除当前进度
 ```
 
-#### 舍弃修改
+### 舍弃修改
 
 ```shell
 git checkout . # 本地所有修改的。没有的提交的，都返回到原来的状态
@@ -114,7 +112,7 @@ git clean 参数
     -df 删除 文件 和 目录
 ```
 
-#### 版本回退
+### 版本回退
 
 ```shell
 git log--pretty=oneline #  查看日志，以一行显示
@@ -130,7 +128,7 @@ git reset --soft aba2b6752c7687f54a605b67c275366dc42bf439 #	重置到节点
 git reset jobuiV4/app/mobile/company/company_salary.php #	重置文件
 ```
 
-#### 分支管理
+### 分支管理
 
 ```shell
 git branch # 查看当前分支
@@ -152,7 +150,7 @@ git branch -d test # 删除分支
 git branch -m oldName newName #修改分支名
 ```
 
-#### 拉取更新
+### 拉取更新
 
 ```shell
 git pull --rebase origin master # 拉取更新
@@ -164,7 +162,7 @@ git rebase --continue # 继续rebase
 git rebase --abort # 取消rebase
 ```
 
-#### 清空git缓存
+### 清空git缓存
 
 > 在项目开发过程中个，一般都会添加 .gitignore 文件，规则很简单，但有时会发现，规则不生效。
 > 原因是 .gitignore 只能忽略那些原来没有被track的文件，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。
