@@ -99,6 +99,9 @@ sudo dpkg -P sogopinyin
 
 #挂载失败问题（ bad option; for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.<type> helper program.）
 sudo apt install nfs-common
+
+# vim不能复制
+
 ```
 
 配置apt软件源,更新sources.list

@@ -115,7 +115,7 @@ root：只在admin数据库中可用。超级账号，超级权限
 mongo 192.168.1.36:27017 -u "jobui_w" -p "j" --authenticationDatabase "admin"
 ```
 
-
+### 常用命令
 
 ```shell
 db.createCollection("JobProfessionID")
@@ -139,6 +139,11 @@ show tables
 #查看集合条数
 db.getCollection('userTmp').find({}).count()
 
+#判断字段是否存在
+db.collection.find({ fieldName: { $exists: true/false } })
+
+#修改集合名称
+db.oldCollectionName.renameCollection("newCollectionName")
 
 ```
 

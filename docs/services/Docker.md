@@ -79,8 +79,6 @@ systemctl start docker
 systemctl enable docker
 ```
 
-
-
 ### 更换阿里云镜像加速
 
 ```shell
@@ -238,8 +236,9 @@ docker pull doflamingozzz/php7.4:1.0
 安装compaose
 
 ```shell
-curl -L https://get.daocloud.io/docker/compose/releases/download/1.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/2.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+sudo curl -L "https://gitee.com/JavaLionLi/resources/blob/master/docker-compose-linux-x86_64_2.9.0" -o /usr/bin/docker-compose
+chmod +x /usr/bin/docker-compose
 docker-compose --version
 ```
 
