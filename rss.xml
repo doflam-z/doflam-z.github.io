@@ -6,8 +6,8 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 09 Mar 2023 03:45:48 GMT</pubDate>
-    <lastBuildDate>Thu, 09 Mar 2023 03:45:48 GMT</lastBuildDate>
+    <pubDate>Thu, 13 Apr 2023 11:59:38 GMT</pubDate>
+    <lastBuildDate>Thu, 13 Apr 2023 11:59:38 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -825,7 +825,9 @@ stdout_logfile <span>=</span> /www/wwwroot/www.site.net/queue_MultiTask.log
       <pubDate>Thu, 25 Aug 2022 09:55:40 GMT</pubDate>
       <content:encoded><![CDATA[<h1 id="linux基础命令" tabindex="-1"> Linux基础命令</h1>
 <h3 id="shell命令" tabindex="-1"> shell命令</h3>
-<p>查看一级目录文件夹大小</p>
+<p>递归查询一个目录中所有文件中符合匹配的文档及行号</p>
+<div><pre><code>grep -rnw '/etc/nginx' -e 'listen.*80'
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查看一级目录文件夹大小</p>
 <div><pre><code><span>sudo</span> <span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span>
 </code></pre><div aria-hidden="true"><div></div></div></div><p>查看已删除文件进程</p>
 <div><pre><code><span>lsof</span> <span>|</span> <span>grep</span> deleted 
