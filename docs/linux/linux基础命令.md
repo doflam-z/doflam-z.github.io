@@ -2,6 +2,12 @@
 
 ### shell命令
 
+递归查询一个目录中所有文件中符合匹配的文档及行号
+
+```sehll
+grep -rnw '/etc/nginx' -e 'listen.*80'
+```
+
 查看一级目录文件夹大小
 
 ```shell
