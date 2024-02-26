@@ -49,7 +49,17 @@ PRIMARY> rs.reconfig(config)
 db.shutdownServer()
 ```
 
-#### 创建用户
+### 集群无法选举处理
+
+>  无法在secondary上执行命令，那么这种情况下，如何使用force命令来清理配置呢？
+
+```bash
+SECONDARY> cfg=rs.conf()
+SECONDARY> cfg.members.splice(2,1)  # 从下标2的节点开始，删除1个节点配置
+SECONDARY> rs.reconfig(cfg,{force:true})
+```
+
+### 创建用户
 
 ```shell
 #进去mongo后切换到admin库

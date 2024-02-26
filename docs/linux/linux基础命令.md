@@ -20,16 +20,25 @@ sudo du -h --max-depth=1
 lsof | grep deleted 
 ```
 
+按进程名称分组统计进程
+
+```bash
+ps -eo comm= | awk '{count[$1]++} END {for (name in count) print name ": " count[name] " processes"}'
+```
+
 查看发行版
 
 ```shell
-lsb_release -a 
+lsb_release -a  # 这个命令将显示包括发行版本号、发行代号、发行说明等信息。
+cat /etc/os-release		# 这个命令将显示操作系统的一些信息，包括发行版本和ID
+cat /etc/issue		#这 个命令将显示发行版本的信息。
+uname -a		# 这个命令将显示有关内核和操作系统的信息，包括发行版本。
 ```
 
 查看cpu核心数
 
 ```sehll
-nproc
+nproc or lscpu
 ```
 
 查看cpu型号 “| head -1”是只返回第一个
@@ -118,6 +127,12 @@ rpm -e --nodeps libcurl
 
 ```shell
 sudo sed -i 's/track_errors = On/track_errors = Off/g' /web/software/php-7.4.23/lib/php.ini
+```
+
+查找文件中指定内容，返回那一行
+
+```shell
+grep "oldSize:少于50," /tmp/updateCompanyErrorWorkerData_tmp3.log > /tmp/updateCompanyErrorWorkerData_tmp3_tmp.log
 ```
 
 统计文件夹大小（包含文件）

@@ -40,30 +40,31 @@ cd zabbix-5.4.4
 只安装zabbix-agent
 
 ```shell
-##/bin/bash
+#!/bin/bash
 cd /usr/local/src
-wget https://cdn.zabbix.com/zabbix/sources/stable/5.4/zabbix-5.4.4.tar.gz
+wget https://cdn.zabbix.com/zabbix/sources/oldstable/5.4/zabbix-5.4.12.tar.gz
 
 #创建zabbix用户
-chattr -i /etc/group /etc/passwd /etc/shadow /etc/gshadow
 groupadd --system zabbix
 useradd --system -g zabbix -d /usr/lib/zabbix -s /sbin/nologin -c "Zabbix Monitoring System" zabbix
-chattr +i /etc/group /etc/passwd /etc/shadow /etc/gshadow
 
-tar zxvf zabbix-5.4.4.tar.gz
-cd zabbix-5.4.4
+tar zxvf zabbix-5.4.12.tar.gz
+
+#安装依赖
+yum install -y libevent-devel OpenIPMI OpenIPMI-devel mysql-devel pcre*
+
+cd /usr/local/src/zabbix-5.4.12
 ./configure --prefix=/web/software/zabbix --enable-agent
 make && make install
 if [ $? -eq 0 ];then
 sed -i 's/Server=127.0.0.1/Server=192.168.2.145/g' /web/software/zabbix/etc/zabbix_agentd.conf
 sed -i 's/ServerActive=127.0.0.1/ServerActive=192.168.2.145/g' /web/software/zabbix/etc/zabbix_agentd.conf
-sed -i 's/Hostname=Zabbix server/Hostname=host141/g' /web/software/zabbix/etc/zabbix_agentd.conf
+sed -i 's/Hostname=Zabbix server/Hostname=host139/g' /web/software/zabbix/etc/zabbix_agentd.conf
 echo "安装成功"
 /web/software/zabbix/sbin/zabbix_agentd
 else
 echo "安装失败"
 fi
-
 ```
 
 

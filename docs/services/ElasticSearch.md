@@ -194,6 +194,40 @@ curl -XPOST 'localhost:9200/bank/_search?pretty' -d '
 }'
 ```
 
+#### 关闭节点(自动转移分片数据)
+
+```
+PUT _cluster/settings
+{
+  "transient": {
+    "cluster.routing.allocation.exclude._ip":"192.168.1.36"
+  }
+}
+```
+
+#### 复制索引
+
+```
+POST /_reindex?wait_for_completion=false
+{
+  "source": {
+    "index": "jobui_salary_search_2022_v3",
+    "size": 500
+  },
+  "dest": {
+    "index": "jobui_salary_search_2022_v4"
+  }
+}
+
+GET _tasks?detailed=true&actions=*reindex # 查看正在复制的索引
+
+GET /_tasks/F4c1BDoGSDqCqt2raIRmHA:7766345282 # 直接按id查看
+
+POST /_tasks/F4c1BDoGSDqCqt2raIRmHA:7453932752/_cancel # 取消复制
+```
+
+
+
 ## es+kibana部署
 
 **基础环境：jdk8**

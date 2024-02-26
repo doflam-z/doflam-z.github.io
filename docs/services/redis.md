@@ -149,7 +149,7 @@ keyspace_misses:0 #查找数据库键失败的次数
 
 ## redis集群
 
-> 集群配置文件路径：/web/bcshell/cache/redis/redisCluster
+> 集群配置文件路径：	
 >
 > 其中一个主节点配置一个从节点配置redis_145_master.conf redis_137_slave.conf
 >
@@ -158,23 +158,23 @@ keyspace_misses:0 #查找数据库键失败的次数
 ```shell
 # 端口
 port 6850
+bind 192.168.2.132
 # 启用集群模式
-cluster-enabled yes 
+cluster-enabled yes
 # 根据你启用的节点来命名，最好和端口保持一致，这个是用来保存其他节点的名称，状态等信息的
-cluster-config-file nodes_136_6850.conf 
+cluster-config-file nodes_132_6850.conf
 # 超时时间
 cluster-node-timeout 5000
 appendonly yes
 # 后台运行
 daemonize yes
 # 非保护模式
-protected-mode no 
+protected-mode no
 # 最大内存
-maxmemory 4096M
+maxmemory 10240M
 # lru模式
 maxmemory-policy allkeys-lru
-
-pidfile  /var/run/redis_6850.pid
+pidfile  /var/run/nodes_132_6850.pid
 ```
 
 ### 创建集群
@@ -216,6 +216,13 @@ redis-cli --cluster add-node 192.168.2.137:6851 192.168.2.145:6850 --cluster-sla
 #--cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c,主节点的node id
 #192.168.2.134:6851,新节点
 #192.168.2.145:6850集群任一个主节点
+/web/software/redis-5.0.14/src/redis-cli --cluster create 192.168.2.132:6479 192.168.2.134:6479 192.168.2.136:6479
+
+redis-cli --cluster add-node 192.168.2.134:6480 192.168.2.136:6479 --cluster-slave --cluster-master-id 6a34fa539b164fe663ca12a724822d08c7c0f6f3
+
+redis-cli --cluster add-node 192.168.2.132:6480 192.168.2.134:6479 --cluster-slave --cluster-master-id a9ed411292adf64475578ab1c48287c3d87e0a34
+
+redis-cli --cluster add-node 192.168.2.136:6480 192.168.2.132:6479 --cluster-slave --cluster-master-id 0d66542f221897a18f8ad8736384327b542ae9fa
 ```
 
 添加后查看下节点如下，四主四从配置成功
@@ -294,6 +301,8 @@ redis-cli --cluster add-node 192.168.2.134:6850 192.168.2.136:6850
 
 ```shell
 redis-cli --cluster add-node 192.168.2.134:6851 192.168.2.145:6850 --cluster-slave --cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c
+
+redis-cli --cluster add-node 192.168.2.133:8000 192.168.2.132:6479 --cluster-slave --cluster-master-id 5122774e066f580c9a3909ff5911026a8d611004
 #注释：
 #--cluster-slave，表示添加的是从节点
 #--cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c,主节点的node id

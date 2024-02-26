@@ -455,3 +455,18 @@ mount -t nfs \192.168.1.13:/web/jobui_file D:\workspace\jobui_file
 sudo mount -t nfs -o resvport,rw  192.168.1.13:/web/php/projectPHP/jobuiDic jobuiDic
 sudo mount -t nfs -o resvport,rw 192.168.1.13:/web/jobui_file /jobui_file
 ```
+
+### supervisor镜像
+
+```dockerfile
+FROM doflamingozzz/php7_line:1.0
+RUN apt-get update -y && \
+	apt install supervisor cron -y && service cron start
+RUN tee /etc/supervisor/supervisord.conf <<-'EOF'
+[inet_http_server]         ; inet (TCP) server disabled by default
+port=*:9001        ; ip_address:port specifier, *:port for all iface
+username=jobui              ; default is no username (open server)
+password=DZK9UfBEMqA               ; default is no password (open server)
+EOF
+```
+
