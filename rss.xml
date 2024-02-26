@@ -6,10 +6,336 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 13 Apr 2023 11:59:38 GMT</pubDate>
-    <lastBuildDate>Thu, 13 Apr 2023 11:59:38 GMT</lastBuildDate>
+    <pubDate>Mon, 26 Feb 2024 10:10:23 GMT</pubDate>
+    <lastBuildDate>Mon, 26 Feb 2024 10:10:23 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+    <item>
+      <title>network</title>
+      <link>https://doflam-z.github.io/linux/network.html</link>
+      <guid>https://doflam-z.github.io/linux/network.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">network</source>
+      <pubDate>Mon, 26 Feb 2024 10:08:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="network" tabindex="-1"> network</h1>
+<blockquote>
+<p>网络相关命令</p>
+</blockquote>
+<h3 id="查看网络实时流量" tabindex="-1"> 查看网络实时流量</h3>
+<div><pre><code><span>sudo</span> iftop <span>-i</span> eno3
+</code></pre><div aria-hidden="true"><div></div></div></div><blockquote>
+<p>-i 指定网卡</p>
+</blockquote>
+<h3 id="查看tcp、udp连接数" tabindex="-1"> 查看tcp、udp连接数</h3>
+<div><pre><code><span>sudo</span> <span>netstat</span> <span>-an</span> <span>|</span> <span>grep</span> tcp <span>|</span> <span>wc</span> <span>-l</span>
+<span>sudo</span> <span>netstat</span> <span>-anu</span> <span>|</span> <span>grep</span> udp <span>|</span> <span>wc</span> <span>-l</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><blockquote>
+<p>这个命令的含义是：</p>
+<ul>
+<li><code>netstat -an</code>：列出系统上的所有网络连接，包括 TCP 和 UDP 连接。</li>
+<li><code>grep tcp</code>：筛选出 TCP 连接的行。</li>
+<li><code>wc -l</code>：对筛选后的行数进行统计，即计算 TCP 连接的数量</li>
+</ul>
+</blockquote>
+<h3 id="查看tcp错误数" tabindex="-1"> 查看tcp错误数</h3>
+<div><pre><code><span>sudo</span> <span>netstat</span> <span>-s</span> <span>|</span> <span>grep</span> <span>-i</span> error
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="抓包到指定端口的数据包" tabindex="-1"> 抓包到指定端口的数据包</h3>
+<div><pre><code><span>sudo</span> tcpdump <span>-i</span> eno3 <span>-nn</span> <span>-vvv</span> <span>'host 192.168.2.134 and port 12000'</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><blockquote>
+<p>这个命令的含义是：</p>
+<ul>
+<li><code>-i &lt;interface&gt;</code>：指定监视的网络接口。</li>
+<li><code>-nn</code>：禁用域名解析，显示IP地址而不是主机名。</li>
+<li><code>-vvv</code>：增加详细级别，显示更多的信息。</li>
+<li><code>'host &lt;host_ip&gt; and port &lt;port&gt;'</code>：过滤出指定主机和端口的流量</li>
+</ul>
+</blockquote>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>防火墙</title>
+      <link>https://doflam-z.github.io/linux/%E9%98%B2%E7%81%AB%E5%A2%99.html</link>
+      <guid>https://doflam-z.github.io/linux/%E9%98%B2%E7%81%AB%E5%A2%99.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">防火墙</source>
+      <pubDate>Mon, 26 Feb 2024 10:08:55 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="防火墙" tabindex="-1"> 防火墙</h1>
+<h3 id="firewalld" tabindex="-1"> Firewalld</h3>
+<blockquote>
+<p>firewalld默认是关闭所有端口</p>
+</blockquote>
+<p>开启firewalld防火墙</p>
+<div><pre><code>systemctl start firewalld.service       <span>#停止firewall</span>
+systemctl <span>enable</span> firewalld.service     <span>#禁止firewall开机启动</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>开启端口</p>
+<div><pre><code><span>#直接开放端口</span>
+firewall-cmd <span>--zone</span><span>=</span>public --add-port<span>=</span><span>80</span>/tcp <span>--permanent</span>
+
+<span>#开放指定ip段访问指定端口</span>
+<span>sudo</span> firewall-cmd <span>--permanent</span> --add-rich-rule<span>=</span><span>'rule family=ipv4 source address=192.168.2.0/24 port protocol=tcp port=60011 accept'</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><blockquote>
+<p>命令含义：</p>
+<p>--zone #作用域</p>
+<p>--add-port=80/tcp #添加端口，格式为：端口/通讯协议</p>
+<p>--permanent #永久生效，没有此参数重启后失效</p>
+</blockquote>
+<p>重启防火墙</p>
+<div><pre><code>firewall-cmd <span>--reload</span> 
+</code></pre><div aria-hidden="true"><div></div></div></div><p>常用命令介绍</p>
+<div><pre><code>firewall-cmd <span>--state</span>              <span>##查看防火墙状态，是否是running</span>
+
+firewall-cmd <span>--reload</span>              <span>##重新载入配置，比如添加规则之后，需要执行此命令</span>
+
+firewall-cmd --get-zones            <span>##列出支持的zone</span>
+
+firewall-cmd --get-services           <span>##列出支持的服务，在列表中的服务是放行的</span>
+
+firewall-cmd --query-service <span>ftp</span>        <span>##查看ftp服务是否支持，返回yes或者no</span>
+
+firewall-cmd --add-service<span>=</span>ftp         <span>##临时开放ftp服务</span>
+
+firewall-cmd --add-service<span>=</span>ftp <span>--permanent</span>   <span>##永久开放ftp服务</span>
+
+firewall-cmd --remove-service<span>=</span>ftp <span>--permanent</span>  <span>##永久移除ftp服务</span>
+
+firewall-cmd --add-port<span>=</span><span>80</span>/tcp <span>--permanent</span>   <span>##永久添加80端口 </span>
+
+iptables <span>-L</span> <span>-n</span>                 <span>##查看规则，这个命令是和iptables的相同的</span>
+
+<span>man</span> firewall-cmd                <span>##查看帮助</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables" tabindex="-1"> Iptables</h3>
+<blockquote>
+<p>CentOS 7.0默认使用的是firewall作为防火墙，使用iptables必须重新设置一下</p>
+</blockquote>
+<p>1、直接关闭firewalld防火墙</p>
+<div><pre><code>systemctl stop firewalld.service      <span>#停止firewall</span>
+systemctl disable firewalld.service   <span>#禁止firewall开机启动</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>2、设置 iptables service</p>
+<p>yum -y install iptables-services</p>
+<p>如果要修改防火墙配置，如增加防火墙端口3306</p>
+<p>vi /etc/sysconfig/iptables</p>
+<p>增加规则</p>
+<p>-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT</p>
+<p>保存退出后</p>
+<p>systemctl restart iptables.service #重启防火墙使配置生效</p>
+<p>systemctl enable iptables.service #设置防火墙开机启动</p>
+<p>最后重启系统使设置生效即可。</p>
+<p><strong>查看</strong> <strong>SELinux<strong><strong>状态及关闭</strong></strong>SELinux</strong></p>
+<p>查看SELinux状态：</p>
+<p>1、/usr/sbin/sestatus -v   ##如果SELinux status参数为enabled即为开启状态</p>
+<p>SELinux status:         enabled</p>
+<p>2、getenforce         ##也可以用这个命令检查</p>
+<p>关闭SELinux：</p>
+<p>1、临时关闭（不用重启机器）：</p>
+<p>setenforce 0         ##设置SELinux 成为permissive模式</p>
+<p>​               ##setenforce 1 设置SELinux 成为enforcing模式</p>
+<p>2、修改配置文件需要重启机器：</p>
+<p>修改/etc/selinux/config 文件</p>
+<p>将SELINUX=enforcing改为SELINUX=disabled</p>
+<p>重启机器即可</p>
+<p><strong>iptables****配置</strong></p>
+<p>查看iptables配置：iptables -L -n</p>
+<p>添加常用端口规则：</p>
+<p>#允许对外请求的返回包</p>
+<p>iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT</p>
+<p>#允许icmp包通过</p>
+<p>iptables -A INPUT -p icmp --icmp-type any -j ACCEPT</p>
+<p>#允许来自于lo接口的数据包，如果没有此规则，将不能通过127.0.0.1访问本地服务</p>
+<p>iptables -A INPUT -i lo -j ACCEPT</p>
+<p>#禁止一个ip段</p>
+<p>iptables -I INPUT -s 114.64.244.0/24 -j DROP</p>
+<p>#常用端口</p>
+<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 21 -j ACCEPT</p>
+<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT</p>
+<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 23 -j ACCEPT</p>
+<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT</p>
+<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT</p>
+<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 3306 -j ACCEPT</p>
+<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT</p>
+<p>#过滤所有非以上规则的请求</p>
+<p>iptables -P INPUT DROP</p>
+<p>#如果要添加内网ip信任（接受其所有TCP请求）</p>
+<p>#注：(<strong>.</strong>.<strong>.</strong>)为IP,下同</p>
+<p>iptables -A INPUT -p tcp -s <strong>.</strong>.<strong>.</strong> -j ACCEPT</p>
+<p>#要封停一个IP，使用下面这条命令</p>
+<p>iptables -I INPUT -s <strong>.</strong>.<strong>.</strong> -j DROP</p>
+<p>#要解封一个IP，使用下面这条命令</p>
+<p>iptables -D INPUT -s <strong>.</strong>.<strong>.</strong> -j DROP</p>
+<p>保存重启防火墙</p>
+<p>/etc/init.d/iptables save</p>
+<p>service iptables restart</p>
+<p>其他常用命令（不是一定要做）</p>
+<p>#允许所有入栈规则</p>
+<p>iptables -P INPUT ACCEPT</p>
+<p>#清空默认所有规则</p>
+<p>iptables -F</p>
+<p>#清空自定义的所有规则</p>
+<p>iptables -X</p>
+<p>#计数器置0</p>
+<p>iptables -Z</p>
+<p>关闭端口</p>
+<p>常用删除端口规则</p>
+<p># 查看当前端口所在行数</p>
+<p>iptables -L -n --line-number</p>
+<p># 删除指定序列的端口（下面是删除第五条端口）</p>
+<p>iptables -D INPUT 5</p>
+<p># 确认是否已经删除，可以重新查看列表</p>
+<p>iptables -L -n --line-number</p>
+<h2 id="debian" tabindex="-1"> debian</h2>
+<blockquote>
+<p>debian管理iptables需要用到iptables-persistent ，或者ufw</p>
+<p>通过iptables-persistent生成的规则默认将被存储在以下文件中</p>
+<p>/etc/iptables/rules.v4    /etc/iptables/rules.v6</p>
+</blockquote>
+<h3 id="安装iptables-persistent来使用iptables命令" tabindex="-1"> 安装iptables-persistent来使用iptables命令</h3>
+<div><pre><code><span>sudo</span> <span>apt</span> <span>install</span> iptables-persistent <span>-y</span>
+<span># 保存重载</span>
+<span>sudo</span> netfilter-persistent save
+<span>sudo</span> netfilter-persistent reload
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h3 id="或者安装使用-ufw-来设置防火墙" tabindex="-1"> 或者安装使用 UFW 来设置防火墙</h3>
+<p>安装</p>
+<div><pre><code><span>sudo</span> <span>apt</span> update
+<span>sudo</span> <span>apt</span> <span>install</span> ufw
+
+<span>#检查状态，默认是关闭</span>
+<span>sudo</span> ufw status verbose
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>UFW默认策略是关闭所有进来的连接，开启所有出去的连接，文件路径在：</p>
+<blockquote>
+<p>/etc/default/ufw</p>
+</blockquote>
+<p>允许一个端口</p>
+<div><pre><code><span>sudo</span> ufw allow <span>7722</span>/tcp
+</code></pre><div aria-hidden="true"><div></div></div></div><p>打开一段端口</p>
+<div><pre><code><span>sudo</span> ufw allow <span>7100</span>:7200/tcp
+<span>sudo</span> ufw allow <span>7100</span>:7200/udp
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>允许指定ip访问所有端口</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>10.10</span>.10.10
+</code></pre><div aria-hidden="true"><div></div></div></div><p>允许指定ip访问指定端口</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>64.63</span>.62.61 to any port <span>22</span>
+
+<span>sudo</span> ufw allow from <span>120.232</span>.65.223 to any port <span>5574,8080</span>,80,9080,443
+<span>sudo</span> ufw allow from <span>157.148</span>.45.20 to any port <span>5574,8080</span>,80,9080,443
+<span>sudo</span> ufw allow from <span>183.2</span>.143.163 to any port <span>5574,8080</span>,80,9080,443/tcp
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>允许整个网段</p>
+<div><pre><code><span>sudo</span> ufw allow from <span>192.168</span>.1.0/24 to any port <span>3306</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>禁止连接</p>
+<div><pre><code><span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>80</span>
+<span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>443</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>查看规则</p>
+<div><pre><code><span>sudo</span> ufw status numbered
+</code></pre><div aria-hidden="true"><div></div></div></div><p>删除规则</p>
+<div><pre><code><span>sudo</span> ufw delete <span>3</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><p>启动、关闭、重置</p>
+<div><pre><code><span>sudo</span> ufw <span>enable</span>
+<span>sudo</span> ufw disable
+<span>sudo</span> ufw reset
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="更换默认ssh端口" tabindex="-1"> 更换默认ssh端口</h3>
+<div><pre><code><span>#1.开启一个ssh端口</span>
+
+<span>vi</span> /etc/ssh/sshd_config
+
+<span>#把#Port 22</span>
+<span>#修改为</span>
+
+Port <span>22</span>
+Port <span>2222</span>
+
+<span>service</span> sshd restart
+
+<span>#防火墙开启2222端口（如果开启了selinux，记得一定要关闭）</span>
+
+<span>#去测试一下2222端口是否开启，这点很重要</span>
+
+<span>#2.设置方法一：只允许192.168.5.231访问</span>
+
+<span>#运行完下面这一行，你已经不能访问了，改用2222去设置下面一行</span>
+iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
+
+<span>#用2222端口去运行下面一行，运行完，22端口就可以使用</span>
+iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
+
+<span>#保存</span>
+<span>service</span> iptables save
+
+<span>#重启</span>
+<span>service</span> iptables restart
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables配置脚本" tabindex="-1"> iptables配置脚本</h3>
+<div><pre><code>#!/bin/sh
+
+# 先备份iptables规则
+mkdir /web/shell/iptables_bak
+cp /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
+
+# 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题
+service iptables stop
+
+# 禁止所有ip访问22端口
+iptables -I INPUT -p tcp --dport 22 -j DROP
+
+# 开放指定ip可以连接22端口
+iptables -A INPUT -i 127.0.0.1 -p tcp --dport 22 -j ACCEPT
+iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 22 -j ACCEPT
+
+# 允许部分出去的网络  			
+iptables -A OUTPUT -d 192.168.2.0/24,x.x.x.x,121.201.88.88,114.114.114.114 -j ACCEPT    
+   
+# 允许访问的外网
+iptables -A OUTPUT -d open.work.weixin.qq.com,v0.api.upyun.com,v1.api.upyun.com,v2.api.upyun.com,v3.api.upyun.com,graph.qq.com,apis.map.qq.com,api.weixin.qq.com,login.weixin.qq.com,wx.qq.com,api.weibo.com,js4.jobui.com,css4.jobui.com,m.jobui.com,www.jobui.com,apis.jobui.com -j ACCEPT
+
+
+#允许icmp包通过,也就是允许ping
+iptables -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+
+#本机对外请求相当于OUTPUT,对于返回数据包必须接收啊，这相当于INPUT了
+iptables -I INPUT -i lo -j ACCEPT
+iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# 禁用所有出去的网络
+iptables -P OUTPUT DROP
+
+# 保存iptbales规则
+service iptables save
+
+# 重新启动
+service iptables restart 
+
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables操作" tabindex="-1"> iptables操作</h3>
+<div><pre><code><span># 查看所有规则列表并打印编号</span>
+iptables <span>-L</span> <span>-n</span> --line-numbers
+
+<span># 删除一条规则</span>
+iptables <span>-D</span> INPUT <span>7</span>
+<span># 或</span>
+iptables <span>-D</span> OUTPUT <span>7</span>
+
+<span># 允许所有出口访问</span>
+<span>sudo</span> iptables <span>-A</span> OUTPUT <span>-j</span> ACCEPT
+
+<span>#允许所有入口访问</span>
+<span>sudo</span> iptables <span>-A</span> INPUT <span>-j</span> ACCEPT
+
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="更换ssh端口脚本" tabindex="-1"> 更换ssh端口脚本</h3>
+<div><pre><code><span>#!/bin/sh</span>
+
+<span># 先备份iptables规则</span>
+<span>mkdir</span> /web/shell/iptables_bak
+<span>cp</span> /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
+
+<span>sed</span> <span>-i</span> <span>"s|#Port 22|Port 22|g"</span> /etc/ssh/sshd_config
+
+<span># 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题</span>
+<span>#service iptables stop</span>
+
+<span># 禁止所有ip访问22端口</span>
+iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
+
+<span># 开放指定ip可以连接22端口</span>
+iptables <span>-A</span> INPUT <span>-i</span> <span>127.0</span>.0.1 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
+iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x,192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
+
+<span>service</span> iptables save
+<span>service</span> sshd restart
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
     <item>
       <title>Lnmp环境搭建</title>
       <link>https://doflam-z.github.io/linux/Debian10%20%20Lnmp%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html</link>
@@ -831,10 +1157,15 @@ stdout_logfile <span>=</span> /www/wwwroot/www.site.net/queue_MultiTask.log
 <div><pre><code><span>sudo</span> <span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span>
 </code></pre><div aria-hidden="true"><div></div></div></div><p>查看已删除文件进程</p>
 <div><pre><code><span>lsof</span> <span>|</span> <span>grep</span> deleted 
+</code></pre><div aria-hidden="true"><div></div></div></div><p>按进程名称分组统计进程</p>
+<div><pre><code><span>ps</span> <span>-eo</span> <span>comm</span><span>=</span> <span>|</span> <span>awk</span> <span>'{count[$1]++} END {for (name in count) print name ": " count[name] " processes"}'</span>
 </code></pre><div aria-hidden="true"><div></div></div></div><p>查看发行版</p>
-<div><pre><code>lsb_release <span>-a</span> 
-</code></pre><div aria-hidden="true"><div></div></div></div><p>查看cpu核心数</p>
-<div><pre><code>nproc
+<div><pre><code>lsb_release <span>-a</span>  <span># 这个命令将显示包括发行版本号、发行代号、发行说明等信息。</span>
+<span>cat</span> /etc/os-release		<span># 这个命令将显示操作系统的一些信息，包括发行版本和ID</span>
+<span>cat</span> /etc/issue		<span>#这 个命令将显示发行版本的信息。</span>
+<span>uname</span> <span>-a</span>		<span># 这个命令将显示有关内核和操作系统的信息，包括发行版本。</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><p>查看cpu核心数</p>
+<div><pre><code>nproc or lscpu
 </code></pre><div aria-hidden="true"><div></div></div></div><p>查看cpu型号 “| head -1”是只返回第一个</p>
 <div><pre><code><span>cat</span> /proc/cpuinfo <span>|</span><span>grep</span> <span>"model name"</span> <span>|</span> <span>head</span> <span>-1</span>
 </code></pre><div aria-hidden="true"><div></div></div></div><p>循环执行一条命令</p>
@@ -867,6 +1198,8 @@ ps -ef | grep rabbitmq| grep -v grep | cut -c 9-15 | xargs kill
 <div><pre><code>rpm -e --nodeps libcurl
 </code></pre><div aria-hidden="true"><div></div></div></div><p>搜索替换文件内容</p>
 <div><pre><code><span>sudo</span> <span>sed</span> <span>-i</span> <span>'s/track_errors = On/track_errors = Off/g'</span> /web/software/php-7.4.23/lib/php.ini
+</code></pre><div aria-hidden="true"><div></div></div></div><p>查找文件中指定内容，返回那一行</p>
+<div><pre><code><span>grep</span> <span>"oldSize:少于50,"</span> /tmp/updateCompanyErrorWorkerData_tmp3.log <span>></span> /tmp/updateCompanyErrorWorkerData_tmp3_tmp.log
 </code></pre><div aria-hidden="true"><div></div></div></div><p>统计文件夹大小（包含文件）</p>
 <div><pre><code><span>du</span> <span>-h</span> --max-depth<span>=</span><span>1</span> /mysql
 </code></pre><div aria-hidden="true"><div></div></div></div><p>统计当前目录文件按大小排序</p>
@@ -1192,552 +1525,6 @@ e2fsck <span>-f</span> <span>-y</span> /dev/mapper/VolGroup00-LogVol00
 <div><pre><code><span>composer</span> require topthink/think-multi-app 
 php think build adimn
 </code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>Debian10常用命令</title>
-      <link>https://doflam-z.github.io/linux/debian10.html</link>
-      <guid>https://doflam-z.github.io/linux/debian10.html</guid>
-      <source url="https://doflam-z.github.io/rss.xml">Debian10常用命令</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="debian10常用命令" tabindex="-1"> Debian10常用命令</h1>
-<h3 id="系统相关命令" tabindex="-1"> 系统相关命令</h3>
-<p>编辑网卡配置新增配置</p>
-<p>vim /etc/network/interfaces</p>
-<div><pre><code><span># This file describes the network interfaces available on your system</span>
-<span># and how to activate them. For more information, see interfaces(5).</span>
-
-<span>source</span> /etc/network/interfaces.d/*
-
-<span># The loopback network interface</span>
-
-auto lo
-iface lo inet loopback
-
-<span># The primary network interface</span>
-allow-hotplug eno1
-iface eno1 inet static
-        address <span>192.168</span>.100.123/24
-        gateway <span>192.168</span>.100.1
-        <span># dns-* options are implemented by the resolvconf package, if installed</span>
-        dns-nameservers <span>127.0</span>.0.1
-
-auto eno1:1
-iface eno1:1 inet static
-        address <span>192.168</span>.103.125
-        netmask <span>255.255</span>.255.0
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>启动新配置命令</p>
-<div><pre><code><span>ifup</span> eno1:1
-</code></pre><div aria-hidden="true"><div></div></div></div><div><pre><code><span>#重启网络</span>
-/etc/init.d/networking restart
-<span>#重启网络(防止配置出错断网)</span>
-<span>service</span> networking restart <span>&amp;&amp;</span> <span>ifup</span> enp2s0 
-<span>sudo</span> <span>ifup</span> enp3s0:0
-<span>sudo</span> <span>ifdown</span> enp3s0:0
-<span>#重启ssh</span>
-/etc/init.d/ssh restart
-
-<span>#安装sudo</span>
-<span>apt-get</span> <span>install</span> <span>sudo</span> <span>-y</span>
-<span>#将用户添加到sudo组</span>
-<span>usermod</span> <span>-aG</span> <span>sudo</span> z
-
-<span>#新建不允许登录用户</span>
-<span>useradd</span> <span>-s</span> /sbin/nologin jobui
-
-<span>#新建普通用户并创建home目录指定bash</span>
-<span>useradd</span> <span>-m</span> <span>-s</span> /bin/bash jobui
-
-<span>#debian未指定shell问题</span>
-<span>#使用usermod命令修改shell类型</span>
-<span>usermod</span> <span>-s</span> /bin/bash zax
-
-<span>#vbox虚拟机设置分辨率</span>
-cvt <span>1920</span> <span>1080</span>
-xrandr <span>--newmode</span> <span>"1920X1080_60.00"</span> <span>173.00</span>  <span>1920</span> <span>2048</span> <span>2248</span> <span>2576</span>  <span>1080</span> <span>1083</span> <span>1088</span> <span>1120</span> <span>-hsync</span> +vsync
-xrandr <span>--addmode</span> Virtual1 <span>"1920X1080_60.00"</span>
-xrandr <span>--output</span> Virtual1 <span>--mode</span> <span>"1920X1080_60.00"</span>
-
-<span>#将以上内容添加到/etc/profile文件</span>
-
-<span>#添加ll快捷命令</span>
-<span>vi</span> ~/.bashrc
-
-<span>#设置ssh开机启动</span>
-update-rc.d <span>ssh</span> <span>enable</span>
-
-<span>#禁止开机启动</span>
-update-rc.d <span>ssh</span> disabled
-
-<span>#安装im-config</span>
-<span>sudo</span> <span>apt</span> <span>install</span> im-config
-
-<span>#运行im-config，选择fcitx输入法</span>
-im-config <span>-c</span>
-
-<span>#解决依赖问题</span>
-<span>sudo</span> <span>apt</span> <span>install</span> <span>-f</span>
-
-<span>#查找dep包</span>
-<span>sudo</span> dpkg <span>-l</span> sog*
-
-<span>#搜索安装包</span>
-<span>sudo</span> <span>apt-cache</span> search openlda
-
-<span>#卸载</span>
-<span>sudo</span> dpkg <span>-P</span> sogopinyin
-
-<span>#挂载失败问题（ bad option; for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.&lt;type> helper program.）</span>
-<span>sudo</span> <span>apt</span> <span>install</span> nfs-common
-
-<span># vim不能复制</span>
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>配置apt软件源,更新sources.list</p>
-<div><pre><code><span>mv</span> /etc/apt/sources.list /etc/apt/sources.list.bak
-<span>cat</span> <span>></span> /etc/apt/sources.list <span>&lt;&lt;</span> <span>EOF
-deb http://mirrors.cloud.tencent.com/debian/ buster main non-free contrib
-deb http://mirrors.cloud.tencent.com/debian-security buster/updates main
-deb http://mirrors.cloud.tencent.com/debian/ buster-updates main non-free contrib
-deb http://mirrors.cloud.tencent.com/debian/ buster-backports main non-free contrib
-
-deb-src http://mirrors.cloud.tencent.com/debian-security buster/updates main
-deb-src http://mirrors.cloud.tencent.com/debian/ buster main non-free contrib
-deb-src http://mirrors.cloud.tencent.com/debian/ buster-updates main non-free contrib
-deb-src http://mirrors.cloud.tencent.com/debian/ buster-backports main non-free contrib
-EOF</span>
-
-<span>apt-get</span> update <span>-y</span>
-<span>apt-get</span> <span>install</span> <span>-y</span> <span>vim</span> <span>wget</span>
-
-<span>source</span> ~/.bashrce
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="修改时区为上海" tabindex="-1"> 修改时区为上海</h3>
-<div><pre><code><span>cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="安装zabbix" tabindex="-1"> 安装zabbix</h3>
-<div><pre><code><span>sudo</span> <span>wget</span> https://repo.mysql.com//mysql-apt-config_0.8.17-1_all.deb
-<span>sudo</span> dpkg <span>-i</span> mysql-apt-config_0.8.17-1_all.deb
-<span>sudo</span> <span>apt</span> update
-<span>sudo</span> <span>apt-get</span> <span>install</span> libmysqld-devecho libevent-dev libsnmp-dev libopenipmi-dev
-
-./configure <span>--prefix</span><span>=</span>/web/software/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-libcurl --with-libxml2 --with-mysql<span>=</span>/usr/bin/mysql_config
-
-<span>sudo</span> ./configure <span>--prefix</span><span>=</span>/web/software/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --with-openipmi --with-mysql<span>=</span>/usr/bin/mysql_config
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>安装zabbix时,出现报错Unsupported charset or collation for tables: ,应该是msyql创建zabbix数据库是,字符编码出现了问题,参考下列方法修复:
-1.删除原有的数据库. drop database zabbix;
-2.创建新的zabbix数据库,命令:create database zabbix character set utf8 collate utf8_bin;
-3.重新打入zabbix的数据库表内容;
-mysql -uroot -p123456 zabbix &lt; schema.sql
-mysql -uroot -p123456 zabbix &lt; images.sql
-mysql -uroot -p123456 zabbix &lt; data.sql
-4.然后重新进入zabbix GUI的web 安装界面就OK了</p>
-<div><pre><code><span>sudo</span> <span>chown</span> <span>-R</span> jobui:jobui /web/php/local/zabbix/
-<span>sudo</span> <span>chmod</span> <span>-R</span> <span>755</span> /web/php/local/zabbix/
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="debian10美化" tabindex="-1"> debian10美化</h3>
-<div><pre><code><span>#安装谷歌noto字体</span>
-<span>sudo</span> <span>apt</span> <span>install</span> fonts-noto-cjk
-<span>#安装依赖</span>
-<span>sudo</span> <span>apt</span> <span>install</span> <span>-y</span> gtk2-engines-murrine
-<span>#下载Orchis-theme主题</span>
-<span>sudo</span> <span>wget</span> https://github.com/vinceliuice/Orchis-theme/archive/refs/heads/master.zip
-<span>#下载图标</span>
-<span>sudo</span> <span>wget</span>  https://github.com/vinceliuice/Tela-icon-theme/archive/refs/heads/master.zip
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="安装deepin版微信" tabindex="-1"> 安装deepin版微信</h3>
-<div><pre><code><span>#!/bin/bash</span>
-<span>mkdir</span> ./deepintemp
-<span>cd</span> ./deepintemp
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine_2.18-22~rc0_all.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine32_2.18-22~rc0_i386.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-wine32-preloader_2.18-22~rc0_i386.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-helper/deepin-wine-helper_1.2deepin8_i386.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-plugin/deepin-wine-plugin_1.0deepin2_amd64.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-plugin-virtual/deepin-wine-plugin-virtual_1.0deepin3_all.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine-uninstaller/deepin-wine-uninstaller_0.1deepin2_i386.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/u/udis86/udis86_1.72-2_i386.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-fonts-wine_2.18-22~rc0_all.deb
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin-wine/deepin-libwine_2.18-22~rc0_i386.deb
-<span>wget</span> https://packages.deepin.com/deepin/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_1.5.1-2_amd64.deb --no-check-certificate
-<span>wget</span> https://packages.deepin.com/deepin/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_1.5.1-2_i386.deb --no-check-certificate
-<span>wget</span> http://packages.deepin.com/deepin/pool/non-free/d/deepin.com.wechat/deepin.com.wechat_2.6.8.65deepin0_i386.deb
-
-<span>echo</span> <span>'准备添加32位支持'</span>
-dpkg --add-architecture i386
-<span>echo</span> <span>'添加成功，准备刷新apt缓存信息...'</span>
-<span>apt</span> update
-<span>echo</span> <span>'即将开始安装...'</span>
-dpkg <span>-i</span> *.deb
-<span>echo</span> <span>'安装完成，正在自动安装依赖...'</span>
-<span>apt</span> <span>install</span> <span>-fy</span>
-dpkg <span>-i</span> deepin.com.wechat_2.6.8.65deepin0_i386.deb
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>中文问题，进入/opt/deepinwine/tools文件夹</p>
-<p>在run.sh 和 run_v2.sh 中修改为</p>
-<div><pre><code><span>#WINE_CMD="deepin-wine"改为下行</span>
-<span>WINE_CMD</span><span>=</span><span>"LC_ALL=zh_CN.UTF-8 deepin-wine"</span>
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="安装navicat" tabindex="-1"> 安装navicat</h3>
-<div><pre><code><span>wget</span> https://download3.navicat.com/download/navicat15-premium-en.AppImage --no-check-certificate
-<span>chmod</span> +x navicat15-premium-en.AppImage
-./navicat15-premium-en.AppImage
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>iptables</title>
-      <link>https://doflam-z.github.io/linux/iptables.html</link>
-      <guid>https://doflam-z.github.io/linux/iptables.html</guid>
-      <source url="https://doflam-z.github.io/rss.xml">iptables</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="iptables" tabindex="-1"> iptables</h1>
-<blockquote>
-<p>debian管理iptables需要用到iptables-persistent ，或者ufw</p>
-<p>通过iptables-persistent生成的规则默认将被存储在以下文件中</p>
-<p>/etc/iptables/rules.v4    /etc/iptables/rules.v6</p>
-</blockquote>
-<h3 id="安装iptables-persistent来使用iptables命令" tabindex="-1"> 安装iptables-persistent来使用iptables命令</h3>
-<div><pre><code><span>sudo</span> <span>apt</span> <span>install</span> iptables-persistent <span>-y</span>
-<span># 保存重载</span>
-<span>sudo</span> netfilter-persistent save
-<span>sudo</span> netfilter-persistent reload
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h3 id="或者安装使用-ufw-来设置防火墙" tabindex="-1"> 或者安装使用 UFW 来设置防火墙</h3>
-<p>安装</p>
-<div><pre><code><span>sudo</span> <span>apt</span> update
-<span>sudo</span> <span>apt</span> <span>install</span> ufw
-
-<span>#检查状态，默认是关闭</span>
-<span>sudo</span> ufw status verbose
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>UFW默认策略是关闭所有进来的连接，开启所有出去的连接，文件路径在：</p>
-<blockquote>
-<p>/etc/default/ufw</p>
-</blockquote>
-<p>允许一个端口</p>
-<div><pre><code><span>sudo</span> ufw allow <span>7722</span>/tcp
-</code></pre><div aria-hidden="true"><div></div></div></div><p>打开一段端口</p>
-<div><pre><code><span>sudo</span> ufw allow <span>7100</span>:7200/tcp
-<span>sudo</span> ufw allow <span>7100</span>:7200/udp
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>允许指定ip访问所有端口</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>10.10</span>.10.10
-</code></pre><div aria-hidden="true"><div></div></div></div><p>允许指定ip访问指定端口</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>64.63</span>.62.61 to any port <span>22</span>
-
-<span>sudo</span> ufw allow from <span>120.232</span>.65.223 to any port <span>5574,8080</span>,80,9080,443
-<span>sudo</span> ufw allow from <span>157.148</span>.45.20 to any port <span>5574,8080</span>,80,9080,443
-<span>sudo</span> ufw allow from <span>183.2</span>.143.163 to any port <span>5574,8080</span>,80,9080,443/tcp
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>允许整个网段</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>192.168</span>.1.0/24 to any port <span>3306</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><p>禁止连接</p>
-<div><pre><code><span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>80</span>
-<span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>443</span>
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>查看规则</p>
-<div><pre><code><span>sudo</span> ufw status numbered
-</code></pre><div aria-hidden="true"><div></div></div></div><p>删除规则</p>
-<div><pre><code><span>sudo</span> ufw delete <span>3</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><p>启动、关闭、重置</p>
-<div><pre><code><span>sudo</span> ufw <span>enable</span>
-<span>sudo</span> ufw disable
-<span>sudo</span> ufw reset
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="更换默认ssh端口" tabindex="-1"> 更换默认ssh端口</h3>
-<div><pre><code><span>#1.开启一个ssh端口</span>
-
-<span>vi</span> /etc/ssh/sshd_config
-
-<span>#把#Port 22</span>
-<span>#修改为</span>
-
-Port <span>22</span>
-Port <span>2222</span>
-
-<span>service</span> sshd restart
-
-<span>#防火墙开启2222端口（如果开启了selinux，记得一定要关闭）</span>
-
-<span>#去测试一下2222端口是否开启，这点很重要</span>
-
-<span>#2.设置方法一：只允许192.168.5.231访问</span>
-
-<span>#运行完下面这一行，你已经不能访问了，改用2222去设置下面一行</span>
-iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
-
-<span>#用2222端口去运行下面一行，运行完，22端口就可以使用</span>
-iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
-
-<span>#保存</span>
-<span>service</span> iptables save
-
-<span>#重启</span>
-<span>service</span> iptables restart
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables配置脚本" tabindex="-1"> iptables配置脚本</h3>
-<div><pre><code>#!/bin/sh
-
-# 先备份iptables规则
-mkdir /web/shell/iptables_bak
-cp /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
-
-# 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题
-service iptables stop
-
-# 禁止所有ip访问22端口
-iptables -I INPUT -p tcp --dport 22 -j DROP
-
-# 开放指定ip可以连接22端口
-iptables -A INPUT -i 127.0.0.1 -p tcp --dport 22 -j ACCEPT
-iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 22 -j ACCEPT
-
-# 允许部分出去的网络  			
-iptables -A OUTPUT -d 192.168.2.0/24,x.x.x.x,121.201.88.88,114.114.114.114 -j ACCEPT    
-   
-# 允许访问的外网
-iptables -A OUTPUT -d open.work.weixin.qq.com,v0.api.upyun.com,v1.api.upyun.com,v2.api.upyun.com,v3.api.upyun.com,graph.qq.com,apis.map.qq.com,api.weixin.qq.com,login.weixin.qq.com,wx.qq.com,api.weibo.com,js4.jobui.com,css4.jobui.com,m.jobui.com,www.jobui.com,apis.jobui.com -j ACCEPT
-
-
-#允许icmp包通过,也就是允许ping
-iptables -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
-
-#本机对外请求相当于OUTPUT,对于返回数据包必须接收啊，这相当于INPUT了
-iptables -I INPUT -i lo -j ACCEPT
-iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-
-# 禁用所有出去的网络
-iptables -P OUTPUT DROP
-
-# 保存iptbales规则
-service iptables save
-
-# 重新启动
-service iptables restart 
-
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables操作" tabindex="-1"> iptables操作</h3>
-<div><pre><code><span># 查看所有规则列表并打印编号</span>
-iptables <span>-L</span> <span>-n</span> --line-numbers
-
-<span># 删除一条规则</span>
-iptables <span>-D</span> INPUT <span>7</span>
-<span># 或</span>
-iptables <span>-D</span> OUTPUT <span>7</span>
-
-<span># 允许所有出口访问</span>
-<span>sudo</span> iptables <span>-A</span> OUTPUT <span>-j</span> ACCEPT
-
-<span>#允许所有入口访问</span>
-<span>sudo</span> iptables <span>-A</span> INPUT <span>-j</span> ACCEPT
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="更换ssh端口脚本" tabindex="-1"> 更换ssh端口脚本</h3>
-<div><pre><code><span>#!/bin/sh</span>
-
-<span># 先备份iptables规则</span>
-<span>mkdir</span> /web/shell/iptables_bak
-<span>cp</span> /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
-
-<span>sed</span> <span>-i</span> <span>"s|#Port 22|Port 22|g"</span> /etc/ssh/sshd_config
-
-<span># 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题</span>
-<span>#service iptables stop</span>
-
-<span># 禁止所有ip访问22端口</span>
-iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
-
-<span># 开放指定ip可以连接22端口</span>
-iptables <span>-A</span> INPUT <span>-i</span> <span>127.0</span>.0.1 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
-iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x,192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
-
-<span>service</span> iptables save
-<span>service</span> sshd restart
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>ElasticSearch</title>
-      <link>https://doflam-z.github.io/services/ElasticSearch.html</link>
-      <guid>https://doflam-z.github.io/services/ElasticSearch.html</guid>
-      <source url="https://doflam-z.github.io/rss.xml">ElasticSearch</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="elasticsearch" tabindex="-1"> ElasticSearch</h1>
-<p>搜索</p>
-<div><pre><code>GET _search
-{
-  "query": {
-    "match": {
-      "_index" : "jobui_interview_v1"
-    }
-  },
-  "size" : 100
-}
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>查看所有索引</p>
-<div><pre><code>GET /_cat/indices?v	
-GET _cat/indices?v&amp;s=store.size:desc//按大小倒叙
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>新建索引映射</p>
-<div><pre><code> PUT /jobui_interview_v1/external/1?pretty
-{
-  "name": "John Doe"
-}
-
-GET /jobui_company_album/_mapping?pretty
-
-PUT jobui_interview_v1
-{
-	"mappings":{
-		"interview":{
-			"_all": {
-				"enabled": false
-			},
-			"properties":{
-				"CIE_ID": {
-					"type": "integer"
-				},
-				"CIE_CompanyID": {
-					"type": "integer"
-				},
-				"CIE_PositionID": {
-					"type": "integer"
-				},
-				"CIE_PositionName": {
-					"type": "text",
-					"analyzer": "ik_smart",
-					"include_in_all": true
-				},
-				"CIE_CompanyName": {
-					"type": "text",
-					"analyzer": "ik_smart",
-					"include_in_all": true
-				},
-				"CIE_UserKey": {
-					"type": "text",
-					"analyzer": "ik_smart",
-					"include_in_all": true
-				},
-				"CIE_UserIP": {
-					"type": "text",
-					"analyzer": "ik_smart",
-					"include_in_all": true
-				},
-				"CIE_UsefulNum": {
-					"type": "integer"
-				},
-				"CIE_NotUsefulNum": {
-					"type": "integer"
-				},
-				"CIE_IsNick": {
-					"type": "text",
-					"analyzer": "ik_smart",
-					"include_in_all": true
-				},
-				"CIE_CheckStatus": {
-					"type": "text",
-					"analyzer": "ik_smart",
-					"include_in_all": true
-				},
-				"CIE_Content": {
-					"type": "text",
-					"analyzer": "ik_smart",
-					"include_in_all": true
-				},
-				"CIE_ClientType": {
-					"type": "text",
-					"analyzer": "ik_smart",
-					"include_in_all": true
-				},
-				"CIE_AddTime": {
-					"type": "long"
-				},
-				"CIE_LastCheckTime": {
-					"type": "long"
-				},
-				"CIE_LastUpdateTime": {
-					"type": "long"
-				},
-				"lt": {
-					"type": "long"
-				}
-			}
-		}
-	},
-	"settings": {
-		"number_of_shards" :   1,
-		"number_of_replicas" : 1
-	}
-}
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>设置别名</p>
-<div><pre><code>PUT /jobui_interview_v1/_alias/jobui_interview
-</code></pre><div aria-hidden="true"><div></div></div></div><p>设置别名
-PUT /jobui_interview_v1/_alias/jobui_interview</p>
-<p>差看映射信息</p>
-<div><pre><code>GET /jobui_interview_v1/_mapping?pretty
-</code></pre><div aria-hidden="true"><div></div></div></div><p>#查看索引内容</p>
-<div><pre><code>GET jobui_interview_v1
-</code></pre><div aria-hidden="true"><div></div></div></div><p>删除索引</p>
-<div><pre><code>DELETE jobui_interview_v1
-</code></pre><div aria-hidden="true"><div></div></div></div><p>查看单个文档</p>
-<div><pre><code>GET jobui_company_job_v1/job/9650100?pretty
-</code></pre><div aria-hidden="true"><div></div></div></div><p>查询内容</p>
-<div><pre><code>POST /jobui_company_job_v1/_search?pretty
-{
-
-  "query": { "match": { "SPI_CompanyCity": "上海" } }
-
-}
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>查看集群</p>
-<div><pre><code>GET _cluster/health?pretty
-</code></pre><div aria-hidden="true"><div></div></div></div><div><pre><code><span>#查看数据（shell）</span>
-
-<span>#查看所有索引（按大小倒序）</span>
-<span>curl</span> <span>-XGET</span> <span>'http://192.168.2.135:9200/_cat/indices?v&amp;s=store.size:desc'</span>
-
-<span>#删除索引</span>
-<span>curl</span> <span>-XDELETE</span> <span>'http://192.168.2.135:9200/nginx_apis-access-2021.08.31?pretty'</span>
-
-<span>#查看索引mapping</span>
-<span>curl</span> <span>"192.168.1.74:9200/索引名称/_mapping"</span>
-
-<span>#查看单个文档</span>
-<span>curl</span> <span>-XGET</span> <span>'localhost:9200/索引名称/类型/ID?pretty'</span>
-
-<span>#创建文档</span>
-<span>curl</span> <span>-XPUT</span> <span>'localhost:9200/customer/external/1?pretty'</span> <span>-d</span> <span>'
-{
-  "name": "John Doe"
-}'</span>
-
-<span>#查询文档内容</span>
-<span>curl</span> <span>-XPOST</span> <span>'localhost:9200/bank/_search?pretty'</span> <span>-d</span> <span>'
-{
-  "query": { "match": { "address": "mill" } }
-}'</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h2 id="es-kibana部署" tabindex="-1"> es+kibana部署</h2>
-<p><strong>基础环境：jdk8</strong></p>
-<h4 id="安装jdk" tabindex="-1"> 安装jdk</h4>
-<p>下载jdk包</p>
-<div><pre><code><span>mkdir</span> <span>-p</span> /usr/local/java 
-<span>cd</span> /usr/local/java 
-<span>wget</span> https://download.oracle.com/otn/java/jdk/8u321-b07/df5ad55fdd604472a86a45a217032c7d/jdk-8u321-linux-x64.tar.gz?AuthParam<span>=</span>1647915953_6b486a8019a80931d2b2bdca8b505d6a
-<span>tar</span> zxvf jdk-8u321-linux-x64.tar.gz <span>-C</span> /usr/local/java
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h4 id="配置jdk环境变量" tabindex="-1"> 配置jdk环境变量</h4>
-<div><pre><code><span>vim</span> /etc/profile
-<span>#添加</span>
-<span>JAVA_HOME</span><span>=</span>/usr/local/java/jdk1.8.0_311/
-<span>export</span> <span>CLASSPATH</span><span>=</span>$:CLASSPATH:<span>$JAVA_HOME</span>/lib/ 
-<span>export</span> <span><span>PATH</span></span><span>=</span><span>$PATH</span><span>:</span><span>$JAVA_HOME</span>/bin 
-
-<span>#加载文件生效</span>
-<span>source</span> /etc/profile
-<span>#查看版本</span>
-<span>java</span> <span>-version</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="安装elasticsearch5-6" tabindex="-1"> 安装elasticsearch5.6</h4>
-<div><pre><code><span>wget</span> https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.16.tar.gz
-sha1sum elasticsearch-5.6.16.tar.gz 
-<span>tar</span> <span>-xzf</span> elasticsearch-5.6.16.tar.gz
-
-<span>#后台启动并记录pid</span>
-<span>cd</span> elasticsearch-5.6.16/ 
-./bin/elasticsearch <span>-p</span> /mysql/elasticsearch/elasticsearch-pid <span>-d</span>
-
-<span>#连接测试</span>
-<span>curl</span> <span>-XGET</span> <span>192.168</span>.1.36:9200
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="安装kibana5-6" tabindex="-1"> 安装kibana5.6</h4>
-<div><pre><code><span>wget</span> https://artifacts.elastic.co/downloads/kibana/kibana-5.6.16-linux-x86_64.tar.gz
-sha1sum kibana-5.6.16-linux-x86_64.tar.gz 
-<span>tar</span> <span>-xzf</span> kibana-5.6.16-linux-x86_64.tar.gz
-<span>cd</span> kibana-5.6.16-linux-x86_64/ 
-
-<span>#后台启动</span>
-./bin/kibana <span>>></span> /mysql/elasticsearch/kibana.stdout <span><span>2</span>>></span> /mysql/elasticsearch/kibana.stderr <span>&amp;</span>
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>
