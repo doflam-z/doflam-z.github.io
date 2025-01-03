@@ -6,8 +6,8 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Mon, 26 Feb 2024 10:10:23 GMT</pubDate>
-    <lastBuildDate>Mon, 26 Feb 2024 10:10:23 GMT</lastBuildDate>
+    <pubDate>Fri, 03 Jan 2025 03:07:12 GMT</pubDate>
+    <lastBuildDate>Fri, 03 Jan 2025 03:07:12 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -105,7 +105,14 @@ iptables <span>-L</span> <span>-n</span>                 <span>##查看规则，
 <blockquote>
 <p>CentOS 7.0默认使用的是firewall作为防火墙，使用iptables必须重新设置一下</p>
 </blockquote>
-<p>1、直接关闭firewalld防火墙</p>
+<h3 id="常用规则" tabindex="-1"> 常用规则</h3>
+<p>先拒绝所有，再开放一个端口给指定ip或者地址段</p>
+<div><pre><code><span>sudo</span> iptables <span>-P</span> INPUT DROP
+<span>sudo</span> iptables <span>-I</span> INPUT <span>-s</span> <span>14.23</span>.97.250/192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>保存规则、恢复规则</p>
+<div><pre><code><span>sudo</span> iptables-save <span>></span> /etc/iptables/rules.v4
+<span>sudo</span> iptables-restore <span>&lt;</span> /etc/iptables/rules.v4
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>1、直接关闭firewalld防火墙</p>
 <div><pre><code>systemctl stop firewalld.service      <span>#停止firewall</span>
 systemctl disable firewalld.service   <span>#禁止firewall开机启动</span>
 </code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>2、设置 iptables service</p>
@@ -755,7 +762,52 @@ proc_num
 <span>then</span>
 <span>.</span> /web/java/JobuiBatch/s_jobTop.sh
 <span>fi</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="检查修复mysql表脚本" tabindex="-1"> 检查修复mysql表脚本</h3>
+<h4 id="遍历整个库" tabindex="-1"> 遍历整个库</h4>
+<div><pre><code><span>#!/bin/bash</span>
+<span>host_name</span><span>=</span><span>127.0</span>.0.1
+<span>user_name</span><span>=</span>user
+<span>user_pwd</span><span>=</span><span>123</span>
+<span>database</span><span>=</span>tablename
+<span>need_optmize_table</span><span>=</span>true
+<span>tables</span><span>=</span><span><span>$(</span>/web/software/mysql/bin/mysql -h$host_name <span>-P3306</span> -u$user_name -p$user_pwd $database <span>-A</span> <span>-Bse</span> <span>"show tables"</span><span>)</span></span>
+<span>for</span> <span>table_name</span> <span>in</span> <span>$tables</span>
+<span>do</span>
+ <span>check_result</span><span>=</span><span><span>$(</span>mysql -h$host_name -u$user_name -p$user_pwd $database <span>-A</span> <span>-Bse</span> <span>"check table <span>$table_name</span>"</span> <span>|</span> <span>awk</span> <span>'{ print $4 }'</span><span>)</span></span>
+ <span>if</span> <span>[</span> <span>"<span>$check_result</span>"</span> <span>=</span> <span>"OK"</span> <span>]</span>
+ <span>then</span>
+  <span>echo</span> <span>"It's no need to repair table <span>$table_name</span>"</span>
+ <span>else</span>
+  <span>echo</span> <span><span>$(</span>/web/software/mysql/bin/mysql -h$host_name <span>-P3306</span> -u$user_name -p$user_pwd $database <span>-A</span> <span>-Bse</span> <span>"repair table <span>$table_name</span>"</span><span>)</span></span>
+ <span>fi</span>
+<span>done</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="指定前缀遍历" tabindex="-1"> 指定前缀遍历</h4>
+<div><pre><code><span>#!/bin/bash</span>
+<span>host_name</span><span>=</span><span>127.0</span>.0.1
+<span>user_name</span><span>=</span>root
+<span>user_pwd</span><span>=</span>baicai09mysql<span>#</span>
+<span>database</span><span>=</span>jobui_snatch_position
+<span>need_optmize_table</span><span>=</span>true
+
+<span># 定义要搜索的前缀</span>
+<span>prefix</span><span>=</span><span>"tb_snatch_position_status_"</span>
+
+<span># 初始化表名数组</span>
+<span>table_names</span><span>=</span><span>(</span><span>)</span>
+
+<span># 使用循环遍历00-99的后缀</span>
+<span>for</span> <span>i</span> <span>in</span> <span>{</span>00<span>..</span><span>99</span><span>}</span><span>;</span> <span>do</span>
+    <span># 构建表名</span>
+    <span>table_name</span><span>=</span><span>"<span>${prefix}</span><span>${i}</span>"</span>
+     <span>check_result</span><span>=</span><span><span>$(</span>mysql -h$host_name -u$user_name -p$user_pwd $database <span>-A</span> <span>-Bse</span> <span>"check table <span>$table_name</span>"</span> <span>|</span> <span>awk</span> <span>'{ print $4 }'</span><span>)</span></span>
+     <span>if</span> <span>[</span> <span>"<span>$check_result</span>"</span> <span>=</span> <span>"OK"</span> <span>]</span>
+     <span>then</span>
+      <span>echo</span> <span>"It's no need to repair table <span>$table_name</span>"</span>
+     <span>else</span>
+      <span>echo</span> <span><span>$(</span>/web/software/mysql/bin/mysql -h$host_name <span>-P3306</span> -u$user_name -p$user_pwd $database <span>-A</span> <span>-Bse</span> <span>"repair table <span>$table_name</span>"</span><span>)</span></span>
+     <span>fi</span>
+<span>done</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
     </item>
     <item>
       <title>本地生成自签泛域名证书</title>
@@ -1438,7 +1490,13 @@ w
 
 <span># 查看硬盘型号</span>
 hdparm <span>-i</span> /dev/hda
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="创建lvm磁盘" tabindex="-1"> 创建LVM磁盘</h3>
+
+<span>#关闭swap分区</span>
+<span># 永久</span>
+<span>sed</span> <span>-ri</span> <span>'s/.*swap.*/#&amp;/'</span> /etc/fstab
+<span># 临时</span>
+swapoff <span>-a</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="创建lvm磁盘" tabindex="-1"> 创建LVM磁盘</h3>
 <div><pre><code><span>#将硬盘添加到pv分区</span>
 <span>sudo</span> pvcreate /dev/sda
 <span>sudo</span> pvcreate /dev/sdb
@@ -1483,48 +1541,6 @@ lvm lvs
 e2fsck <span>-f</span> <span>-y</span> /dev/mapper/VolGroup00-LogVol00
 
 </code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
-    </item>
-    <item>
-      <title>tp6笔记</title>
-      <link>https://doflam-z.github.io/code/tp6.html</link>
-      <guid>https://doflam-z.github.io/code/tp6.html</guid>
-      <source url="https://doflam-z.github.io/rss.xml">tp6笔记</source>
-      <pubDate>Thu, 25 Aug 2022 09:01:21 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="tp6笔记" tabindex="-1"> tp6笔记</h1>
-<h3 id="安装" tabindex="-1"> 安装</h3>
-<p>先安装composer</p>
-<div><pre><code><span>curl</span> <span>-sS</span> https://getcomposer.org/installer <span>|</span> php
-<span>mv</span> composer.phar /usr/local/bin/composer
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>安装项目</p>
-<div><pre><code><span>composer</span> create-project topthink/think tp
-</code></pre><div aria-hidden="true"><div></div></div></div><p>测试运行</p>
-<div><pre><code>php think run
-</code></pre><div aria-hidden="true"><div></div></div></div><p>安装扩展</p>
-<div><pre><code><span>composer</span> require topthink/think-migration
-</code></pre><div aria-hidden="true"><div></div></div></div><p>创建文件</p>
-<div><pre><code>php think migrate:create ArticleTable
-</code></pre><div aria-hidden="true"><div></div></div></div><p>进入database目录修改代码</p>
-<div><pre><code>public <span>function</span> <span>change</span><span>(</span><span>)</span>
-<span>{</span>
-    // create the table
-    <span>$table</span>  <span>=</span>  <span>$this</span>-<span>></span>table<span>(</span><span>'article'</span><span>)</span><span>;</span>
-    <span>$table</span>-<span>></span>addColumn<span>(</span><span>'title'</span>, <span>'string'</span>, <span>[</span><span>'comment'</span> <span>=</span><span>></span> <span>'文章标题'</span><span>]</span><span>)</span>
-    -<span>></span>addColumn<span>(</span><span>'body'</span>, <span>'text'</span>, <span>[</span><span>'comment'</span> <span>=</span><span>></span> <span>'文章内容'</span><span>]</span><span>)</span>
-    -<span>></span>addTimestamps<span>(</span><span>)</span>
-    -<span>></span>create<span>(</span><span>)</span><span>;</span>
-<span>}</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>运行建表</p>
-<div><pre><code>php think migrate:run
-</code></pre><div aria-hidden="true"><div></div></div></div><p>生成控制器、模型</p>
-<div><pre><code> php think make:controller index@Demo 
- php think make:model Demo
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>安装包</p>
-<div><pre><code>composer install --ignore-platform-reqs
-</code></pre><div aria-hidden="true"><div></div></div></div><h4 id="多应用" tabindex="-1"> 多应用</h4>
-<p>安装多应用扩展，创建应用目录</p>
-<div><pre><code><span>composer</span> require topthink/think-multi-app 
-php think build adimn
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>
