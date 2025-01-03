@@ -236,8 +236,7 @@ docker pull doflamingozzz/php7.4:1.0
 安装compaose
 
 ```shell
-sudo curl -L "https://github.com/docker/compose/releases/download/2.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
-sudo curl -L "https://gitee.com/JavaLionLi/resources/blob/master/docker-compose-linux-x86_64_2.9.0" -o /usr/bin/docker-compose
+https://github.com/docker/compose/releases/download/v2.28.0/docker-compose-linux-x86_64
 chmod +x /usr/bin/docker-compose
 docker-compose --version
 ```
@@ -384,4 +383,27 @@ docker run --name mysql-5.5.57 -d -p 3306:3306 -v /mysql/docker/mysql-5.5.57/con
 
 
 ### 删除缓存 
-docker system prune -a --force
+```shell
+shelldocker system prune -a --force
+```
+
+### 查看磁盘占用情况及处理
+
+> 找到占用磁盘的容器后，处理删除数据后重启容器，还需要把卷删除才会释放磁盘空间
+
+```shell
+docker system df -v
+```
+
+根据卷名定位容器
+
+```shell
+docker ps -a --filter volume=278bcef3b560aa391ae2dec32b4713bcc8dc7662207c7ec02265831542f08124
+```
+
+删除无用卷
+
+```
+docker volume prune
+```
+

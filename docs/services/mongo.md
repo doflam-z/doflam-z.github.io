@@ -1,5 +1,32 @@
 # mongo
 
+### docker创建mongo集群
+
+```yaml
+version: '3.1'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    restart: always
+    ports:
+      - 14000:27017
+    volumes:
+      - ./data/db:/data/db
+      - ./logs/mongo:/var/log/mongodb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "3"
+    environment:
+      MONGO_INITDB_REPLSET: jobui_mongodb
+      TZ: Asia/Shanghai
+    command: ["--replSet", "jobui_mongodb", "--logpath", "/var/log/mongodb/mongo.log"]
+```
+
 ### 服务配置
 
 #### 配置复制集
@@ -17,6 +44,13 @@ db.serverStatus()
 # 查看集群状态
 >rs.status()
 
+# 报错解决：MongoServerError[NewReplicaSetConfigurationIncompatible]: Reconfig attempted to install a config that would change the implicit default write concern. Use the setDefaultRWConcern command to set a cluster-wide write concern and try the reconfig again.
+db.adminCommand({
+  "setDefaultRWConcern" : 1,
+  "defaultWriteConcern" : {
+    "w" : 2
+  }
+})
 >rs.add({host:'hostname:12000'})(添加一个复制集)
 >rs.addArb("hostnamet:30000")(添加一个投票节点)
 >rs.remove("hostname:30000")(删除节点)
@@ -137,6 +171,9 @@ show tables
 #切换到数据库
 `use test`
 
+#删除数据库
+`db.dropDatabase()`
+
 #创建集合
 `db.createCollection("runoob")`
 
@@ -167,12 +204,14 @@ db.getCollection('userTmp_202110').createIndex({'u': 1, 'd': -1}, {unique: true}
 
 ```shell
 mongodump -h 192.168.1.35:12000 -d jobui_tmp -o /ssd_data/mongobackups/
+or
+docker exec -it mongodb_12000 /usr/local/mongodb-3.0.7/bin/mongodump --host 192.168.2.135 --port 12000 --db jobui_syscache --out bak/
 ```
 
 ### 导入数据
 
 ```shell
-
+docker exec -it mongodb_12000 /usr/local/mongodb-3.0.7/bin/mongorestore --host 192.168.2.135 --port 12000 --db jobui_syscache bak/
 ```
 
 ### 新增子文档

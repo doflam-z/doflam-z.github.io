@@ -216,13 +216,13 @@ redis-cli --cluster add-node 192.168.2.137:6851 192.168.2.145:6850 --cluster-sla
 #--cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c,主节点的node id
 #192.168.2.134:6851,新节点
 #192.168.2.145:6850集群任一个主节点
-/web/software/redis-5.0.14/src/redis-cli --cluster create 192.168.2.132:6479 192.168.2.134:6479 192.168.2.136:6479
+/web/software/redis-5.0.14/src/redis-cli --cluster create 192.168.2.132:6479 192.168.2.134:6479 192.168.2.132:6479
 
 redis-cli --cluster add-node 192.168.2.134:6480 192.168.2.136:6479 --cluster-slave --cluster-master-id 6a34fa539b164fe663ca12a724822d08c7c0f6f3
 
 redis-cli --cluster add-node 192.168.2.132:6480 192.168.2.134:6479 --cluster-slave --cluster-master-id a9ed411292adf64475578ab1c48287c3d87e0a34
 
-redis-cli --cluster add-node 192.168.2.136:6480 192.168.2.132:6479 --cluster-slave --cluster-master-id 0d66542f221897a18f8ad8736384327b542ae9fa
+redis-cli --cluster add-node 192.168.2.138:6479 192.168.2.132:6479 --cluster-slave --cluster-master-id aac6c992fdef7000b40d8700cab7d818598ff14b
 ```
 
 添加后查看下节点如下，四主四从配置成功
@@ -248,7 +248,8 @@ d4771a0b28c54652673c624216d3e08ba0cfe678 192.168.2.137:6851@16851 slave 0e6a6ce1
 3. CLUSTER MEET <ip> <port> 将 ip 和 port 所指定的节点添加到集群当中，让它成为集群的一份子。 
 4. CLUSTER FORGET <node_id> 从集群中移除 node_id 指定的节点。 
 5. CLUSTER REPLICATE <node_id> 将当前节点设置为 node_id 指定的节点的从节点。 
-6. CLUSTER SAVECONFIG 将节点的配置文件保存到硬盘里面。  
+6. CLUSTER SAVECONFIG 将节点的配置文件保存到硬盘里面。
+7. CLUSTER FAILOVER 在从节点登陆，将当前节点提升为主节点（主从手动切换）
 
 #槽(slot) 
 1. CLUSTER ADDSLOTS <slot> [slot ...] 将一个或多个槽（slot）指派（assign）给当前节点。 
@@ -300,14 +301,21 @@ redis-cli --cluster add-node 192.168.2.134:6850 192.168.2.136:6850
 添加从节点
 
 ```shell
-redis-cli --cluster add-node 192.168.2.134:6851 192.168.2.145:6850 --cluster-slave --cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c
+redis-cli --cluster add-node 192.168.2.138:6479 192.168.2.135:6479 --cluster-slave --cluster-master-id aac6c992fdef7000b40d8700cab7d818598ff14b
 
-redis-cli --cluster add-node 192.168.2.133:8000 192.168.2.132:6479 --cluster-slave --cluster-master-id 5122774e066f580c9a3909ff5911026a8d611004
+redis-cli --cluster add-node 192.168.2.134:6479 192.168.2.132:6479 --cluster-slave --cluster-master-id aac6c992fdef7000b40d8700cab7d818598ff14b
 #注释：
 #--cluster-slave，表示添加的是从节点
 #--cluster-master-id 9dc220f824f1e8a244721f7dac186d0ea3bf743c,主节点的node id
 #192.168.2.134:6851,新节点
 #192.168.2.145:6850集群任一个旧节点
+```
+
+主从切换，提升从节点为主节点
+
+```shell
+# 连接到从节点 redis-cli -h 192.168.2.132 -p 6480
+CLUSTER FAILOVER TAKEOVER
 ```
 
 

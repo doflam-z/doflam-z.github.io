@@ -444,6 +444,12 @@ sudo dd if=/jobui/tempfile of=/dev/null bs=1M count=1024
 
 # 查看硬盘型号
 hdparm -i /dev/hda
+
+#关闭swap分区
+# 永久
+sed -ri 's/.*swap.*/#&/' /etc/fstab
+# 临时
+swapoff -a
 ```
 
 ### 创建LVM磁盘
