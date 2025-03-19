@@ -79,13 +79,13 @@ systemctl start docker
 systemctl enable docker
 ```
 
-### 更换阿里云镜像加速
+### 更换镜像加速
 
 ```shell
 mkdir -p /etc/docker
 tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": ["https://ang77htx.mirror.aliyuncs.com"]
+  "registry-mirrors": ["https://zany-docker.pages.dev"]
 }
 EOF
 systemctl daemon-reload

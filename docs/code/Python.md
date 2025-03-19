@@ -161,3 +161,10 @@ class CompanyProfile(Document):
 ##如果有主键字段，则主键字段不能设置为AutoField类型，会导致插入语句异常
 ```
 
+### PIP导出、安装依赖
+
+```bash
+pip freeze > requirements.txt
+pip install -r requirements.txt
+```
+

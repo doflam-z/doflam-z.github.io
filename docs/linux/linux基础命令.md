@@ -277,7 +277,7 @@ ls -lR| grep "^-" | wc -l
 ls -lR | grep "^d" | wc -l
 ```
 
-### vim
+## vim
 
 > Vim中如何全选并复制？（区分大小写！！！）
 >
@@ -302,7 +302,7 @@ ls -lR | grep "^d" | wc -l
 >
 > 1.按ctrl+v，上下键选中后注释符号后按d
 
-### ssh
+## ssh
 
 ```shell
 #生成本机密钥
@@ -354,7 +354,9 @@ sudo ssh -Q cipher
 
 
 
-### linux 用 grep 查找单个或多个字符串（关键字)
+## grep
+
+ 查找单个或多个字符串（关键字)
 
 单个字符串进行查找：
 
@@ -395,13 +397,13 @@ grep -v "^#" /etc/ssh/sshd_config	#不匹配#开头的行
 egrep -v "^#|^$" /etc/ssh/sshd_config
 ```
 
-### 查看实时网速
+## 查看实时网速
 
 ```shell
 watch -n 1 "/sbin/ifconfig eth1 | grep bytes"
 ```
 
-### 磁盘相关命令
+## 磁盘相关命令
 
 ```shell
 #查看磁盘信息
@@ -498,5 +500,150 @@ lvm lvs
 最后使用e2fsck命令修复一下LVM磁盘：
 e2fsck -f -y /dev/mapper/VolGroup00-LogVol00
 
+```
+
+## rsync
+
+`rsync` 是一个非常强大的文件同步工具，支持本地和远程文件同步。以下是常用参数的详细说明：
+
+---
+
+### 1. **基本参数**
+| 参数                  | 说明                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| `-a` 或 `--archive`   | 归档模式，等价于 `-rlptgoD`，保留文件属性（权限、时间戳等）。 |
+| `-v` 或 `--verbose`   | 显示详细输出，便于查看同步过程。                             |
+| `-z` 或 `--compress`  | 在传输过程中压缩文件数据，减少网络带宽占用。                 |
+| `-r` 或 `--recursive` | 递归同步目录及其子目录。                                     |
+| `-P`                  | 等价于 `--partial --progress`，支持断点续传并显示进度。      |
+
+---
+
+### 2. **文件属性相关**
+| 参数              | 说明                                         |
+| ----------------- | -------------------------------------------- |
+| `-p` 或 `--perms` | 保留文件权限。                               |
+| `-t` 或 `--times` | 保留文件修改时间。                           |
+| `-o` 或 `--owner` | 保留文件属主（需要 root 权限）。             |
+| `-g` 或 `--group` | 保留文件属组（需要 root 权限）。             |
+| `--chmod`         | 修改目标文件的权限，例如 `--chmod=755`。     |
+| `--size-only`     | 仅根据文件大小判断是否需要同步，忽略时间戳。 |
+| `--ignore-times`  | 忽略时间戳，强制同步所有文件。               |
+
+---
+
+### 3. **传输控制**
+| 参数                    | 说明                                     |
+| ----------------------- | ---------------------------------------- |
+| `-b` 或 `--backup`      | 在目标目录中备份已存在的文件。           |
+| `--backup-dir=DIR`      | 指定备份文件的存储目录。                 |
+| `--delete`              | 删除目标目录中源目录不存在的文件。       |
+| `--ignore-existing`     | 跳过目标目录中已存在的文件。             |
+| `--remove-source-files` | 传输完成后删除源文件（相当于移动文件）。 |
+| `--exclude=PATTERN`     | 排除匹配的文件或目录。                   |
+| `--exclude-from=FILE`   | 从文件中读取排除规则。                   |
+| `--include=PATTERN`     | 包含匹配的文件或目录。                   |
+| `--include-from=FILE`   | 从文件中读取包含规则。                   |
+
+---
+
+### 4. **断点续传与进度**
+| 参数              | 说明                               |
+| ----------------- | ---------------------------------- |
+| `--partial`       | 保留部分传输的文件，支持断点续传。 |
+| `--progress`      | 显示传输进度。                     |
+| `--append`        | 在已存在的文件末尾追加数据。       |
+| `--append-verify` | 追加数据并验证文件完整性。         |
+
+---
+
+### 5. **网络传输**
+| 参数                    | 说明                              |
+| ----------------------- | --------------------------------- |
+| `-e` 或 `--rsh=COMMAND` | 指定远程 Shell 命令（如 `ssh`）。 |
+| `--port=PORT`           | 指定远程端口。                    |
+| `--bwlimit=RATE`        | 限制传输带宽（单位为 KB/s）。     |
+| `--timeout=TIME`        | 设置 I/O 超时时间（单位为秒）。   |
+| `--contimeout=TIME`     | 设置连接超时时间（单位为秒）。    |
+
+---
+
+### 6. **日志与调试**
+| 参数                       | 说明                           |
+| -------------------------- | ------------------------------ |
+| `--log-file=FILE`          | 将日志输出到指定文件。         |
+| `--log-file-format=FMT`    | 自定义日志格式。               |
+| `--dry-run`                | 模拟运行，不实际执行任何操作。 |
+| `--stats`                  | 显示传输统计信息。             |
+| `-h` 或 `--human-readable` | 以易读格式显示文件大小。       |
+
+---
+
+### 7. **高级功能**
+| 参数                 | 说明                                   |
+| -------------------- | -------------------------------------- |
+| `--checksum`         | 使用校验和判断文件是否需要同步。       |
+| `--compare-dest=DIR` | 将目标文件与指定目录中的文件进行比较。 |
+| `--link-dest=DIR`    | 使用硬链接优化增量备份。               |
+| `--max-size=SIZE`    | 仅同步小于指定大小的文件。             |
+| `--min-size=SIZE`    | 仅同步大于指定大小的文件。             |
+
+---
+
+### 8. **常用命令示例**
+1. **本地同步**：
+   ```bash
+   rsync -avz /source/ /destination/
+   ```
+
+2. **远程同步**：
+   ```bash
+   rsync -avz -e ssh user@remote:/source/ /destination/
+   ```
+
+3. **断点续传**：
+   ```bash
+   rsync -avzP /source/ /destination/
+   ```
+
+4. **排除指定目录**：
+   ```bash
+   rsync -avz --exclude='subdir1' --exclude='subdir2' /source/ /destination/
+   ```
+
+5. **删除目标多余文件**：
+   ```bash
+   rsync -avz --delete /source/ /destination/
+   ```
+
+6. **限制带宽**：
+   ```bash
+   rsync -avz --bwlimit=1000 /source/ /destination/
+   ```
+
+
+
+>  断点续传
+>
+>  - -a: 归档模式，保留权限、符号链接等。
+>  - -v: 显示详细信息。
+>  - --progress: 显示传输进度。
+>  - --partial: 保留部分传输的文件，支持断点续传。
+>  - --delete: 
+
+```shell
+rsync -av --progress --partial /mnt/source/ /mnt/destination/
+```
+
+> 跳过指定目录参数--exclude，可以有多个
+
+```shell
+nohup rsync -avzP --append-verify --exclude='log_UI_webLog' --exclude='log_ui_returnMail_system' /mysql/mysql/data/ /data23/mysql_log/ > /tmp/cpMysql.log &
+```
+
+> 远程传输，指定用户+ip
+
+```shell
+rsync -av --delete elasticsearch.tar.gz '-e ssh -p 60011' zax@192.168.2.138:/web/php/projectPHP/jobuiV4/app/site/demo/zax/demo.php >> /tmp/rsyncTest.log
 ```
 
