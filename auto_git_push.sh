@@ -18,7 +18,6 @@ if [ -d "$TARGET_DIR/.git" ]; then  # 判断是否是 Git 项目
         echo "No changes detected."
     fi
 fi
-done
 
 echo "Done."
 
