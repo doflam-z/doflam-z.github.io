@@ -45,6 +45,22 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 ```
 
+### Ubuntu
+
+ 在 **Ubuntu** 上安装 **Docker** 的完整步骤如下：
+
+| **步骤**                    | **命令**                                                     |
+| --------------------------- | ------------------------------------------------------------ |
+| 更新系统                    | sudo apt update && sudo apt upgrade -y                       |
+| 安装依赖                    | sudo apt install -y apt-transport-https ca-certificates curl software-properties-common |
+| 添加 GPG 密钥               | curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" \|  sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg |
+| 添加 Docker 源              | echo “deb [arch=$(dpkg –print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable” |
+| 安装 Docker                 | sudo apt install -y docker-ce docker-ce-cli containerd.io    |
+| 启动 Docker                 | sudo systemctl start docker && sudo systemctl enable docker  |
+| 运行测试容器                | sudo docker run hello-world                                  |
+| 允许非 root 用户使用 Docker | sudo usermod -aG docker $USER                                |
+| 安装 Docker Compose         | sudo apt install -y docker-compose                           |
+
 ### Centos7
 
 卸载旧版本
