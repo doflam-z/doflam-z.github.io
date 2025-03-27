@@ -6,8 +6,8 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Thu, 27 Mar 2025 07:44:57 GMT</pubDate>
-    <lastBuildDate>Thu, 27 Mar 2025 07:44:57 GMT</lastBuildDate>
+    <pubDate>Thu, 27 Mar 2025 07:58:26 GMT</pubDate>
+    <lastBuildDate>Thu, 27 Mar 2025 07:58:26 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -689,6 +689,109 @@ connect<span>(</span>db<span>,</span> <span>**</span>config<span>)</span>
 <span># 开启插件</span>
 <span>plugins</span><span>=</span><span>(</span>git z zsh-syntax-highlighting zsh-autosuggestions<span>)</span>
 </code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div>]]></content:encoded>
+    </item>
+    <item>
+      <title>Jenkins</title>
+      <link>https://doflam-z.github.io/services/jenkins.html</link>
+      <guid>https://doflam-z.github.io/services/jenkins.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">Jenkins</source>
+      <pubDate>Fri, 03 Jan 2025 03:01:21 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="jenkins" tabindex="-1"> Jenkins</h1>
+<p>Job Pll</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>jobuiphpdir</span><span>=</span><span>"jobuiV4 baseClassV4 Thrift captcha"</span>
+<span>jobuihtmldir</span><span>=</span><span>"jobuiV4_html"</span>
+
+<span>cd</span> /web/software/jenkins/workspace/jobui
+
+<span>#更新本地仓库到最新改动</span>
+<span>process</span><span>=</span><span><span>`</span>pgrep <span>git</span><span>`</span></span>
+<span>echo</span> <span>"###################"</span> <span>>></span> /tmp/coding.log
+<span>date</span> <span>"+%Y%m%d %H:%M:%S"</span> <span>>></span> /tmp/coding.log
+<span>#判断git pull进程是否存在</span>
+<span>if</span> <span>[</span> <span>-n</span> <span>"<span>$process</span>"</span> <span>]</span><span>;</span><span>then</span>
+        <span>echo</span> <span>"git pull is exist"</span> <span>>></span> /tmp/coding.log
+        <span>exit</span>
+<span>fi</span>
+<span>git</span> pull origin master <span>>></span> /tmp/coding.log  <span><span>2</span>></span><span>&amp;1</span> <span>&amp;</span>
+
+<span>sleep</span> <span>1</span>
+
+<span>#判断git pull命令是否运行完成</span>
+<span>while</span> <span>true</span>
+<span>do</span>
+        <span>process</span><span>=</span><span><span>`</span>pgrep <span>git</span><span>`</span></span>
+        <span>#[ -n str] 当字符串长度大于0返回真 </span>
+        <span>if</span> <span>[</span> <span>-n</span> <span>"<span>$process</span>"</span> <span>]</span><span>;</span> <span>then</span>
+        <span>echo</span> <span>"git pull is running"</span> <span>>></span> /tmp/coding.log
+        <span>sleep</span> <span>2</span>
+<span>else</span>
+        <span>echo</span> <span>"git pull is over"</span> <span>>></span> /tmp/coding.log
+        <span>break</span>
+        <span>fi</span>
+<span>done</span>
+
+
+<span>if</span> <span>[</span> <span>"<span>$USER</span>"</span> <span>=</span> <span>"jobui"</span> <span>]</span><span>;</span><span>then</span>
+    <span>for</span> <span>jpdir</span> <span>in</span> <span>$jobuiphpdir</span>
+    <span>do</span>
+        <span>if</span> <span>[</span> <span>!</span> <span>-z</span> <span>"<span>$jpdir</span>"</span> <span>]</span> <span>;</span><span>then</span>
+            <span>echo</span> <span>-e</span> <span>"<span title="\n">\n</span>-------------------- /projectPHP/<span>$jpdir</span> 的同步内容如下 --------------------<span title="\n">\n</span>"</span>
+            <span>rsync</span> <span>-av</span> <span>--delete</span> --exclude-from<span>=</span>/web/software/jenkins/workspace/jobui/.gitignore <span>$jpdir</span> /web/php/projectPHP/
+        <span>fi</span>
+    <span>done</span>
+
+    <span>for</span> <span>jhdir</span> <span>in</span> <span>$jobuihtmldir</span>
+    <span>do</span>
+        <span>if</span> <span>[</span> <span>!</span> <span>-z</span> <span>"<span>$jhdir</span>"</span> <span>]</span> <span>;</span><span>then</span>
+            <span>echo</span> <span>-e</span> <span>"<span title="\n">\n</span>-------------------- /projectHTML/<span>$jhdir</span> 的同步内容如下 --------------------<span title="\n">\n</span>"</span>
+            <span>rsync</span> <span>-av</span> <span>--delete</span> --exclude-from<span>=</span>/web/software/jenkins/workspace/jobui/.gitignore <span>$jhdir</span> /web/php/projectHTML/
+        <span>fi</span>
+    <span>done</span>
+<span>else</span>
+    <span>echo</span> <span>"you are <span>$USER</span> not jobui,change to the user and run it <span title="\n">\n</span>"</span>
+    <span>exit</span>
+<span>fi</span>
+
+<span>#rm -rf /dev/shm/nginx-data/proxy_cache_dir/*</span>
+
+<span>exit</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>Jobui pub</p>
+<div><pre><code><span>#!/bin/bash</span>
+
+<span>jobuiphpdir</span><span>=</span><span>"jobuiV4 baseClassV4 captcha"</span>
+<span>jobuihtmldir</span><span>=</span><span>"jobuiV4_html"</span>
+
+<span>time</span><span>=</span><span><span>`</span><span>date</span><span>`</span></span>
+<span>echo</span> <span>"start at <span>$time</span> ######################<span title="\n">\n</span>"</span>
+<span>echo</span> <span>"####### rsync jobui start #######<span title="\n">\n</span>"</span>
+
+<span>ip</span><span>=</span><span>"132 133 134 135 136 137 138 141 144"</span>
+
+<span>for</span> <span>var</span> <span>in</span> <span>$ip</span>
+<span>do</span>
+    <span>echo</span> <span>-e</span> <span>"<span title="\n">\n</span><span title="\n">\n</span>=======================================<span title="\n">\n</span>jobuiV4同步目标机器:192.168.2.<span>$var</span> <span title="\n">\n</span>"</span>
+    <span>cd</span> /web/php/projectPHP
+    <span>for</span> <span>jpdir</span> <span>in</span> <span>$jobuiphpdir</span>
+    <span>do</span>
+        <span>echo</span> <span>-e</span> <span>"<span title="\n">\n</span>-------------------- /projectPHP/<span>$jpdir</span> 同步开始 --------------------<span title="\n">\n</span>"</span>
+        <span>if</span> <span>[</span> <span>!</span> <span>-z</span> <span>"<span>$jpdir</span>"</span> <span>]</span> <span>;</span><span>then</span>
+                <span>rsync</span> <span>-av</span>  <span>--delete</span> <span>$jpdir</span> <span>'-e ssh -p 60011'</span> jobui@192.168.2.<span>$var</span>:/web/php/projectPHP/ <span>>></span> /tmp/jobui_rxync_remote.log
+        <span>fi</span>
+    <span>done</span>
+    <span>cd</span> /web/php/projectHTML
+    <span>for</span> <span>jhdir</span> <span>in</span> <span>$jobuihtmldir</span>
+    <span>do</span>
+        <span>echo</span> <span>-e</span> <span>"<span title="\n">\n</span><span title="\n">\n</span>------------------ /projectHTML/<span>$jhdir</span> 同步开始 --------------------<span title="\n">\n</span>"</span>
+        <span>if</span> <span>[</span> <span>!</span> <span>-z</span> <span>"<span>$jhdir</span>"</span> <span>]</span> <span>;</span><span>then</span>
+                <span>rsync</span> <span>-av</span>  <span>--delete</span> <span>$jhdir</span> <span>'-e ssh -p 60011'</span> jobui@192.168.2.<span>$var</span>:/web/php/projectHTML/ <span>>></span> /tmp/jobui_rxync_remote.log
+        <span>fi</span>
+    <span>done</span>
+<span>done</span>
+<span>echo</span> <span>"####### rsync jobui end #######"</span>
+<span>exit</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
     </item>
     <item>
       <title>network</title>
