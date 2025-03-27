@@ -6,10 +6,172 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Tue, 25 Mar 2025 02:00:47 GMT</pubDate>
-    <lastBuildDate>Tue, 25 Mar 2025 02:00:47 GMT</lastBuildDate>
+    <pubDate>Thu, 27 Mar 2025 07:44:57 GMT</pubDate>
+    <lastBuildDate>Thu, 27 Mar 2025 07:44:57 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+    <item>
+      <title>GitHub 搜索技巧速查表</title>
+      <link>https://doflam-z.github.io/tool/github.html</link>
+      <guid>https://doflam-z.github.io/tool/github.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">GitHub 搜索技巧速查表</source>
+      <pubDate>Thu, 27 Mar 2025 07:44:02 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="github-搜索技巧速查表" tabindex="-1"> GitHub 搜索技巧速查表</h1>
+<table>
+<thead>
+<tr>
+<th>搜索类型</th>
+<th>语法示例</th>
+<th>说明</th>
+<th>实际应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>基础搜索</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>仓库名称</td>
+<td><code>in:name vue</code></td>
+<td>搜索名称包含&quot;vue&quot;的仓库</td>
+<td>找特定技术栈的框架/库</td>
+</tr>
+<tr>
+<td>仓库描述</td>
+<td><code>in:description 机器学习</code></td>
+<td>搜索描述包含&quot;机器学习&quot;的仓库</td>
+<td>发现特定领域的项目</td>
+</tr>
+<tr>
+<td>README内容</td>
+<td><code>in:readme 安装指南</code></td>
+<td>搜索README包含&quot;安装指南&quot;的仓库</td>
+<td>找有详细文档的项目</td>
+</tr>
+<tr>
+<td><strong>高级筛选</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>星标数</td>
+<td><code>stars:&gt;1000</code></td>
+<td>搜索星标超过1000的仓库</td>
+<td>找高质量热门项目</td>
+</tr>
+<tr>
+<td>Fork数</td>
+<td><code>forks:&gt;500</code></td>
+<td>搜索Fork超过500的仓库</td>
+<td>找被广泛使用的项目</td>
+</tr>
+<tr>
+<td>文件大小</td>
+<td><code>size:100..500</code></td>
+<td>搜索100KB到500KB大小的仓库</td>
+<td>找轻量级工具库</td>
+</tr>
+<tr>
+<td><strong>语言/时间</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>编程语言</td>
+<td><code>language:python</code></td>
+<td>搜索Python项目</td>
+<td>找特定语言的资源</td>
+</tr>
+<tr>
+<td>更新时间</td>
+<td><code>pushed:&gt;2024-01-01</code></td>
+<td>搜索2024年后更新过的项目</td>
+<td>找近期活跃维护的项目</td>
+</tr>
+<tr>
+<td><strong>组合搜索</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>多条件组合</td>
+<td><code>in:name react stars:&gt;5000 language:javascript</code></td>
+<td>搜索名称含react、星标&gt;5k的JS项目</td>
+<td>找React生态的流行库</td>
+</tr>
+<tr>
+<td><strong>特殊搜索</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>用户仓库</td>
+<td><code>user:google</code></td>
+<td>搜索Google用户的所有仓库</td>
+<td>跟踪特定开发者/公司的项目</td>
+</tr>
+<tr>
+<td>组织仓库</td>
+<td><code>org:facebook</code></td>
+<td>搜索Facebook组织的所有仓库</td>
+<td>关注大厂开源项目</td>
+</tr>
+<tr>
+<td>许可证类型</td>
+<td><code>license:MIT</code></td>
+<td>搜索MIT许可证的项目</td>
+<td>找可自由使用的代码</td>
+</tr>
+<tr>
+<td><strong>代码搜索</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>文件内容</td>
+<td><code>快速排序 in:file language:java</code></td>
+<td>搜索Java文件中的快速排序实现</td>
+<td>找算法实现示例</td>
+</tr>
+<tr>
+<td>文件路径</td>
+<td><code>path:src/utils function debounce</code></td>
+<td>在src/utils路径下搜索防抖函数</td>
+<td>定位特定功能的实现位置</td>
+</tr>
+</tbody>
+</table>
+<h2 id="💡-使用技巧" tabindex="-1"> 💡 使用技巧</h2>
+<ol>
+<li>
+<p><strong>组合使用</strong>：<code>in:name vue stars:&gt;10000 pushed:&gt;2023-01-01</code><br>
+→ 找2023年后更新的、星标超1万的Vue项目</p>
+</li>
+<li>
+<p><strong>排除关键词</strong>：<code>NOT 旧版本</code><br>
+→ 排除包含&quot;旧版本&quot;的结果</p>
+</li>
+<li>
+<p><strong>范围搜索</strong>：<code>stars:100..500</code><br>
+→ 找星标在100到500之间的项目</p>
+</li>
+<li>
+<p><strong>排序结果</strong>：在GitHub搜索结果页面可以按<code>Most stars</code>/<code>Recently updated</code>等排序</p>
+</li>
+</ol>
+<blockquote>
+<p>📌 提示：在GitHub搜索页面点击&quot;Advanced search&quot;可使用可视化工具构建复杂查询</p>
+</blockquote>
+]]></content:encoded>
+    </item>
     <item>
       <title>Laravel</title>
       <link>https://doflam-z.github.io/php/laravel.html</link>
