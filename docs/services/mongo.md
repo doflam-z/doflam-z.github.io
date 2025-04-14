@@ -952,3 +952,25 @@ $limit = 5;
 $res = $collection->aggregate(array('$match' => $filter),array('$group' => $group),array('$sort' => $sort),array('$limit'=>(int)$limit));
 12345678910111213141516171819202122232425
 ```
+
+h
+
+// 连接到健康的 SECONDARY 节点（如 192.168.2.135）
+docker exec -it mongodb_12000 mongo --host 192.168.2.135 --port 12000
+
+// 强制该节点参与选举（关键步骤）
+db.adminCommand({
+  replSetReconfig: {
+    _id: "jobui",
+    version: rs.conf().version + 1,
+    members: [
+      { _id: 19, host: "192.168.2.132:12000", arbiterOnly: true },
+      { _id: 31, host: "192.168.2.135:12000", priority: 2 },  // 提高优先级
+      { _id: 32, host: "192.168.2.139:12000", priority: 0 }   // 暂时禁用
+    ]
+  },
+  force: true  // 强制应用配置
+})
+
+// 解除节点冻结状态（确保能参与选举）
+db.adminCommand({replSetFreeze: 0})
