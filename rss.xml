@@ -6,8 +6,8 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Mon, 14 Apr 2025 02:00:52 GMT</pubDate>
-    <lastBuildDate>Mon, 14 Apr 2025 02:00:52 GMT</lastBuildDate>
+    <pubDate>Tue, 15 Apr 2025 02:00:50 GMT</pubDate>
+    <lastBuildDate>Tue, 15 Apr 2025 02:00:50 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -1242,7 +1242,23 @@ iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x,192.168.2.0/24 <span>-p</
 
 <span>service</span> iptables save
 <span>service</span> sshd restart
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>]]></content:encoded>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="完全重建-docker-防火墙规则" tabindex="-1"> 完全重建 Docker 防火墙规则</h3>
+<h4 id="_1-停止-docker-服务" tabindex="-1"> 1. <strong>停止 Docker 服务</strong></h4>
+<div><pre><code><span>sudo</span> systemctl stop <span>docker</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h4 id="_2-清除所有残留规则" tabindex="-1"> 2. <strong>清除所有残留规则</strong></h4>
+<div><pre><code><span>sudo</span> iptables <span>-F</span>
+<span>sudo</span> iptables <span>-t</span> nat <span>-F</span>
+<span>sudo</span> iptables <span>-t</span> mangle <span>-F</span>
+<span>sudo</span> iptables <span>-X</span>  <span># 删除自定义链</span>
+<span>sudo</span> iptables <span>-t</span> nat <span>-X</span>
+<span>sudo</span> iptables <span>-t</span> mangle <span>-X</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="_3-恢复默认策略" tabindex="-1"> 3. <strong>恢复默认策略</strong></h4>
+<div><pre><code><span>sudo</span> iptables <span>-P</span> INPUT ACCEPT
+<span>sudo</span> iptables <span>-P</span> FORWARD ACCEPT
+<span>sudo</span> iptables <span>-P</span> OUTPUT ACCEPT
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h4 id="_4-重启-docker-自动生成规则" tabindex="-1"> 4. <strong>重启 Docker 自动生成规则</strong></h4>
+<div><pre><code><span>sudo</span> systemctl start <span>docker</span>
+</code></pre><div aria-hidden="true"><div></div></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>
