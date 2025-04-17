@@ -37,6 +37,8 @@ mongo 192.168.2.134:12000
 # 初始化（第一次配置）
 >rs.initiate()
 >rs.add("hostname:120000")
+# 初始化全部节点
+rs.initiate({  _id: "jobui",  members: [    { _id: 0, host: "192.168.1.55:27017", priority: 2 },    { _id: 1, host: "192.168.1.39:27017", priority: 1 },    { _id: 2, host: "192.168.1.39:27018", arbiterOnly: true }  ],  settings: {    chainingAllowed: true,    heartbeatIntervalMillis: 2000,    electionTimeoutMillis: 10000  } })
 
 # 查看本机状态
 db.serverStatus()
@@ -83,6 +85,8 @@ PRIMARY> rs.reconfig(config)
 db.shutdownServer()
 ```
 
+
+
 ### 集群无法选举处理
 
 >  无法在secondary上执行命令，那么这种情况下，如何使用force命令来清理配置呢？
@@ -92,6 +96,32 @@ SECONDARY> cfg=rs.conf()
 SECONDARY> cfg.members.splice(2,1)  # 从下标2的节点开始，删除1个节点配置
 SECONDARY> rs.reconfig(cfg,{force:true})
 ```
+
+
+
+### docker集群启动注意事项
+
+> docker启动的集群，初始化的时候要使用宿主机ip初始化
+
+```js
+rs.initiate({
+  _id: 'rs0',
+  members: [
+    { _id: 0, host: '192.168.1.100:27017' }, // 主库 IP
+    { _id: 1, host: '192.168.1.55:27017' }   // 从库 IP
+  ]
+})
+```
+
+> 如果已经初始化了，可以通过修改配置文件来解决
+
+```js
+cfg = rs.conf();
+cfg.members[0].host = "192.168.1.100:27017"; // 替换成主库实际 IP
+rs.reconfig(cfg, { force: true });
+```
+
+
 
 ### 创建用户
 
@@ -202,10 +232,48 @@ db.getCollection('userTmp_202110').createIndex({'u': 1, 'd': -1}, {unique: true}
 
 ### 导出数据库
 
+> 使用--oplog不锁库，还可以从日志记录开始追加增量数据 --gzip参数是压缩数据
+
 ```shell
+
 mongodump -h 192.168.1.35:12000 -d jobui_tmp -o /ssd_data/mongobackups/
 or
 docker exec -it mongodb_12000 /usr/local/mongodb-3.0.7/bin/mongodump --host 192.168.2.135 --port 12000 --db jobui_syscache --out bak/
+
+/web/software/mongodb-3.0.7/bin/mongodump --host 192.168.2.135 --port 12000 --oplog --gzip --out dump3
+
+## 第一次全量导出
+# 1. 从3.0集群导出全量数据（不锁库，从secondary读取）
+mongodump --host rs0/secondary:27017 \
+  --oplog \
+  --gzip \
+  --out=/backup/full
+
+# 2. 导入到6.0集群（包含oplog回放）
+mongorestore --host rs1/primary:27017 \
+  --oplogReplay \
+  --gzip \
+  --dir=/backup/full
+  
+## 第二次增量导出
+# 1. 记录全量导出结束时的oplog位置
+tail -n 1 /backup/full/oplog.bson | bsondump | jq '.ts'
+
+# 输出示例（记下此值）：
+# { "ts": { "$timestamp": { "t": 1710000000, "i": 1 } } }
+
+# 2. 执行增量导出（仅导出此时间点之后的变更）
+mongodump --host rs0/primary:27017 \
+  --oplog \
+  --gzip \
+  --query='{"ts": {"$gt": {"$timestamp": {"t": 1710000000, "i": 1}}}}' \
+  --out=/backup/incremental
+
+# 3. 导入增量数据到6.0集群
+mongorestore --host rs1/primary:27017 \
+  --oplogReplay \
+  --gzip \
+  --dir=/backup/incremental
 ```
 
 ### 导入数据
