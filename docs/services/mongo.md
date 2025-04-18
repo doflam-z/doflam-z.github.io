@@ -1,30 +1,89 @@
 # mongo
 
-### docker创建mongo集群
+
+
+### docker创建mongo服务
+
+>  目录结构
+>
+> ./
+> ├── data
+> ├── docker-compose.yml
+> ├── logs
+
+docker-compose.yml文件：
 
 ```yaml
-version: '3.1'
+version: '3.8'
 
 services:
   mongodb:
-    image: mongo
-    container_name: mongodb
-    hostname: mongodb
-    restart: always
+    image: mongo:6.0.22
+    container_name: mongodb_6
+    restart: unless-stopped
     ports:
-      - 14000:27017
+      - "192.168.2.135:27017:27017"
     volumes:
-      - ./data/db:/data/db
-      - ./logs/mongo:/var/log/mongodb
+      - ./data:/data/db
+      - ./logs:/var/log/mongodb
+    environment:
+      # 系统日志配置
+      - MONGO_INITDB_SYSTEM_LOG_DESTINATION=file
+      - MONGO_INITDB_SYSTEM_LOG_PATH=/var/log/mongodb/mongod.log
+      - MONGO_INITDB_SYSTEM_LOG_LOGAPPEND=true
+      - MONGO_INITDB_SYSTEM_LOG_TIMESTAMPFORMAT=iso8601-utc
+
+      # 存储引擎配置
+      - MONGO_INITDB_STORAGE_ENGINE=wiredTiger
+      - MONGO_INITDB_WIREDTIGER_CACHE_SIZE_GB=2
+      - MONGO_INITDB_WIREDTIGER_DIRECTORY_FOR_INDEXES=true
+      - MONGO_INITDB_WIREDTIGER_COLLECTION_BLOCK_COMPRESSOR=zlib
+      - MONGO_INITDB_WIREDTIGER_INDEX_PREFIX_COMPRESSION=true 
+
+      # 网络配置
+      - MONGO_INITDB_NET_PORT=27017
+      - MONGO_INITDB_NET_BIND_IP=0.0.0.0
+      - MONGO_INITDB_NET_MAX_INCOMING_CONNECTIONS=20000 
+
+      # 性能分析
+      - MONGO_INITDB_OPERATION_PROFILING_MODE=slowOp
+      - MONGO_INITDB_OPERATION_PROFILING_SLOW_OP_THRESHOLD_MS=1000
+      - TZ=Asia/Shanghai
+
+      # 集群节点发现配置（需替换实际IP）
+      - MONGO_INITDB_CLUSTER_IP_OVERRIDE=192.168.2.135
+      - MONGO_INITDB_REPL_SET_HOSTS=192.168.2.135:27017,192.168.2.139:27017,192.168.2.139:27018
+
     logging:
       driver: "json-file"
       options:
         max-size: "500m"
         max-file: "3"
-    environment:
-      MONGO_INITDB_REPLSET: jobui_mongodb
-      TZ: Asia/Shanghai
-    command: ["--replSet", "jobui_mongodb", "--logpath", "/var/log/mongodb/mongo.log"]
+    command: [
+      "--replSet=jobui",
+      "--bind_ip_all",
+      "--directoryperdb",
+      "--journal",
+      "--oplogSize=20480",
+      # 安全配置（如需启用）
+      # "--auth",
+      # TLS配置示例（需挂载证书）
+      # "--tlsMode=requireTLS",
+      # "--tlsCertificateKeyFile=/etc/ssl/mongodb.pem",
+      # "--tlsCAFile=/etc/ssl/ca.pem"
+    ]
+    ulimits:
+      nofile:
+        soft: 20000
+        hard: 40000
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+volumes:
+  mongodb_data:
+    driver: local
 ```
 
 ### 服务配置
@@ -33,12 +92,13 @@ services:
 
 ```shell
 # 连接
-mongo 192.168.2.134:12000
-# 初始化（第一次配置）
+docker exec -it mongodb_6 mongosh
+# 初始化（单个节点）
 >rs.initiate()
 >rs.add("hostname:120000")
+
 # 初始化全部节点
-rs.initiate({  _id: "jobui",  members: [    { _id: 0, host: "192.168.1.55:27017", priority: 2 },    { _id: 1, host: "192.168.1.39:27017", priority: 1 },    { _id: 2, host: "192.168.1.39:27018", arbiterOnly: true }  ],  settings: {    chainingAllowed: true,    heartbeatIntervalMillis: 2000,    electionTimeoutMillis: 10000  } })
+rs.initiate({  _id: "jobui",  members: [    { _id: 0, host: "192.168.2.135:27017", priority: 2 },    { _id: 1, host: "192.168.2.139:27017", priority: 1 },    { _id: 2, host: "192.168.2.139:27018", arbiterOnly: true }  ],  settings: {    chainingAllowed: true,    heartbeatIntervalMillis: 2000,    electionTimeoutMillis: 10000  } })
 
 # 查看本机状态
 db.serverStatus()
@@ -79,7 +139,7 @@ PRIMARY> rs.reconfig(config)
 /web/software/mongodb-3.0.7/bin/mongod -f /web/bcshell/mongodb/mongodbWT12000.conf --rest --logpath=/tmp/mongod.log
 ```
 
-### 关闭命令
+#### 关闭命令
 
 ```shell
 db.shutdownServer()
@@ -224,56 +284,18 @@ db.oldCollectionName.renameCollection("newCollectionName")
 
 ```
 
-```shell
-db.createCollection("userTmp_202110")
-db.getCollection('companyTmp_202110').createIndex({'c': 1, 'd': -1}, {unique: true})
-db.getCollection('userTmp_202110').createIndex({'u': 1, 'd': -1}, {unique: true})
-```
+
 
 ### 导出数据库
 
 > 使用--oplog不锁库，还可以从日志记录开始追加增量数据 --gzip参数是压缩数据
 
 ```shell
-
 mongodump -h 192.168.1.35:12000 -d jobui_tmp -o /ssd_data/mongobackups/
 or
 docker exec -it mongodb_12000 /usr/local/mongodb-3.0.7/bin/mongodump --host 192.168.2.135 --port 12000 --db jobui_syscache --out bak/
 
 /web/software/mongodb-3.0.7/bin/mongodump --host 192.168.2.135 --port 12000 --oplog --gzip --out dump3
-
-## 第一次全量导出
-# 1. 从3.0集群导出全量数据（不锁库，从secondary读取）
-mongodump --host rs0/secondary:27017 \
-  --oplog \
-  --gzip \
-  --out=/backup/full
-
-# 2. 导入到6.0集群（包含oplog回放）
-mongorestore --host rs1/primary:27017 \
-  --oplogReplay \
-  --gzip \
-  --dir=/backup/full
-  
-## 第二次增量导出
-# 1. 记录全量导出结束时的oplog位置
-tail -n 1 /backup/full/oplog.bson | bsondump | jq '.ts'
-
-# 输出示例（记下此值）：
-# { "ts": { "$timestamp": { "t": 1710000000, "i": 1 } } }
-
-# 2. 执行增量导出（仅导出此时间点之后的变更）
-mongodump --host rs0/primary:27017 \
-  --oplog \
-  --gzip \
-  --query='{"ts": {"$gt": {"$timestamp": {"t": 1710000000, "i": 1}}}}' \
-  --out=/backup/incremental
-
-# 3. 导入增量数据到6.0集群
-mongorestore --host rs1/primary:27017 \
-  --oplogReplay \
-  --gzip \
-  --dir=/backup/incremental
 ```
 
 ### 导入数据
@@ -281,6 +303,49 @@ mongorestore --host rs1/primary:27017 \
 ```shell
 docker exec -it mongodb_12000 /usr/local/mongodb-3.0.7/bin/mongorestore --host 192.168.2.135 --port 12000 --db jobui_syscache bak/
 ```
+
+### mongodb升级版本
+
+> 3.0.7 -> 6.0.22
+>
+> 版本差异大滚动升级太费时间
+>
+> 迁移思路：在3.0机器建立一个6.0新集群，使用mongodump导出数据后mongorestore导入新集群，节省数据传输时间。 
+>
+> ps ：带--oplog参数才能记录导出时候的变更以及导出时间 --gzip 参数是压缩，3.0.7版本没有这个，高版本可以用
+
+```bash
+# 第一步：使用 mongodump 导出数据 + oplog
+mongodump --host <source_host> --out /mongo_bak/dump3 --oplog
+
+# 分库导入数据（最好不要这样操作，不然oplog回放的时候会报错）
+mongorestore --dir /mongo_bak/dump3 --nsInclude="jobui_companyContent.*"
+mongorestore --dir /mongo_bak/dump3 --nsInclude="jobui_jobInfo.*"
+# ...
+
+# 第二步：在新库执行oplog回放导入数据
+mongorestore --dir /mongo_bak/dump3 --oplogReplay
+
+# 第三步：增量导出
+# 1. 记录全量导出结束时的oplog位置（这个方法仅仅适用于导出数据量不多的情况不然会很慢，大数据量直接写个python脚本读）
+bsondump /mongo_bak/dump1/oplog.bson | tail -n 1
+
+# 输出示例（记下此值）：
+# { "ts": { "$timestamp": { "t": 1744860937, "i": 75 } } }
+
+# 2. 停止mongo写入
+db.fsyncLock()
+
+# 3. 执行增量导出（仅导出此时间点之后的变更）
+mongodump --host 192.168.2.135 --port 12000 \
+  -d local -c oplog.rs \
+  -q '{"ts": {"$gt": {"$timestamp": {"t": 1744860937, "i": 75}}}}' \
+  --out /tmp/dump_increment_raw
+# 第六步：从新的oplog导入后切换数据库连接
+mongorestore --dir /backup/incremental --oplogReplay
+```
+
+
 
 ### 新增子文档
 
@@ -303,11 +368,6 @@ db.mapping.update(
     }
 );
 
-```
-
-### 删除子文档
-
-```shell
 ```
 
 
