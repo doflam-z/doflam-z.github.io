@@ -6,8 +6,8 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Wed, 23 Apr 2025 02:00:48 GMT</pubDate>
-    <lastBuildDate>Wed, 23 Apr 2025 02:00:48 GMT</lastBuildDate>
+    <pubDate>Wed, 23 Apr 2025 02:16:16 GMT</pubDate>
+    <lastBuildDate>Wed, 23 Apr 2025 02:16:16 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -23,58 +23,64 @@
 <h2 id="docker部署rabbitmq" tabindex="-1"> docker部署rabbitmq</h2>
 <blockquote>
 <p>部署在内网两个节点，使用镜像集群配置</p>
-<p>目录结构</p>
 </blockquote>
 <h3 id="两台机生成配置文件" tabindex="-1"> 两台机生成配置文件</h3>
-<p>node1</p>
-<p>docker-compose.yml</p>
+<p>node1 docker-compose.yml</p>
 <div><pre><code><span>version</span><span>:</span> <span>'3.8'</span>
 <span>services</span><span>:</span>
   <span>rabbitmq</span><span>:</span>
     <span>image</span><span>:</span> rabbitmq<span>:</span>3.12.8<span>-</span>management
     <span>container_name</span><span>:</span> rabbitmq
-    <span>hostname</span><span>:</span> $<span>{</span>HOSTNAME<span>}</span>
+    <span>hostname</span><span>:</span> node1 <span># 节点名称</span>
+    <span>restart</span><span>:</span> unless<span>-</span>stopped <span># 除非stop命令否则自动重启</span>
+    <span>mem_limit</span><span>:</span> 8g        <span># 限制最多使用 8GB 内存</span>
+    <span>cpus</span><span>:</span> <span>6</span>              <span># 限制最多使用 6 个 CPU</span>
+    <span>ports</span><span>:</span>
+      <span>-</span> <span>"192.168.2.135:5672:5672"</span>  <span># AMQP协议端口</span>
+      <span>-</span> <span>"15672:15672"</span>  <span># 管理界面端口</span>
+      <span>-</span> <span>"192.168.2.135:4369:4369"</span> <span># 集群通信端口</span>
+      <span>-</span> <span>"192.168.2.135:25672:25672"</span> <span># 集群通信端口</span>
+    <span>environment</span><span>:</span>
+      <span>RABBITMQ_DEFAULT_USER</span><span>:</span> <span>"jobui"</span>
+      <span>RABBITMQ_DEFAULT_PASS</span><span>:</span> <span>"jobui123"</span>
+      <span>RABBITMQ_ERLANG_COOKIE</span><span>:</span> <span>"jobui_rabbit"</span>  <span># 集群通信密钥</span>
+      <span>RABBITMQ_NODENAME</span><span>:</span> rabbit@node1
+    <span>volumes</span><span>:</span>
+      <span>-</span> /ssd_data/rabbitmq/data<span>:</span>/var/lib/rabbitmq  <span># 数据持久化</span>
+    <span>extra_hosts</span><span>:</span>
+      <span>-</span> <span>"node2:192.168.2.139"</span> <span># 关键：让容器能解析node2</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>node2 docker-compose.yml</p>
+<div><pre><code><span>version</span><span>:</span> <span>'3.8'</span>
+<span>services</span><span>:</span>
+  <span>rabbitmq</span><span>:</span>
+    <span>image</span><span>:</span> rabbitmq<span>:</span>3.12.8<span>-</span>management <span># 或指定版本如 rabbitmq:3.12</span>
+    <span>container_name</span><span>:</span> rabbitmq
+    <span>hostname</span><span>:</span> node2
     <span>restart</span><span>:</span> unless<span>-</span>stopped
     <span>mem_limit</span><span>:</span> 8g        <span># 限制最多使用 8GB 内存</span>
-    <span>cpus</span><span>:</span> <span>6</span>              <span># 限制最多使用 8 个 CPU</span>
+    <span>cpus</span><span>:</span> <span>6</span>              <span># 限制最多使用 6 个 CPU</span>
     <span>ports</span><span>:</span>
-      <span>-</span> <span>"5672:5672"</span>  <span># AMQP协议端口</span>
-      <span>-</span> <span>"15672:15672"</span>  <span># 管理界面端口</span>
-      <span>-</span> <span>"4369:4369"</span> <span># 集群通信端口</span>
-      <span>-</span> <span>"25672:25672"</span> <span># 集群通信端口</span>
+      <span>-</span> <span>"192.168.2.139:5672:5672"</span>  <span># AMQP协议端口</span>
+      <span>-</span> <span>"192.168.2.139:4369:4369"</span>  <span># 集群通信端口</span>
+      <span>-</span> <span>"192.168.2.139:25672:25672"</span>
     <span>environment</span><span>:</span>
-      <span>RABBITMQ_DEFAULT_USER</span><span>:</span> $<span>{</span>USER<span>}</span>
-      <span>RABBITMQ_DEFAULT_PASS</span><span>:</span> $<span>{</span>PASS<span>}</span>
-      <span>RABBITMQ_ERLANG_COOKIE</span><span>:</span> $<span>{</span>COOKIE_NAME<span>}</span>  <span># 集群通信密钥</span>
-      <span>RABBITMQ_NODENAME</span><span>:</span> $<span>{</span>NODENAME<span>}</span>
+      <span>RABBITMQ_DEFAULT_USER</span><span>:</span> <span>"jobui"</span>
+      <span>RABBITMQ_DEFAULT_PASS</span><span>:</span> <span>"jobui123"</span>
+      <span>RABBITMQ_ERLANG_COOKIE</span><span>:</span> <span>"jobui_rabbit"</span>  <span># 集群通信密钥</span>
+      <span>RABBITMQ_NODENAME</span><span>:</span> rabbit@node2
+      <span>RABBITMQ_CLUSTER_NODES</span><span>:</span> rabbit@node1  <span># 指向初始节点</span>
     <span>volumes</span><span>:</span>
-      <span>-</span> $<span>{</span>DATA_PATH<span>}</span><span>:</span>/var/lib/rabbitmq  <span># 数据持久化</span>
+      <span>-</span> /ssdb_data/rabbitmq/data<span>:</span>/var/lib/rabbitmq
     <span>extra_hosts</span><span>:</span>
-      <span>-</span> $<span>{</span>EXTRA_HOSTS<span>}</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>node1 .env</p>
-<div><pre><code>DATA_PATH=/data/rabbitmq/data
-NODENAME=rabbit@node1
-HOSTNAME=node1
-COOKIE_NAME=jobui_rabbit
-USER=jobui
-PASS=jobui123
-CLUSTER_WITH=
-EXTRA_HOSTS=node2:192.168.2.139
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>node2 .env</p>
-<div><pre><code>DATA_PATH=/data/rabbitmq/data
-NODENAME=rabbit@node2
-HOSTNAME=node2
-COOKIE_NAME=jobui_rabbit
-USER=jobui
-PASS=jobui123
-CLUSTER_WITH=
-EXTRA_HOSTS=node1:192.168.2.135
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="分别启动容器" tabindex="-1"> 分别启动容器</h3>
+      <span>-</span> <span>"node1:192.168.2.135"</span>  <span># 关键：让容器能解析node1</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="分别启动容器" tabindex="-1"> 分别启动容器</h3>
 <div><pre><code><span>docker-compose</span> up <span>-d</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="节点配置写入hosts" tabindex="-1"> 节点配置写入hosts</h3>
-<div><pre><code><span>echo</span> <span>"192.168.2.139 node2"</span> <span>|</span> <span>sudo</span> <span>tee</span> <span>-a</span> /etc/hosts <span># node1</span>
-<span>echo</span> <span>"192.168.2.135 node1"</span> <span>|</span> <span>sudo</span> <span>tee</span> <span>-a</span> /etc/hosts <span># node2</span>
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="node2加入集群" tabindex="-1"> node2加入集群</h3>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="节点dns配置写入hosts" tabindex="-1"> 节点dns配置写入hosts</h3>
+<p>node1写入</p>
+<div><pre><code><span>echo</span> <span>"192.168.2.139 node2"</span> <span>|</span> <span>sudo</span> <span>tee</span> <span>-a</span> /etc/hosts
+</code></pre><div aria-hidden="true"><div></div></div></div><p>node2写入</p>
+<div><pre><code><span>echo</span> <span>"192.168.2.135 node1"</span> <span>|</span> <span>sudo</span> <span>tee</span> <span>-a</span> /etc/hosts
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="node2加入集群" tabindex="-1"> node2加入集群</h3>
 <div><pre><code><span>docker</span> <span>exec</span> rabbitmq rabbitmqctl stop_app	<span># 停止服务</span>
 <span>docker</span> <span>exec</span> rabbitmq rabbitmqctl reset <span># 重置服务（会清除数据）</span>
 <span>docker</span> <span>exec</span> rabbitmq rabbitmqctl join_cluster rabbit@node1 <span># 加入节点</span>
@@ -84,8 +90,11 @@ EXTRA_HOSTS=node1:192.168.2.135
 <p>在任意节点执行</p>
 <div><pre><code><span>docker</span> <span>exec</span> <span>-it</span> rabbitmq rabbitmqctl set_policy ha-all <span>"^"</span> <span>'{"ha-mode":"all"}'</span>
 </code></pre><div aria-hidden="true"><div></div></div></div><h3 id="配置防火墙" tabindex="-1"> 配置防火墙</h3>
-<div><pre><code><span>sudo</span> firewall-cmd <span>--permanent</span> <span>--zone</span><span>=</span>trusted --add-source<span>=</span><span>192.168</span>.2.0/24
-<span>sudo</span> firewall-cmd <span>--reload</span>
+<blockquote>
+<p>docker启动的端口默认所有ip都能请求，不安全，但是docker 会覆盖 <code>firewalld</code> 的部分规则，需在 <code>DOCKER-USER</code> 链中添加规则，先禁用所有ip访问web管理端口再配置只允许指定ip访问，</p>
+</blockquote>
+<div><pre><code><span>sudo</span> iptables <span>-I</span> DOCKER-<span>USER</span> <span>-p</span> tcp <span>--dport</span> <span>15672</span> <span>-j</span> DROP
+<span>sudo</span> iptables <span>-I</span> DOCKER-<span>USER</span> <span>-p</span> tcp <span>--dport</span> <span>15672</span> <span>-s</span> <span>192.168</span>.1.10 <span>-j</span> ACCEPT
 </code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
     </item>
     <item>
