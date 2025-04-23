@@ -6,10 +6,88 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Fri, 18 Apr 2025 02:00:47 GMT</pubDate>
-    <lastBuildDate>Fri, 18 Apr 2025 02:00:47 GMT</lastBuildDate>
+    <pubDate>Wed, 23 Apr 2025 02:00:48 GMT</pubDate>
+    <lastBuildDate>Wed, 23 Apr 2025 02:00:48 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+    <item>
+      <title>rabbitmq</title>
+      <link>https://doflam-z.github.io/services/rabbitmq.html</link>
+      <guid>https://doflam-z.github.io/services/rabbitmq.html</guid>
+      <source url="https://doflam-z.github.io/rss.xml">rabbitmq</source>
+      <pubDate>Wed, 23 Apr 2025 02:00:00 GMT</pubDate>
+      <content:encoded><![CDATA[<h1 id="rabbitmq" tabindex="-1"> rabbitmq</h1>
+<blockquote>
+<p>rabbitmq的部署，集群配置，常用命令等</p>
+</blockquote>
+<h2 id="docker部署rabbitmq" tabindex="-1"> docker部署rabbitmq</h2>
+<blockquote>
+<p>部署在内网两个节点，使用镜像集群配置</p>
+<p>目录结构</p>
+</blockquote>
+<h3 id="两台机生成配置文件" tabindex="-1"> 两台机生成配置文件</h3>
+<p>node1</p>
+<p>docker-compose.yml</p>
+<div><pre><code><span>version</span><span>:</span> <span>'3.8'</span>
+<span>services</span><span>:</span>
+  <span>rabbitmq</span><span>:</span>
+    <span>image</span><span>:</span> rabbitmq<span>:</span>3.12.8<span>-</span>management
+    <span>container_name</span><span>:</span> rabbitmq
+    <span>hostname</span><span>:</span> $<span>{</span>HOSTNAME<span>}</span>
+    <span>restart</span><span>:</span> unless<span>-</span>stopped
+    <span>mem_limit</span><span>:</span> 8g        <span># 限制最多使用 8GB 内存</span>
+    <span>cpus</span><span>:</span> <span>6</span>              <span># 限制最多使用 8 个 CPU</span>
+    <span>ports</span><span>:</span>
+      <span>-</span> <span>"5672:5672"</span>  <span># AMQP协议端口</span>
+      <span>-</span> <span>"15672:15672"</span>  <span># 管理界面端口</span>
+      <span>-</span> <span>"4369:4369"</span> <span># 集群通信端口</span>
+      <span>-</span> <span>"25672:25672"</span> <span># 集群通信端口</span>
+    <span>environment</span><span>:</span>
+      <span>RABBITMQ_DEFAULT_USER</span><span>:</span> $<span>{</span>USER<span>}</span>
+      <span>RABBITMQ_DEFAULT_PASS</span><span>:</span> $<span>{</span>PASS<span>}</span>
+      <span>RABBITMQ_ERLANG_COOKIE</span><span>:</span> $<span>{</span>COOKIE_NAME<span>}</span>  <span># 集群通信密钥</span>
+      <span>RABBITMQ_NODENAME</span><span>:</span> $<span>{</span>NODENAME<span>}</span>
+    <span>volumes</span><span>:</span>
+      <span>-</span> $<span>{</span>DATA_PATH<span>}</span><span>:</span>/var/lib/rabbitmq  <span># 数据持久化</span>
+    <span>extra_hosts</span><span>:</span>
+      <span>-</span> $<span>{</span>EXTRA_HOSTS<span>}</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>node1 .env</p>
+<div><pre><code>DATA_PATH=/data/rabbitmq/data
+NODENAME=rabbit@node1
+HOSTNAME=node1
+COOKIE_NAME=jobui_rabbit
+USER=jobui
+PASS=jobui123
+CLUSTER_WITH=
+EXTRA_HOSTS=node2:192.168.2.139
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p>node2 .env</p>
+<div><pre><code>DATA_PATH=/data/rabbitmq/data
+NODENAME=rabbit@node2
+HOSTNAME=node2
+COOKIE_NAME=jobui_rabbit
+USER=jobui
+PASS=jobui123
+CLUSTER_WITH=
+EXTRA_HOSTS=node1:192.168.2.135
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="分别启动容器" tabindex="-1"> 分别启动容器</h3>
+<div><pre><code><span>docker-compose</span> up <span>-d</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="节点配置写入hosts" tabindex="-1"> 节点配置写入hosts</h3>
+<div><pre><code><span>echo</span> <span>"192.168.2.139 node2"</span> <span>|</span> <span>sudo</span> <span>tee</span> <span>-a</span> /etc/hosts <span># node1</span>
+<span>echo</span> <span>"192.168.2.135 node1"</span> <span>|</span> <span>sudo</span> <span>tee</span> <span>-a</span> /etc/hosts <span># node2</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="node2加入集群" tabindex="-1"> node2加入集群</h3>
+<div><pre><code><span>docker</span> <span>exec</span> rabbitmq rabbitmqctl stop_app	<span># 停止服务</span>
+<span>docker</span> <span>exec</span> rabbitmq rabbitmqctl reset <span># 重置服务（会清除数据）</span>
+<span>docker</span> <span>exec</span> rabbitmq rabbitmqctl join_cluster rabbit@node1 <span># 加入节点</span>
+<span>docker</span> <span>exec</span> rabbitmq rabbitmqctl start_app <span># 启动服务</span>
+<span>docker</span> <span>exec</span> rabbitmq rabbitmqctl cluster_status <span># 查看集群状态</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="配置镜像集群" tabindex="-1"> 配置镜像集群</h3>
+<p>在任意节点执行</p>
+<div><pre><code><span>docker</span> <span>exec</span> <span>-it</span> rabbitmq rabbitmqctl set_policy ha-all <span>"^"</span> <span>'{"ha-mode":"all"}'</span>
+</code></pre><div aria-hidden="true"><div></div></div></div><h3 id="配置防火墙" tabindex="-1"> 配置防火墙</h3>
+<div><pre><code><span>sudo</span> firewall-cmd <span>--permanent</span> <span>--zone</span><span>=</span>trusted --add-source<span>=</span><span>192.168</span>.2.0/24
+<span>sudo</span> firewall-cmd <span>--reload</span>
+</code></pre><div aria-hidden="true"><div></div><div></div></div></div>]]></content:encoded>
+    </item>
     <item>
       <title>GitHub 搜索技巧速查表</title>
       <link>https://doflam-z.github.io/tool/github.html</link>
@@ -951,314 +1029,6 @@ endfunc
 </ul>
 <p>本文采用 <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">知识共享署名 4.0 国际许可协议</a>（CC-BY 4.0）进行许可，转载注明来源即可： https://harttle.land/2016/08/08/vim-search-in-file.html。如有疏漏、谬误、侵权请通过评论或 <a href="mailto:harttleharttle@gmail.com">邮件</a> 指出。</p>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>防火墙</title>
-      <link>https://doflam-z.github.io/linux/%E9%98%B2%E7%81%AB%E5%A2%99.html</link>
-      <guid>https://doflam-z.github.io/linux/%E9%98%B2%E7%81%AB%E5%A2%99.html</guid>
-      <source url="https://doflam-z.github.io/rss.xml">防火墙</source>
-      <pubDate>Mon, 26 Feb 2024 10:08:55 GMT</pubDate>
-      <content:encoded><![CDATA[<h1 id="防火墙" tabindex="-1"> 防火墙</h1>
-<h3 id="firewalld" tabindex="-1"> Firewalld</h3>
-<blockquote>
-<p>firewalld默认是关闭所有端口</p>
-</blockquote>
-<p>开启firewalld防火墙</p>
-<div><pre><code>systemctl start firewalld.service       <span>#停止firewall</span>
-systemctl <span>enable</span> firewalld.service     <span>#禁止firewall开机启动</span>
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>开启端口</p>
-<div><pre><code><span>#直接开放端口</span>
-firewall-cmd <span>--zone</span><span>=</span>public --add-port<span>=</span><span>80</span>/tcp <span>--permanent</span>
-
-<span>#开放指定ip段访问指定端口</span>
-<span>sudo</span> firewall-cmd <span>--permanent</span> --add-rich-rule<span>=</span><span>'rule family=ipv4 source address=192.168.2.0/24 port protocol=tcp port=60011 accept'</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><blockquote>
-<p>命令含义：</p>
-<p>--zone #作用域</p>
-<p>--add-port=80/tcp #添加端口，格式为：端口/通讯协议</p>
-<p>--permanent #永久生效，没有此参数重启后失效</p>
-</blockquote>
-<p>重启防火墙</p>
-<div><pre><code>firewall-cmd <span>--reload</span> 
-</code></pre><div aria-hidden="true"><div></div></div></div><p>常用命令介绍</p>
-<div><pre><code>firewall-cmd <span>--state</span>              <span>##查看防火墙状态，是否是running</span>
-
-firewall-cmd <span>--reload</span>              <span>##重新载入配置，比如添加规则之后，需要执行此命令</span>
-
-firewall-cmd --get-zones            <span>##列出支持的zone</span>
-
-firewall-cmd --get-services           <span>##列出支持的服务，在列表中的服务是放行的</span>
-
-firewall-cmd --query-service <span>ftp</span>        <span>##查看ftp服务是否支持，返回yes或者no</span>
-
-firewall-cmd --add-service<span>=</span>ftp         <span>##临时开放ftp服务</span>
-
-firewall-cmd --add-service<span>=</span>ftp <span>--permanent</span>   <span>##永久开放ftp服务</span>
-
-firewall-cmd --remove-service<span>=</span>ftp <span>--permanent</span>  <span>##永久移除ftp服务</span>
-
-firewall-cmd --add-port<span>=</span><span>80</span>/tcp <span>--permanent</span>   <span>##永久添加80端口 </span>
-
-iptables <span>-L</span> <span>-n</span>                 <span>##查看规则，这个命令是和iptables的相同的</span>
-
-<span>man</span> firewall-cmd                <span>##查看帮助</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables" tabindex="-1"> Iptables</h3>
-<blockquote>
-<p>CentOS 7.0默认使用的是firewall作为防火墙，使用iptables必须重新设置一下</p>
-</blockquote>
-<h3 id="常用规则" tabindex="-1"> 常用规则</h3>
-<p>先拒绝所有，再开放一个端口给指定ip或者地址段</p>
-<div><pre><code><span>sudo</span> iptables <span>-P</span> INPUT DROP <span># 这个规则执行后，现有规则不会失效，但其行为会受到默认策略的影响。这是因为默认策略是所有未匹配到现有规则的流量的最终处理方式。</span>
-<span>sudo</span> iptables <span>-I</span> INPUT <span>-s</span> <span>14.23</span>.97.250/192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>60011</span> <span>-j</span> ACCEPT
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>保存规则、恢复规则</p>
-<div><pre><code><span>sudo</span> iptables-save <span>></span> /etc/iptables/rules.v4
-<span>sudo</span> iptables-restore <span>&lt;</span> /etc/iptables/rules.v4
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>1、直接关闭firewalld防火墙</p>
-<div><pre><code>systemctl stop firewalld.service      <span>#停止firewall</span>
-systemctl disable firewalld.service   <span>#禁止firewall开机启动</span>
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>2、设置 iptables service</p>
-<p>yum -y install iptables-services</p>
-<p>如果要修改防火墙配置，如增加防火墙端口3306</p>
-<p>vi /etc/sysconfig/iptables</p>
-<p>增加规则</p>
-<p>-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT</p>
-<p>保存退出后</p>
-<p>systemctl restart iptables.service #重启防火墙使配置生效</p>
-<p>systemctl enable iptables.service #设置防火墙开机启动</p>
-<p>最后重启系统使设置生效即可。</p>
-<p><strong>查看</strong> <strong>SELinux<strong><strong>状态及关闭</strong></strong>SELinux</strong></p>
-<p>查看SELinux状态：</p>
-<p>1、/usr/sbin/sestatus -v   ##如果SELinux status参数为enabled即为开启状态</p>
-<p>SELinux status:         enabled</p>
-<p>2、getenforce         ##也可以用这个命令检查</p>
-<p>关闭SELinux：</p>
-<p>1、临时关闭（不用重启机器）：</p>
-<p>setenforce 0         ##设置SELinux 成为permissive模式</p>
-<p>​               ##setenforce 1 设置SELinux 成为enforcing模式</p>
-<p>2、修改配置文件需要重启机器：</p>
-<p>修改/etc/selinux/config 文件</p>
-<p>将SELINUX=enforcing改为SELINUX=disabled</p>
-<p>重启机器即可</p>
-<p><strong>iptables****配置</strong></p>
-<p>查看iptables配置：iptables -L -n</p>
-<p>添加常用端口规则：</p>
-<p>#允许对外请求的返回包</p>
-<p>iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT</p>
-<p>#允许icmp包通过</p>
-<p>iptables -A INPUT -p icmp --icmp-type any -j ACCEPT</p>
-<p>#允许来自于lo接口的数据包，如果没有此规则，将不能通过127.0.0.1访问本地服务</p>
-<p>iptables -A INPUT -i lo -j ACCEPT</p>
-<p>#禁止一个ip段</p>
-<p>iptables -I INPUT -s 114.64.244.0/24 -j DROP</p>
-<p>#常用端口</p>
-<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 21 -j ACCEPT</p>
-<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT</p>
-<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 23 -j ACCEPT</p>
-<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT</p>
-<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT</p>
-<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 3306 -j ACCEPT</p>
-<p>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT</p>
-<p>#过滤所有非以上规则的请求</p>
-<p>iptables -P INPUT DROP</p>
-<p>#如果要添加内网ip信任（接受其所有TCP请求）</p>
-<p>#注：(<strong>.</strong>.<strong>.</strong>)为IP,下同</p>
-<p>iptables -A INPUT -p tcp -s <strong>.</strong>.<strong>.</strong> -j ACCEPT</p>
-<p>#要封停一个IP，使用下面这条命令</p>
-<p>iptables -I INPUT -s <strong>.</strong>.<strong>.</strong> -j DROP</p>
-<p>#要解封一个IP，使用下面这条命令</p>
-<p>iptables -D INPUT -s <strong>.</strong>.<strong>.</strong> -j DROP</p>
-<p>保存重启防火墙</p>
-<p>/etc/init.d/iptables save</p>
-<p>service iptables restart</p>
-<p>其他常用命令（不是一定要做）</p>
-<p>#允许所有入栈规则</p>
-<p>iptables -P INPUT ACCEPT</p>
-<p>#清空默认所有规则</p>
-<p>iptables -F</p>
-<p>#清空自定义的所有规则</p>
-<p>iptables -X</p>
-<p>#计数器置0</p>
-<p>iptables -Z</p>
-<p>关闭端口</p>
-<p>常用删除端口规则</p>
-<p># 查看当前端口所在行数</p>
-<p>iptables -L -n --line-number</p>
-<p># 删除指定序列的端口（下面是删除第五条端口）</p>
-<p>iptables -D INPUT 5</p>
-<p># 确认是否已经删除，可以重新查看列表</p>
-<p>iptables -L -n --line-number</p>
-<h2 id="debian" tabindex="-1"> debian</h2>
-<blockquote>
-<p>debian管理iptables需要用到iptables-persistent ，或者ufw</p>
-<p>通过iptables-persistent生成的规则默认将被存储在以下文件中</p>
-<p>/etc/iptables/rules.v4    /etc/iptables/rules.v6</p>
-</blockquote>
-<h3 id="安装iptables-persistent来使用iptables命令" tabindex="-1"> 安装iptables-persistent来使用iptables命令</h3>
-<div><pre><code><span>sudo</span> <span>apt</span> <span>install</span> iptables-persistent <span>-y</span>
-<span># 保存重载</span>
-<span>sudo</span> netfilter-persistent save
-<span>sudo</span> netfilter-persistent reload
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><h3 id="或者安装使用-ufw-来设置防火墙" tabindex="-1"> 或者安装使用 UFW 来设置防火墙</h3>
-<p>安装</p>
-<div><pre><code><span>sudo</span> <span>apt</span> update
-<span>sudo</span> <span>apt</span> <span>install</span> ufw
-
-<span>#检查状态，默认是关闭</span>
-<span>sudo</span> ufw status verbose
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>UFW默认策略是关闭所有进来的连接，开启所有出去的连接，文件路径在：</p>
-<blockquote>
-<p>/etc/default/ufw</p>
-</blockquote>
-<p>允许一个端口</p>
-<div><pre><code><span>sudo</span> ufw allow <span>7722</span>/tcp
-</code></pre><div aria-hidden="true"><div></div></div></div><p>打开一段端口</p>
-<div><pre><code><span>sudo</span> ufw allow <span>7100</span>:7200/tcp
-<span>sudo</span> ufw allow <span>7100</span>:7200/udp
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>允许指定ip访问所有端口</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>10.10</span>.10.10
-</code></pre><div aria-hidden="true"><div></div></div></div><p>允许指定ip访问指定端口</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>64.63</span>.62.61 to any port <span>22</span>
-
-<span>sudo</span> ufw allow from <span>120.232</span>.65.223 to any port <span>5574,8080</span>,80,9080,443
-<span>sudo</span> ufw allow from <span>157.148</span>.45.20 to any port <span>5574,8080</span>,80,9080,443
-<span>sudo</span> ufw allow from <span>183.2</span>.143.163 to any port <span>5574,8080</span>,80,9080,443/tcp
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div></div></div><p>允许整个网段</p>
-<div><pre><code><span>sudo</span> ufw allow from <span>192.168</span>.1.0/24 to any port <span>3306</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><p>禁止连接</p>
-<div><pre><code><span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>80</span>
-<span>sudo</span> ufw deny from <span>23.24</span>.25.0/24 to any port <span>443</span>
-</code></pre><div aria-hidden="true"><div></div><div></div></div></div><p>查看规则</p>
-<div><pre><code><span>sudo</span> ufw status numbered
-</code></pre><div aria-hidden="true"><div></div></div></div><p>删除规则</p>
-<div><pre><code><span>sudo</span> ufw delete <span>3</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><p>启动、关闭、重置</p>
-<div><pre><code><span>sudo</span> ufw <span>enable</span>
-<span>sudo</span> ufw disable
-<span>sudo</span> ufw reset
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h3 id="更换默认ssh端口" tabindex="-1"> 更换默认ssh端口</h3>
-<div><pre><code><span>#1.开启一个ssh端口</span>
-
-<span>vi</span> /etc/ssh/sshd_config
-
-<span>#把#Port 22</span>
-<span>#修改为</span>
-
-Port <span>22</span>
-Port <span>2222</span>
-
-<span>service</span> sshd restart
-
-<span>#防火墙开启2222端口（如果开启了selinux，记得一定要关闭）</span>
-
-<span>#去测试一下2222端口是否开启，这点很重要</span>
-
-<span>#2.设置方法一：只允许192.168.5.231访问</span>
-
-<span>#运行完下面这一行，你已经不能访问了，改用2222去设置下面一行</span>
-iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
-
-<span>#用2222端口去运行下面一行，运行完，22端口就可以使用</span>
-iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
-
-<span>#保存</span>
-<span>service</span> iptables save
-
-<span>#重启</span>
-<span>service</span> iptables restart
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables配置脚本" tabindex="-1"> iptables配置脚本</h3>
-<div><pre><code>#!/bin/sh
-
-# 先备份iptables规则
-mkdir /web/shell/iptables_bak
-cp /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
-
-# 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题
-service iptables stop
-
-# 禁止所有ip访问22端口
-iptables -I INPUT -p tcp --dport 22 -j DROP
-
-# 开放指定ip可以连接22端口
-iptables -A INPUT -i 127.0.0.1 -p tcp --dport 22 -j ACCEPT
-iptables -I INPUT -s x.x.x.x,192.168.2.0/24 -p tcp --dport 22 -j ACCEPT
-
-# 允许部分出去的网络  			
-iptables -A OUTPUT -d 192.168.2.0/24,x.x.x.x,121.201.88.88,114.114.114.114 -j ACCEPT    
-   
-# 允许访问的外网
-iptables -A OUTPUT -d open.work.weixin.qq.com,v0.api.upyun.com,v1.api.upyun.com,v2.api.upyun.com,v3.api.upyun.com,graph.qq.com,apis.map.qq.com,api.weixin.qq.com,login.weixin.qq.com,wx.qq.com,api.weibo.com,js4.jobui.com,css4.jobui.com,m.jobui.com,www.jobui.com,apis.jobui.com -j ACCEPT
-
-
-#允许icmp包通过,也就是允许ping
-iptables -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
-
-#本机对外请求相当于OUTPUT,对于返回数据包必须接收啊，这相当于INPUT了
-iptables -I INPUT -i lo -j ACCEPT
-iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-
-# 禁用所有出去的网络
-iptables -P OUTPUT DROP
-
-# 保存iptbales规则
-service iptables save
-
-# 重新启动
-service iptables restart 
-
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="iptables操作" tabindex="-1"> iptables操作</h3>
-<div><pre><code><span># 查看所有规则列表并打印编号</span>
-iptables <span>-L</span> <span>-n</span> --line-numbers
-
-<span># 删除一条规则</span>
-iptables <span>-D</span> INPUT <span>7</span>
-<span># 或</span>
-iptables <span>-D</span> OUTPUT <span>7</span>
-
-<span># 允许所有出口访问</span>
-<span>sudo</span> iptables <span>-A</span> OUTPUT <span>-j</span> ACCEPT
-
-<span>#允许所有入口访问</span>
-<span>sudo</span> iptables <span>-A</span> INPUT <span>-j</span> ACCEPT
-
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="更换ssh端口脚本" tabindex="-1"> 更换ssh端口脚本</h3>
-<div><pre><code><span>#!/bin/sh</span>
-
-<span># 先备份iptables规则</span>
-<span>mkdir</span> /web/shell/iptables_bak
-<span>cp</span> /etc/sysconfig/iptables /web/shell/iptables_bak/iptables
-
-<span>sed</span> <span>-i</span> <span>"s|#Port 22|Port 22|g"</span> /etc/ssh/sshd_config
-
-<span># 设置之前关闭防火墙才是最安全的办法，否则会发生连接不上的问题</span>
-<span>#service iptables stop</span>
-
-<span># 禁止所有ip访问22端口</span>
-iptables <span>-I</span> INPUT <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> DROP
-
-<span># 开放指定ip可以连接22端口</span>
-iptables <span>-A</span> INPUT <span>-i</span> <span>127.0</span>.0.1 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
-iptables <span>-I</span> INPUT <span>-s</span> x.x.x.x,192.168.2.0/24 <span>-p</span> tcp <span>--dport</span> <span>22</span> <span>-j</span> ACCEPT
-
-<span>service</span> iptables save
-<span>service</span> sshd restart
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h3 id="完全重建-docker-防火墙规则" tabindex="-1"> 完全重建 Docker 防火墙规则</h3>
-<h4 id="_1-停止-docker-服务" tabindex="-1"> 1. <strong>停止 Docker 服务</strong></h4>
-<div><pre><code><span>sudo</span> systemctl stop <span>docker</span>
-</code></pre><div aria-hidden="true"><div></div></div></div><h4 id="_2-清除所有残留规则" tabindex="-1"> 2. <strong>清除所有残留规则</strong></h4>
-<div><pre><code><span>sudo</span> iptables <span>-F</span>
-<span>sudo</span> iptables <span>-t</span> nat <span>-F</span>
-<span>sudo</span> iptables <span>-t</span> mangle <span>-F</span>
-<span>sudo</span> iptables <span>-X</span>  <span># 删除自定义链</span>
-<span>sudo</span> iptables <span>-t</span> nat <span>-X</span>
-<span>sudo</span> iptables <span>-t</span> mangle <span>-X</span>
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><h4 id="_3-恢复默认策略" tabindex="-1"> 3. <strong>恢复默认策略</strong></h4>
-<div><pre><code><span>sudo</span> iptables <span>-P</span> INPUT ACCEPT
-<span>sudo</span> iptables <span>-P</span> FORWARD ACCEPT
-<span>sudo</span> iptables <span>-P</span> OUTPUT ACCEPT
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><h4 id="_4-重启-docker-自动生成规则" tabindex="-1"> 4. <strong>重启 Docker 自动生成规则</strong></h4>
-<div><pre><code><span>sudo</span> systemctl start <span>docker</span>
-</code></pre><div aria-hidden="true"><div></div></div></div>]]></content:encoded>
     </item>
   </channel>
 </rss>
