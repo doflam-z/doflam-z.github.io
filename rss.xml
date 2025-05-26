@@ -6,8 +6,8 @@
     <link>https://doflam-z.github.io/</link>
     <description>笔记网站。</description>
     <language>zh-CN</language>
-    <pubDate>Wed, 23 Apr 2025 02:16:16 GMT</pubDate>
-    <lastBuildDate>Wed, 23 Apr 2025 02:16:16 GMT</lastBuildDate>
+    <pubDate>Mon, 26 May 2025 02:00:46 GMT</pubDate>
+    <lastBuildDate>Mon, 26 May 2025 02:00:46 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -522,6 +522,9 @@ php think build adimn
       <pubDate>Mon, 24 Mar 2025 02:00:00 GMT</pubDate>
       <content:encoded><![CDATA[<h1 id="python笔记" tabindex="-1"> Python笔记</h1>
 <h3 id="pip导出、安装依赖" tabindex="-1"> PIP导出、安装依赖</h3>
+<blockquote>
+<p>pip修改软件源为清华源，pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</p>
+</blockquote>
 <div><pre><code>pip freeze <span>></span> requirements.txt
 pip <span>install</span> <span>-r</span> requirements.txt
 </code></pre><div aria-hidden="true"><div></div><div></div></div></div><h3 id="使用-pyenv-安装管理多个-python版本" tabindex="-1"> 使用 pyenv 安装管理多个 Python版本</h3>
@@ -555,8 +558,11 @@ pyenv global 3.11.6  # 设为默认 Python 版本
 <p><strong>🚀 pyenv 安装 &amp; 使用</strong></p>
 <p><strong>1️⃣ 安装 pyenv</strong></p>
 <p><strong>🔹 Ubuntu / Debian</strong></p>
-<div><pre><code>curl https://pyenv.run | bash
-</code></pre><div aria-hidden="true"><div></div></div></div><p>然后添加以下内容到 ~/.bashrc 或 ~/.bash_profile：</p>
+<div><pre><code><span>curl</span> https://pyenv.run <span>|</span> <span>bash</span>
+
+<span>#如果github无法访问，可以去gitee上找pyenv的镜像，clone到本地</span>
+<span>git</span> clone https://gitee.com/mouday/pyenv.git ~/.pyenv
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div></div></div><p>然后添加以下内容到 ~/.bashrc 或 ~/.bash_profile：</p>
 <div><pre><code>export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
@@ -567,10 +573,13 @@ eval "$(pyenv virtualenv-init -)"
 echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
 source ~/.zshrc
 </code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><p><strong>2️⃣ 使用 pyenv 安装 Python</strong></p>
-<div><pre><code>pyenv install 3.12.1
-pyenv global 3.12.1
-python --version  # 确保使用的是 pyenv 版本
-</code></pre><div aria-hidden="true"><div></div><div></div><div></div></div></div><p><strong>🛠️ 总结</strong></p>
+<div><pre><code><span># 安装python开发库</span>
+<span>sudo</span> yum <span>install</span> libffi-devel
+pyenv <span>install</span> <span>3.12</span>.1 
+pyenv global <span>3.12</span>.1 <span># 全局使用</span>
+pyenv <span>local</span> <span>3.12</span>.1 <span># 当前项目使用</span>
+python <span>--version</span>  <span># 确保使用的是 pyenv 版本</span>
+</code></pre><div aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><p><strong>🛠️ 总结</strong></p>
 <p>🔹 <strong>pyenv = Python 版本管理器</strong>，让你可以安装、切换多个 Python 版本。</p>
 <p>🔹 <strong>避免破坏系统 Python</strong>，不会影响 apt 或 yum 管理的 Python。</p>
 <p>🔹 <strong>解决依赖问题</strong>，如 distutils 缺失、pip 版本冲突等。</p>
