@@ -4,6 +4,8 @@
 
 ### PIP导出、安装依赖
 
+> pip修改软件源为清华源，pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
 ```bash
 pip freeze > requirements.txt
 pip install -r requirements.txt
@@ -95,8 +97,11 @@ pip install lxml
 
 **🔹 Ubuntu / Debian**
 
-```
+```bash
 curl https://pyenv.run | bash
+
+#如果github无法访问，可以去gitee上找pyenv的镜像，clone到本地
+git clone https://gitee.com/mouday/pyenv.git ~/.pyenv
 ```
 
 然后添加以下内容到 ~/.bashrc 或 ~/.bash_profile：
@@ -125,9 +130,12 @@ source ~/.zshrc
 
 **2️⃣ 使用 pyenv 安装 Python**
 
-```
-pyenv install 3.12.1
-pyenv global 3.12.1
+```bash
+# 安装python开发库
+sudo yum install libffi-devel
+pyenv install 3.12.1 
+pyenv global 3.12.1 # 全局使用
+pyenv local 3.12.1 # 当前项目使用
 python --version  # 确保使用的是 pyenv 版本
 ```
 
