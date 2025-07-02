@@ -318,6 +318,34 @@ redis-cli --cluster add-node 192.168.2.134:6479 192.168.2.132:6479 --cluster-sla
 CLUSTER FAILOVER TAKEOVER
 ```
 
+迁移主节点的分片到另一个节点
+
+```shell
+redis-cli --cluster reshard Any_Cluster_Node_IP:Port
+```
+
+在交互提示中输入：
+
+- **How many slots do you want to move (from 0 to 16384)**:
+
+  输入你需要迁移的 slots 数（如迁移 NodeA 全部 slots，可输入 NodeA slots 总数）。
+
+- **What is the receiving node ID**:
+
+  输入 **NodeB** 的 NodeID
+
+- **Source node IDs**:
+
+  输入 **NodeA** 的 NodeID
+
+- 确认迁移
+
+下线旧节点
+
+```shell
+redis-cli --cluster del-node Any_Cluster_Node_IP:Port delNode_ID
+```
+
 
 
 ### redis压力测试
